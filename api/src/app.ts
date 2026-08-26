@@ -1,5 +1,6 @@
 import express from "express";
 import { httpLogger } from "./shared/utils/loggers.util.js";
+import errorHandler from "./shared/middlewares/error-handler.middleware.js";
 
 const app = express();
 
@@ -15,5 +16,7 @@ app.get("/api/v1/hello-world", (_req, res) => {
     message: "Hello World!",
   });
 });
+
+app.use(errorHandler);
 
 export default app;
