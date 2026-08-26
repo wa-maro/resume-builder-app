@@ -2,6 +2,7 @@ import "dotenv/config";
 import Joi from "joi";
 
 const schema = Joi.object({
+  MONGODB_URI: Joi.string().uri().required(),
   NODE_ENV: Joi.string()
     .valid("development", "test", "production")
     .default("development"),
@@ -17,6 +18,7 @@ if (error) {
 }
 
 export const env = {
+  mongodbUri: value.MONGODB_URI,
   nodeEnv: value.NODE_ENV,
   port: value.PORT,
 };
