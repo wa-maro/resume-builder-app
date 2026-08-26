@@ -1,5 +1,5 @@
 import type { RequestHandler } from "express";
-import { ValidationError } from "../errors/validation-error.js";
+import { ValidationError } from "../../shared/errors/validation-error.js";
 import { ValidateOptions } from "../../types/validation.types.js";
 
 const validate = <TBody = unknown, TParams = unknown, TQuery = unknown>({

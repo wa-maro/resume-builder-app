@@ -1,6 +1,6 @@
 import express from "express";
 import { httpLogger } from "./shared/utils/loggers.util.js";
-import errorHandler from "./shared/middlewares/error-handler.middleware.js";
+import errorHandler from "./http/middlewares/error-handler.middleware.js";
 
 const app = express();
 

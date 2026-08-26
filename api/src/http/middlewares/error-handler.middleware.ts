@@ -1,8 +1,8 @@
 import type { NextFunction, Request, Response } from "express";
 
-import { AppError } from "../errors/app-error.js";
-import { ValidationError } from "../errors/validation-error.js";
-import { errorLogger } from "../utils/loggers.util.js";
+import { AppError } from "../../shared/errors/app-error.js";
+import { ValidationError } from "../../shared/errors/validation-error.js";
+import { errorLogger } from "../../shared/utils/loggers.util.js";
 import { env } from "../../config/env.js";
 
 const errorHandler = (
