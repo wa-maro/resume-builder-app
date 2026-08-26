@@ -1,6 +1,7 @@
 import app from "./app.js";
 import { env } from "./config/env.js";
 import { connectDatabase } from "./database/mongoose.js";
+import { infoLogger } from "./shared/utils/loggers.util.js";
 
 async function bootstrap() {
   const PORT = env.port;
@@ -8,7 +9,7 @@ async function bootstrap() {
   await connectDatabase();
 
   app.listen(PORT, () => {
-    console.log(`API running on http://localhost:${PORT}`);
+    infoLogger.info(`Server running at http://localhost:${PORT}`);
   });
 }
 

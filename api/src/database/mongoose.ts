@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { env } from "../config/env.js";
+import { infoLogger } from "../shared/utils/loggers.util.js";
 
 export async function connectDatabase(): Promise<void> {
   if (!env.mongodbUri) {
@@ -8,5 +9,5 @@ export async function connectDatabase(): Promise<void> {
 
   await mongoose.connect(env.mongodbUri);
 
-  console.log("Database connection established");
+  infoLogger.info("Database connection established");
 }
