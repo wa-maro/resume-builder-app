@@ -5,7 +5,7 @@ import errorHandler from "./http/middlewares/error-handler.middleware.js";
 const app = express();
 
 app.use((req, _res, next) => {
-  httpLogger.http(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  httpLogger.http(`${req.method} ${req.url}`);
 
   next();
 });

@@ -1,17 +1,46 @@
 import winston from "winston";
 
+const consoleFormat = winston.format.combine(
+  winston.format.colorize(),
+  winston.format.timestamp(),
+  winston.format.printf(({ timestamp, level, message }) => {
+    return `[${timestamp}] ${level}: ${message}`;
+  }),
+);
+
+const errorConsoleFormat = winston.format.combine(
+  winston.format.timestamp(),
+  winston.format.colorize(),
+  winston.format.printf(
+    ({ timestamp, level, message, stack, statusCode, method, route }) => {
+      return [
+        `[${timestamp}] ${level}: ${message}`,
+        `${method} ${route} → ${statusCode}`,
+        stack,
+      ]
+        .filter(Boolean)
+        .join("\n");
+    },
+  ),
+);
+
+const jsonFormat = winston.format.combine(
+  winston.format.timestamp(),
+  winston.format.json(),
+);
+
 // Application information logs
 export const infoLogger = winston.createLogger({
   level: "info",
-  format: winston.format.combine(
-    winston.format.colorize(),
-    winston.format.simple(),
-  ),
   transports: [
-    new winston.transports.Console(),
+    new winston.transports.Console({
+      format: consoleFormat,
+    }),
+
     new winston.transports.File({
       filename: "logs/app.log",
       level: "info",
+      format: jsonFormat,
     }),
   ],
 });
@@ -19,15 +48,15 @@ export const infoLogger = winston.createLogger({
 // HTTP request logs
 export const httpLogger = winston.createLogger({
   level: "http",
-  format: winston.format.combine(
-    winston.format.colorize(),
-    winston.format.simple(),
-  ),
   transports: [
-    new winston.transports.Console(),
+    new winston.transports.Console({
+      format: consoleFormat,
+    }),
+
     new winston.transports.File({
       filename: "logs/request.log",
       level: "http",
+      format: jsonFormat,
     }),
   ],
 });
@@ -35,14 +64,15 @@ export const httpLogger = winston.createLogger({
 // Error logs
 export const errorLogger = winston.createLogger({
   level: "error",
-  format: winston.format.combine(
-    winston.format.timestamp(),
-    winston.format.json(),
-  ),
   transports: [
-    new winston.transports.Console(),
+    new winston.transports.Console({
+      format: errorConsoleFormat,
+    }),
+
     new winston.transports.File({
       filename: "logs/error.log",
+      level: "error",
+      format: jsonFormat,
     }),
   ],
 });
