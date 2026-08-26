@@ -32,3 +32,13 @@ With ResumeX, you can create and manage:
 - 🔄 Update resume information without starting over
 - 🎨 Choose and customize resume templates
 - 📄 Generate print-ready resumes (PDF)
+
+### Folder Structure
+
+- `api/` → Backend API
+
+### Setup
+
+See folder-specific READMEs for setup instructions:
+
+- [Backend Setup](api/README.md)
