@@ -1,6 +1,6 @@
 import app from "./app.js";
 import { env } from "./config/env.js";
-import { connectDatabase } from "./database/mongoose.js";
+import { connectDatabase } from "./database/connection.js";
 import { infoLogger } from "./shared/utils/loggers.util.js";
 
 async function bootstrap() {
