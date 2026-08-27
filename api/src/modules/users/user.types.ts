@@ -21,3 +21,17 @@ export interface User extends BaseUser {
 export interface UserWithCredential extends BaseUser {
   passwordHash: string;
 }
+
+export interface UserFilter {
+  username?: string;
+  email?: string;
+  role?: UserRole;
+  isActive?: boolean;
+}
+
+export type UserSortFields = Pick<
+  BaseUser,
+  "createdAt" | "updatedAt" | "email"
+>;
+
+export type UserQueryOptions = QueryOptions<UserFilter, UserSortFields>;
