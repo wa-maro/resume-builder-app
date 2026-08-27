@@ -1,4 +1,6 @@
-export type SortOrder = 1 | -1;
+export type SortOrderRepo = 1 | -1;
+
+export type SortOrderDto = "asc" | "desc";
 
 interface BaseQueryOptions<
   TFilter = Record<string, unknown>,
@@ -7,7 +9,6 @@ interface BaseQueryOptions<
   filter?: TFilter;
   limit?: number;
   sort?: keyof TSort;
-  order?: SortOrder;
 }
 
 export interface QueryOptions<
@@ -15,6 +16,7 @@ export interface QueryOptions<
   TSort = Record<string, unknown>,
 > extends BaseQueryOptions<TFilter, TSort> {
   page?: number;
+  sortOrder?: SortOrderDto;
 }
 
 export interface RepositoryQueryOptions<
@@ -22,4 +24,5 @@ export interface RepositoryQueryOptions<
   TSort = Record<string, unknown>,
 > extends BaseQueryOptions<TFilter, TSort> {
   skip?: number;
+  order?: SortOrderRepo;
 }
