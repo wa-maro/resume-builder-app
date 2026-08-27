@@ -1,4 +1,7 @@
-import { QueryOptions } from "../../shared/types/query-options.js";
+import {
+  QueryOptions,
+  RepositoryQueryOptions,
+} from "../../shared/types/query-options.js";
 
 export enum UserRole {
   ADMIN = "admin",
@@ -31,7 +34,12 @@ export interface UserFilter {
 
 export type UserSortFields = Pick<
   BaseUser,
-  "createdAt" | "updatedAt" | "email"
+  "createdAt" | "updatedAt" | "username"
 >;
 
-export type UserQueryOptions = QueryOptions<UserFilter, UserSortFields>;
+export type UserQueryDto = QueryOptions<UserFilter, UserSortFields>;
+
+export type UserRepoQueryOptions = RepositoryQueryOptions<
+  UserFilter,
+  UserSortFields
+>;
