@@ -11,3 +11,9 @@ export async function connectDatabase(): Promise<void> {
 
   infoLogger.info("Database connection established");
 }
+
+export async function disconnectDatabase(): Promise<void> {
+  await mongoose.disconnect();
+
+  infoLogger.info("Database connection terminated");
+}
