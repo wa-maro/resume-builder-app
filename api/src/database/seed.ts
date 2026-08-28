@@ -1,10 +1,13 @@
 import { errorLogger, infoLogger } from "../shared/utils/loggers.util.js";
 import { connectDatabase, disconnectDatabase } from "./connection.js";
+import { seedUsers } from "./seeders/user.seeder.js";
 
 async function seed() {
   await connectDatabase();
 
   infoLogger.info("Seeding started.");
+
+  await seedUsers();
 
   infoLogger.info("Seeding completed.");
 }
