@@ -5,6 +5,7 @@ import helmet from "helmet";
 import { httpLogger } from "./shared/utils/loggers.util.js";
 import errorHandler from "./http/middlewares/error-handler.middleware.js";
 import { env } from "./config/env.js";
+import appRouter from "./http/routes/app.routes.js";
 
 const app = express();
 
@@ -33,12 +34,7 @@ app.use(express.json());
 
 app.use(cookieParser());
 
-app.get("/api/v1/hello-world", (_req, res) => {
-  return res.status(200).json({
-    success: true,
-    message: "Hello World!",
-  });
-});
+app.use("/api/v1", appRouter);
 
 app.use(errorHandler);
 
