@@ -1,5 +1,9 @@
 import { findAll, getCount } from "./user.repository.js";
-import { UserQueryDto, UserRepoQueryOptions } from "./user.types.js";
+import {
+  UserQueryDto,
+  UserRepoQueryOptions,
+  UserResponseDto,
+} from "./user.types.js";
 
 export async function findUsers(query: UserQueryDto) {
   const {
@@ -27,7 +31,7 @@ export async function findUsers(query: UserQueryDto) {
   ]);
 
   return {
-    data: users,
+    data: users.map((user) => new UserResponseDto(user)),
     pagination: {
       total,
       page,
