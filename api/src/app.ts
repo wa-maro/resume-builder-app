@@ -4,7 +4,7 @@ import cors from "cors";
 import helmet from "helmet";
 import { httpLogger } from "./shared/utils/loggers.util.js";
 import errorHandler from "./http/middlewares/error-handler.middleware.js";
-import { env } from "./config/env.js";
+import { envConfig } from "./config/env.js";
 import appRouter from "./http/routes/app.routes.js";
 
 const app = express();
@@ -23,7 +23,7 @@ app.use(
 
 app.use(
   cors({
-    origin: env.frontendOrigin,
+    origin: envConfig.frontendOrigin,
     methods: ["GET", "POST", "PATCH", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,

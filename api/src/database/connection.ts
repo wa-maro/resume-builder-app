@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
-import { env } from "../config/env.js";
+import { envConfig } from "../config/env.js";
 import { infoLogger } from "../shared/utils/loggers.util.js";
 
 export async function connectDatabase(): Promise<void> {
-  if (!env.mongodbUri) {
+  if (!envConfig.mongodbUri) {
     throw new Error("MONGODB_URI is not defined");
   }
 
-  await mongoose.connect(env.mongodbUri);
+  await mongoose.connect(envConfig.mongodbUri);
 
   infoLogger.info("Database connection established");
 }

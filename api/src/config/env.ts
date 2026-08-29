@@ -36,7 +36,7 @@ if (error) {
   throw new Error(`\n${error.message}`);
 }
 
-export const env = {
+export const envConfig = {
   mongodbUri: value.MONGODB_URI,
   nodeEnv: value.NODE_ENV,
   port: value.PORT,
