@@ -1,4 +1,4 @@
-import { findAll, getCount } from "./user.repository.js";
+import { findAll, findById, getCount } from "./user.repository.js";
 import {
   UserQueryDto,
   UserRepoQueryOptions,
@@ -41,4 +41,8 @@ export async function findUsers(query: UserQueryDto) {
       hasPreviousPage: skip > 0,
     },
   };
+}
+
+export async function findUserById(id: string) {
+  return findById(id);
 }

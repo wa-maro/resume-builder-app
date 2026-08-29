@@ -26,6 +26,10 @@ export async function getCount(filter: UserFilter) {
   return UserModel.countDocuments(mongoFilter).exec();
 }
 
+export async function findById(id: string) {
+  return UserModel.findById(id);
+}
+
 function buildUserMongoFilter(filter: UserFilter) {
   const { search, ...rest } = filter;
 
