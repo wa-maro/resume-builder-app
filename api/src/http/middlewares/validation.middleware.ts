@@ -2,7 +2,11 @@ import type { RequestHandler } from "express";
 import { ValidationError } from "../../shared/errors/validation-error.js";
 import { ValidateOptions } from "../../shared/types/validation-options.js";
 
-const validate = <TBody = unknown, TParams = unknown, TQuery = unknown>({
+const validate = <
+  TBody = unknown,
+  TParams = unknown,
+  TQuery extends object = Record<string, unknown>,
+>({
   body,
   params,
   query,
@@ -44,6 +48,7 @@ const validate = <TBody = unknown, TParams = unknown, TQuery = unknown>({
     if (query) {
       const { error, value } = query.validate(req.query, {
         abortEarly: false,
+        convert: true,
       });
 
       if (error) {
@@ -52,7 +57,7 @@ const validate = <TBody = unknown, TParams = unknown, TQuery = unknown>({
         );
       }
 
-      req.query = value;
+      Object.assign(req.query, value);
     }
 
     next();
