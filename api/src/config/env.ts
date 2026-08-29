@@ -1,6 +1,16 @@
 import "dotenv/config";
 import Joi from "joi";
 
+interface EnvConfig {
+  mongodbUri: string;
+  nodeEnv: "development" | "test" | "production";
+  port: number;
+  frontendOrigin: string[];
+  jwtSecret: string;
+  jwtExpiration: string;
+  bcryptRounds: number;
+}
+
 const schema = Joi.object({
   MONGODB_URI: Joi.string().uri().required(),
 
@@ -18,6 +28,10 @@ const schema = Joi.object({
     )
     .min(1)
     .required(),
+
+  JWT_SECRET: Joi.string().min(32).required(),
+
+  JWT_EXPIRATION: Joi.string().required(),
 
   BCRYPT_ROUNDS: Joi.number().integer().min(10).max(15).default(12),
 }).unknown();
@@ -38,10 +52,12 @@ if (error) {
   throw new Error(`\n${error.message}`);
 }
 
-export const envConfig = {
+export const envConfig: EnvConfig = {
   mongodbUri: value.MONGODB_URI,
   nodeEnv: value.NODE_ENV,
   port: value.PORT,
   frontendOrigin: value.FRONTEND_ORIGIN,
+  jwtSecret: value.JWT_SECRET,
+  jwtExpiration: value.JWT_EXPIRATION,
   bcryptRounds: value.BCRYPT_ROUNDS,
 };
