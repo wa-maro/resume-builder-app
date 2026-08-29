@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import { envConfig } from "../../config/env.js";
 
 /**
  * Hash the password in plain text
@@ -6,7 +7,7 @@ import bcrypt from "bcryptjs";
  * @returns romise string
  */
 export const doHash = async (password: string): Promise<string> => {
-  return await bcrypt.hash(password, 10);
+  return await bcrypt.hash(password, envConfig.bcryptRounds);
 };
 
 /**

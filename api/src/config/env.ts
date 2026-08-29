@@ -18,6 +18,8 @@ const schema = Joi.object({
     )
     .min(1)
     .required(),
+
+  BCRYPT_ROUNDS: Joi.number().integer().min(10).max(15).default(12),
 }).unknown();
 
 const config = {
@@ -41,4 +43,5 @@ export const envConfig = {
   nodeEnv: value.NODE_ENV,
   port: value.PORT,
   frontendOrigin: value.FRONTEND_ORIGIN,
+  bcryptRounds: value.BCRYPT_ROUNDS,
 };
