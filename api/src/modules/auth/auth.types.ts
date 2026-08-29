@@ -5,3 +5,8 @@ export interface AuthUser {
   username: string;
   role: UserRole;
 }
+
+export interface AuthResponse {
+  user: AuthUser;
+  token: string;
+}
