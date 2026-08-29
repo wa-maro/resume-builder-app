@@ -1,5 +1,6 @@
 import "dotenv/config";
 import Joi from "joi";
+import { SignOptions } from "jsonwebtoken";
 
 interface EnvConfig {
   mongodbUri: string;
@@ -7,7 +8,7 @@ interface EnvConfig {
   port: number;
   frontendOrigin: string[];
   jwtSecret: string;
-  jwtExpiration: string;
+  jwtExpiration: NonNullable<SignOptions["expiresIn"]>;
   bcryptRounds: number;
 }
 
