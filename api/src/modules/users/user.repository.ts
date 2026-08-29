@@ -10,7 +10,9 @@ export async function findAll(query: UserRepoQueryOptions) {
     order = -1,
   } = query;
 
-  return UserModel.find(filter)
+  const mongoFilter = buildUserMongoFilter(filter);
+
+  return UserModel.find(mongoFilter)
     .sort({
       [sort]: order,
       _id: -1,
@@ -20,5 +22,22 @@ export async function findAll(query: UserRepoQueryOptions) {
 }
 
 export async function getCount(filter: UserFilter) {
-  return UserModel.countDocuments(filter).exec();
+  const mongoFilter = buildUserMongoFilter(filter);
+  return UserModel.countDocuments(mongoFilter).exec();
+}
+
+function buildUserMongoFilter(filter: UserFilter) {
+  const { search, ...rest } = filter;
+
+  if (!search) {
+    return rest;
+  }
+
+  return {
+    ...rest,
+    $or: [
+      { username: { $regex: search, $options: "i" } },
+      { email: { $regex: search, $options: "i" } },
+    ],
+  };
 }

@@ -27,8 +27,7 @@ export interface UserWithCredential extends BaseUser {
 }
 
 export interface UserFilter {
-  username?: string;
-  email?: string;
+  search?: string;
   role?: UserRole;
   isActive?: boolean;
 }
