@@ -1,5 +1,5 @@
 import { Router } from "express";
-import resumeRouter from "../../modules/resume/routes/resume.routes.js";
+import resumeRouter from "../../modules/resumes/routes/resume.routes.js";
 
 const userRouter = Router();
 
