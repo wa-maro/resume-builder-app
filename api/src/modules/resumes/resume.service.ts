@@ -3,7 +3,13 @@ import {
   ResumeRepoQueryOptions,
   ResumeResponseDto,
 } from "./resume.types.js";
-import { findAll, getCount } from "./resume.repository.js";
+import {
+  findAll,
+  findById,
+  findByUserId,
+  getCount,
+} from "./resume.repository.js";
+import { NotFoundError } from "../../shared/errors/http-errors.js";
 
 export const findResumes = async (query: ResumeQueryDto) => {
   const {
@@ -41,4 +47,24 @@ export const findResumes = async (query: ResumeQueryDto) => {
       hasPreviousPage: skip > 0,
     },
   };
+};
+
+export const findResumeById = async (id: string) => {
+  const resume = await findById(id);
+
+  if (!resume) {
+    throw new NotFoundError("Resume doesn't exist");
+  }
+
+  return new ResumeResponseDto(resume);
+};
+
+export const findResumeByUserId = async (userId: string) => {
+  const resume = await findByUserId(userId);
+
+  if (!resume) {
+    throw new NotFoundError("Resume doesn't exist");
+  }
+
+  return new ResumeResponseDto(resume);
 };
