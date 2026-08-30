@@ -5,13 +5,16 @@ import {
 } from "../../security/password/password.service.js";
 import {
   ConflictError,
+  NotFoundError,
   UnauthorizedError,
 } from "../../shared/errors/http-errors.js";
 import {
   createUser,
   findUserBy,
+  findUserById,
   findUserByUsernameOrEmail,
 } from "../users/user.service.js";
+import { UserResponseDto } from "../users/user.types.js";
 import { AuthResponse, AuthUser } from "./auth.types.js";
 
 export async function registerUser(
@@ -68,4 +71,15 @@ export async function loginUser(
     user: authUser,
     token,
   };
+}
+
+export async function findAuthenticatedUser(
+  id: string,
+): Promise<UserResponseDto> {
+  const user = await findUserById(id);
+  if (!user) {
+    throw new NotFoundError("User not found");
+  }
+
+  return new UserResponseDto(user);
 }
