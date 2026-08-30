@@ -43,6 +43,23 @@ export async function findOneBy(username: string, email: string) {
   });
 }
 
+export async function create(
+  username: string,
+  email: string,
+  passwordHash: string,
+) {
+  return UserModel.create({ username, email, passwordHash });
+}
+
+export async function updateById(
+  id: string,
+  data: { username: string; email: string; passwordHash: string },
+) {
+  return UserModel.findByIdAndUpdate(id, data, {
+    returnDocument: "after",
+  });
+}
+
 function buildUserMongoFilter(filter: UserFilter) {
   const { search, ...rest } = filter;
 
