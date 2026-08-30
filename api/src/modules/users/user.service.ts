@@ -1,4 +1,10 @@
-import { findAll, findById, getCount } from "./user.repository.js";
+import {
+  findAll,
+  findById,
+  findByUsernameOrEmail,
+  findOneBy,
+  getCount,
+} from "./user.repository.js";
 import {
   UserQueryDto,
   UserRepoQueryOptions,
@@ -45,4 +51,12 @@ export async function findUsers(query: UserQueryDto) {
 
 export async function findUserById(id: string) {
   return findById(id);
+}
+
+export async function findUserByUsernameOrEmail(usernameOrEmail: string) {
+  return findByUsernameOrEmail(usernameOrEmail);
+}
+
+export async function findUserBy(username: string, email: string) {
+  return findOneBy(username, email);
 }
