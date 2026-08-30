@@ -30,6 +30,19 @@ export async function findById(id: string) {
   return UserModel.findById(id);
 }
 
+export async function findByUsernameOrEmail(usernameOrEmail: string) {
+  return UserModel.findOne({
+    $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
+    isActive: true,
+  }).select("+passwordHash");
+}
+
+export async function findOneBy(username: string, email: string) {
+  return UserModel.findOne({
+    $or: [{ username: username }, { email: email }],
+  });
+}
+
 function buildUserMongoFilter(filter: UserFilter) {
   const { search, ...rest } = filter;
 
