@@ -1,5 +1,9 @@
 import type { Request, Response } from "express";
-import { loginUser, registerUser } from "./auth.service.js";
+import {
+  findAuthenticatedUser,
+  loginUser,
+  registerUser,
+} from "./auth.service.js";
 
 export async function register(req: Request, res: Response) {
   const { username, email, password } = req.body;
@@ -18,5 +22,13 @@ export async function login(req: Request, res: Response) {
     success: true,
     message: "User logged in successfully",
     data: await loginUser(usernameOrEmail, password),
+  });
+}
+
+export async function getUserProfile(req: Request, res: Response) {
+  return res.status(200).json({
+    success: true,
+    message: "Account retrieved successfully",
+    data: await findAuthenticatedUser(req.user.id),
   });
 }

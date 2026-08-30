@@ -1,8 +1,9 @@
 import { Router } from "express";
 import validate from "../../http/middlewares/validation.middleware.js";
+import authenticate from "../../http/middlewares/authenticate.middleware.js";
 import tryCatch from "../../shared/utils/try-catch.util.js";
 import { loginBodySchema, registerBodySchema } from "./auth.validation.js";
-import { login, register } from "./auth.controller.js";
+import { getUserProfile, login, register } from "./auth.controller.js";
 
 const authRouter = Router();
 
@@ -12,10 +13,7 @@ authRouter
     validate({ body: registerBodySchema }),
     tryCatch(register, "register"),
   )
-  .post(
-    "/login",
-    validate({ body: loginBodySchema }),
-    tryCatch(login, "login"),
-  );
+  .post("/login", validate({ body: loginBodySchema }), tryCatch(login, "login"))
+  .get("/me", authenticate, tryCatch(getUserProfile, "getUserProfile"));
 
 export default authRouter;
