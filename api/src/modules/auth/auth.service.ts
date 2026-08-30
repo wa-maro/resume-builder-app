@@ -13,6 +13,7 @@ import {
   findUserBy,
   findUserById,
   findUserByUsernameOrEmail,
+  updateUserProfileById,
 } from "../users/user.service.js";
 import { UserResponseDto } from "../users/user.types.js";
 import { AuthResponse, AuthUser } from "./auth.types.js";
@@ -82,4 +83,30 @@ export async function findAuthenticatedUser(
   }
 
   return new UserResponseDto(user);
+}
+
+export async function updateAuthenticatedUser(
+  id: string,
+  data: { newUsername: string; newEmail: string; newPassword: string },
+) {
+  const {
+    newUsername: username,
+    newEmail: email,
+    newPassword: password,
+  } = data;
+
+  const existingUser = await findUserBy(username, email);
+  if (existingUser) {
+    throw new ConflictError("Username or Email already in use");
+  }
+
+  const passwordHash = await doHash(password);
+
+  const user = await updateUserProfileById(id, {
+    username,
+    email,
+    passwordHash,
+  });
+
+  return user;
 }
