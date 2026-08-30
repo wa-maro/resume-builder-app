@@ -41,3 +41,14 @@ function buildResumeMongoFilter(filter: ResumeFilter) {
     ],
   };
 }
+
+export const findById = async (id: string) => {
+  return ResumeModel.findById(id);
+};
+
+export const findByUserId = async (userId: string) => {
+  return ResumeModel.findOne({
+    user: userId,
+    isActive: true,
+  }).exec();
+};
