@@ -1,7 +1,17 @@
 import { generateToken } from "../../security/jwt-token/jwt-token.service.js";
-import { doHash } from "../../security/password/password.service.js";
-import { ConflictError } from "../../shared/errors/http-errors.js";
-import { createUser, findUserBy } from "../users/user.service.js";
+import {
+  compareHash,
+  doHash,
+} from "../../security/password/password.service.js";
+import {
+  ConflictError,
+  UnauthorizedError,
+} from "../../shared/errors/http-errors.js";
+import {
+  createUser,
+  findUserBy,
+  findUserByUsernameOrEmail,
+} from "../users/user.service.js";
 import { AuthResponse, AuthUser } from "./auth.types.js";
 
 export async function registerUser(
@@ -29,5 +39,33 @@ export async function registerUser(
   return {
     user: authUser,
     token: token,
+  };
+}
+
+export async function loginUser(
+  usernameOrEmail: string,
+  password: string,
+): Promise<AuthResponse> {
+  const user = await findUserByUsernameOrEmail(usernameOrEmail);
+  if (!user) {
+    throw new UnauthorizedError("Wrong credentials");
+  }
+
+  const isMatch = await compareHash(password, user.passwordHash);
+  if (!isMatch) {
+    throw new UnauthorizedError("Wrong credentials");
+  }
+
+  const authUser: AuthUser = {
+    id: user.id,
+    username: user.username,
+    role: user.role,
+  };
+
+  const token = generateToken(authUser);
+
+  return {
+    user: authUser,
+    token,
   };
 }
