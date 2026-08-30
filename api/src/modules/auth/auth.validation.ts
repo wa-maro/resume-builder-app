@@ -41,3 +41,17 @@ export const registerBodySchema = Joi.object({
     "any.required": "Confirm password is required.",
   }),
 });
+
+export const loginBodySchema = Joi.object({
+  usernameOrEmail: Joi.string().trim().required().messages({
+    "string.base": "Username or email must be a text.",
+    "string.empty": "Username or email is required.",
+    "any.required": "Username or email is required.",
+  }),
+
+  password: Joi.string().required().messages({
+    "string.base": "Password must be a text.",
+    "string.empty": "Password is required.",
+    "any.required": "Password is required.",
+  }),
+});
