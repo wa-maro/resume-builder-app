@@ -1,5 +1,6 @@
 import { errorLogger, infoLogger } from "../shared/utils/loggers.util.js";
 import { connectDatabase, disconnectDatabase } from "./connection.js";
+import { resumeSeeder } from "./seeders/resume.seeder.js";
 import { seedUsers } from "./seeders/user.seeder.js";
 
 async function seed() {
@@ -8,6 +9,7 @@ async function seed() {
   infoLogger.info("Seeding started.");
 
   await seedUsers();
+  await resumeSeeder();
 
   infoLogger.info("Seeding completed.");
 }
