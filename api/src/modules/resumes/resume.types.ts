@@ -3,6 +3,7 @@ import {
   QueryOptions,
   RepositoryQueryOptions,
 } from "../../shared/types/query-options.js";
+import { ResumeDocument } from "./resume.model.js";
 
 export interface Declaration {
   statement: string;
@@ -41,3 +42,27 @@ export type ResumeRepoQueryOptions = RepositoryQueryOptions<
   ResumeFilter,
   ResumeSortFields
 >;
+
+export class ResumeResponseDto implements Resume {
+  id: string;
+  user: Types.ObjectId;
+  title: string;
+  summary: string;
+  avatar?: string | undefined;
+  declaration?: Declaration | undefined;
+  isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+
+  constructor(resume: ResumeDocument) {
+    this.id = resume._id.toString();
+    this.user = resume.user;
+    this.title = resume.title;
+    this.summary = resume.summary;
+    this.avatar = resume.avatar;
+    this.declaration = resume.declaration;
+    this.isActive = resume.isActive;
+    this.createdAt = resume.createdAt;
+    this.updatedAt = resume.updatedAt;
+  }
+}
