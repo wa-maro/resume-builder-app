@@ -4,24 +4,37 @@ import { infoLogger } from "../../shared/utils/loggers.util.js";
 import users from "./data/users.js";
 
 export async function seedUsers() {
-  for (const user of users) {
-    const existingUser = await UserModel.exists({
-      $or: [{ username: user.username }, { email: user.email }],
-    });
-
-    if (existingUser) {
-      continue;
-    }
-
-    const passwordHash = await doHash(user.password);
-
-    await UserModel.create({
-      username: user.username,
-      email: user.email,
-      passwordHash,
-      role: user.role,
-    });
+  if (users.length === 0) {
+    infoLogger.info("No users found. User seeding skipped.");
+    return;
   }
 
-  infoLogger.info("User seeded.");
+  const operations = await Promise.all(
+    users.map(async (user) => {
+      const passwordHash = await doHash(user.password);
+
+      return {
+        updateOne: {
+          filter: {
+            $or: [{ username: user.username }, { email: user.email }],
+          },
+          update: {
+            $setOnInsert: {
+              username: user.username,
+              email: user.email,
+              passwordHash,
+              role: user.role,
+            },
+          },
+          upsert: true,
+        },
+      };
+    }),
+  );
+
+  const result = await UserModel.bulkWrite(operations);
+
+  infoLogger.info(
+    `User seeding completed. Created ${result.upsertedCount} users.`,
+  );
 }
