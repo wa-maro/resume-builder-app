@@ -1,9 +1,12 @@
+import { NotFoundError } from "../../shared/errors/http-errors.js";
 import {
+  create,
   findAll,
   findById,
   findByUsernameOrEmail,
   findOneBy,
   getCount,
+  updateById,
 } from "./user.repository.js";
 import {
   UserQueryDto,
@@ -59,4 +62,24 @@ export async function findUserByUsernameOrEmail(usernameOrEmail: string) {
 
 export async function findUserBy(username: string, email: string) {
   return findOneBy(username, email);
+}
+
+export async function createUser(
+  username: string,
+  email: string,
+  passwordHash: string,
+) {
+  return create(username, email, passwordHash);
+}
+
+export async function updateUserProfileById(
+  id: string,
+  data: { username: string; email: string; passwordHash: string },
+) {
+  const user = await updateById(id, data);
+  if (!user) {
+    throw new NotFoundError("User not found");
+  }
+
+  return new UserResponseDto(user);
 }
