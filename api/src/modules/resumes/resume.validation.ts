@@ -14,9 +14,9 @@ export const ResumesQuerySchema = Joi.object({
     "number.max": "Limit cannot exceed 100",
   }),
 
-  sort: Joi.string().valid("createdAt", "updatedAt", "username").messages({
+  sort: Joi.string().valid("createdAt", "updatedAt", "title").messages({
     "string.base": "Sort must be a string",
-    "any.only": "Sort must be one of createdAt, updatedAt, or username",
+    "any.only": "Sort must be one of createdAt, updatedAt, or title",
   }),
 
   sortOrder: Joi.string().valid("asc", "desc").messages({

@@ -18,11 +18,13 @@ export async function findAll(query: ResumeRepoQueryOptions) {
       _id: -1,
     })
     .skip(skip)
-    .limit(limit);
+    .limit(limit)
+    .exec();
 }
 
 export async function getCount(filter: ResumeFilter) {
   const mongoFilter = buildResumeMongoFilter(filter);
+
   return ResumeModel.countDocuments(mongoFilter).exec();
 }
 
@@ -43,7 +45,7 @@ function buildResumeMongoFilter(filter: ResumeFilter) {
 }
 
 export const findById = async (id: string) => {
-  return ResumeModel.findById(id);
+  return ResumeModel.findById(id).exec();
 };
 
 export const findByUserId = async (userId: string) => {

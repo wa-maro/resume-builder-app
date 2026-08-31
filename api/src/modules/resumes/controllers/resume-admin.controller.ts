@@ -1,7 +1,8 @@
 import type { Request, Response } from "express";
 import { ResumeFilter, ResumeQueryDto } from "../resume.types.js";
 import { SortOrderDto } from "../../../shared/types/query-options.js";
-import { findResumes } from "../resume.service.js";
+import { findResumeById, findResumes } from "../resume.service.js";
+import { BadRequestError } from "../../../shared/errors/http-errors.js";
 
 export async function getResumes(req: Request, res: Response) {
   const { page, limit, sort, sortOrder, search, isActive } = req.query;
@@ -27,5 +28,19 @@ export async function getResumes(req: Request, res: Response) {
     success: true,
     message: "Resume retrieved successfully",
     ...(await findResumes(query)),
+  });
+}
+
+export async function getResume(req: Request, res: Response) {
+  const { id } = req.params;
+
+  if (typeof id !== "string") {
+    throw new BadRequestError();
+  }
+
+  return res.status(200).json({
+    success: true,
+    message: "Resume retrieved successfully",
+    data: await findResumeById(id),
   });
 }
