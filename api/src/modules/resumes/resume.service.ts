@@ -7,12 +7,13 @@ import {
 } from "./resume.types.js";
 import {
   createForUser,
-  deleteResumeById,
-  deleteResumeForUser,
+  deleteById,
+  deleteForUser,
   findAll,
   findById,
   findByUserId,
   getCount,
+  toggleStatusById,
   updatebyId,
 } from "./resume.repository.js";
 import {
@@ -105,21 +106,31 @@ export async function editResumeById(id: string, data: UpdateResumeDto) {
 }
 
 export async function removeResumeById(id: string) {
-  const resume = await deleteResumeById(id);
+  const resume = await deleteById(id);
 
   if (!resume) {
     throw new NotFoundError("Resume doesn't exist");
   }
 
-  return resume;
+  return new ResumeResponseDto(resume);
 }
 
 export async function removeResumeForUser(userId: string, resumeId: string) {
-  const resume = await deleteResumeForUser(userId, resumeId);
+  const resume = await deleteForUser(userId, resumeId);
 
   if (!resume) {
     throw new NotFoundError("Resume doesn't exist");
   }
 
-  return resume;
+  return new ResumeResponseDto(resume);
+}
+
+export async function toggleResumeStatusById(resumeId: string) {
+  const resume = await toggleStatusById(resumeId);
+
+  if (!resume) {
+    throw new NotFoundError("Resume not found.");
+  }
+
+  return new ResumeResponseDto(resume);
 }

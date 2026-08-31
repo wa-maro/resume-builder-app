@@ -75,13 +75,24 @@ export async function updatebyId(id: string, data: UpdateResumeDto) {
   }).exec();
 }
 
-export async function deleteResumeById(id: string) {
+export async function deleteById(id: string) {
   return ResumeModel.findByIdAndDelete(id);
 }
 
-export async function deleteResumeForUser(userId: string, resumeId: string) {
+export async function deleteForUser(userId: string, resumeId: string) {
   return ResumeModel.findOneAndDelete({
     _id: resumeId,
     user: userId,
   });
+}
+
+export async function toggleStatusById(resumeId: string) {
+  return await ResumeModel.findByIdAndUpdate(
+    resumeId,
+    [{ $set: { isActive: { $not: ["$isActive"] } } }],
+    {
+      returnDocument: "after",
+      updatePipeline: true,
+    },
+  );
 }
