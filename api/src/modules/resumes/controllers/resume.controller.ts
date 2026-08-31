@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import {
   createResume,
+  editResumeForUser,
   findResumeByUserId,
   removeResumeForUser,
 } from "../resume.service.js";
@@ -24,6 +25,22 @@ export async function getMyResume(req: Request, res: Response) {
     success: true,
     message: "Resume retrieved successfully",
     data: await findResumeByUserId(id),
+  });
+}
+
+export async function editMyResume(req: Request, res: Response) {
+  const { id: userId } = req.user;
+  const { resumeId } = req.params;
+  const data = req.body;
+
+  if (typeof resumeId !== "string") {
+    throw new BadRequestError();
+  }
+
+  return res.status(200).json({
+    success: true,
+    message: "Resume retrieved successfully",
+    data: await editResumeForUser(userId, resumeId, data),
   });
 }
 
