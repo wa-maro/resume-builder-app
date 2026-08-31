@@ -63,3 +63,17 @@ export class UserResponseDto implements User {
     this.updatedAt = user.updatedAt;
   }
 }
+
+export interface CreateUserDto extends Pick<
+  UserWithCredential,
+  "username" | "email" | "passwordHash"
+> {}
+
+export interface UpdateUserDto extends Partial<CreateUserDto> {}
+
+export interface CreateUserAdminDto extends Pick<
+  UserWithCredential,
+  "username" | "email" | "passwordHash" | "role"
+> {}
+
+export interface UpdateUserAdminDto extends Partial<CreateUserDto> {}

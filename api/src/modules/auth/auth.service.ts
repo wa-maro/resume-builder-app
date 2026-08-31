@@ -30,7 +30,7 @@ export async function registerUser(
 
   const passwordHash = await doHash(password);
 
-  const user = await createUser(username, email, passwordHash);
+  const user = await createUser({ username, email, passwordHash });
 
   const authUser: AuthUser = {
     id: user.id,

@@ -9,6 +9,10 @@ import {
   updateById,
 } from "./user.repository.js";
 import {
+  CreateUserAdminDto,
+  CreateUserDto,
+  UpdateUserAdminDto,
+  UpdateUserDto,
   UserQueryDto,
   UserRepoQueryOptions,
   UserResponseDto,
@@ -64,17 +68,26 @@ export async function findUserBy(username: string, email: string) {
   return findOneBy(username, email);
 }
 
-export async function createUser(
-  username: string,
-  email: string,
-  passwordHash: string,
-) {
-  return create(username, email, passwordHash);
+export async function createUser(data: CreateUserDto) {
+  return create(data);
 }
 
-export async function updateUserProfileById(
+export async function createUserForAdmin(data: CreateUserAdminDto) {
+  return create(data);
+}
+
+export async function updateUserProfileById(id: string, data: UpdateUserDto) {
+  const user = await updateById(id, data);
+  if (!user) {
+    throw new NotFoundError("User not found");
+  }
+
+  return new UserResponseDto(user);
+}
+
+export async function updateUserByIdForAdmin(
   id: string,
-  data: { username: string; email: string; passwordHash: string },
+  data: UpdateUserAdminDto,
 ) {
   const user = await updateById(id, data);
   if (!user) {

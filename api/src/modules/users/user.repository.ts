@@ -1,5 +1,12 @@
 import UserModel from "./user.model.js";
-import { UserFilter, UserRepoQueryOptions } from "./user.types.js";
+import {
+  CreateUserAdminDto,
+  CreateUserDto,
+  UpdateUserAdminDto,
+  UpdateUserDto,
+  UserFilter,
+  UserRepoQueryOptions,
+} from "./user.types.js";
 
 export async function findAll(query: UserRepoQueryOptions) {
   const {
@@ -18,7 +25,8 @@ export async function findAll(query: UserRepoQueryOptions) {
       _id: -1,
     })
     .skip(skip)
-    .limit(limit);
+    .limit(limit)
+    .exec();
 }
 
 export async function getCount(filter: UserFilter) {
@@ -27,37 +35,44 @@ export async function getCount(filter: UserFilter) {
 }
 
 export async function findById(id: string) {
-  return UserModel.findById(id);
+  return UserModel.findById(id).exec();
 }
 
 export async function findByUsernameOrEmail(usernameOrEmail: string) {
   return UserModel.findOne({
     $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
     isActive: true,
-  }).select("+passwordHash");
+  })
+    .select("+passwordHash")
+    .exec();
 }
 
 export async function findOneBy(username: string, email: string) {
   return UserModel.findOne({
     $or: [{ username: username }, { email: email }],
-  });
+  }).exec();
 }
 
-export async function create(
-  username: string,
-  email: string,
-  passwordHash: string,
-) {
-  return UserModel.create({ username, email, passwordHash });
+export async function create(data: CreateUserDto) {
+  return UserModel.create(data);
 }
 
-export async function updateById(
-  id: string,
-  data: { username: string; email: string; passwordHash: string },
-) {
+export async function createForAdmin(data: CreateUserAdminDto) {
+  return UserModel.create(data);
+}
+
+export async function updateById(id: string, data: UpdateUserDto) {
   return UserModel.findByIdAndUpdate(id, data, {
     returnDocument: "after",
-  });
+    runValidators: true,
+  }).exec();
+}
+
+export async function updateByIdForAdmin(id: string, data: UpdateUserAdminDto) {
+  return UserModel.findByIdAndUpdate(id, data, {
+    returnDocument: "after",
+    runValidators: true,
+  }).exec();
 }
 
 function buildUserMongoFilter(filter: UserFilter) {
