@@ -9,6 +9,7 @@ import {
   editResumeById,
   findResumeById,
   findResumes,
+  removeResumeById,
 } from "../resume.service.js";
 import { BadRequestError } from "../../../shared/errors/http-errors.js";
 
@@ -34,7 +35,7 @@ export async function getResumes(req: Request, res: Response) {
 
   return res.status(200).json({
     success: true,
-    message: "Resume retrieved successfully",
+    message: "Resumes retrieved successfully",
     ...(await findResumes(query)),
   });
 }
@@ -65,5 +66,21 @@ export async function editResume(req: Request, res: Response) {
     success: true,
     message: "Resume updated successfully",
     data: await editResumeById(id, data),
+  });
+}
+
+export async function deleteResume(req: Request, res: Response) {
+  const { id: resumeId } = req.params;
+
+  if (typeof resumeId !== "string") {
+    throw new BadRequestError();
+  }
+
+  await removeResumeById(resumeId);
+
+  return res.status(200).json({
+    success: true,
+    message: "Resume deleted successfully",
+    data: null,
   });
 }

@@ -5,6 +5,7 @@ import {
   getResumes,
   getResume,
   editResume,
+  deleteResume,
 } from "../controllers/resume-admin.controller.js";
 import {
   editResumeBodySchema,
@@ -29,6 +30,11 @@ resumesAdminRouter
     "/:id",
     validate({ params: paramsWithIDsSchema, body: editResumeBodySchema }),
     tryCatch(editResume, "editResume"),
+  )
+  .delete(
+    "/:id",
+    validate({ params: paramsWithIDsSchema }),
+    tryCatch(deleteResume, "deleteResume"),
   );
 
 export default resumesAdminRouter;
