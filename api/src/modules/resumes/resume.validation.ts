@@ -41,9 +41,8 @@ export const createResumeBodySchema = Joi.object({
     "string.empty": "Title is required.",
   }),
 
-  summary: Joi.string().trim().required().allow("").messages({
+  summary: Joi.string().trim().optional().allow("").messages({
     "string.base": "Summary must be a text.",
-    "string.empty": "Summary is required.",
   }),
 
   declaration: Joi.object({

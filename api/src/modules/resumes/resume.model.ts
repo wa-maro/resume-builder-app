@@ -40,7 +40,6 @@ const ResumeSchema = new Schema<BaseResume>(
 
     summary: {
       type: String,
-      required: true,
       trim: true,
       default: "",
     },
