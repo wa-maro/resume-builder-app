@@ -1,5 +1,18 @@
+import { Types } from "mongoose";
 import ResumeModel from "./resume.model.js";
-import { ResumeFilter, ResumeRepoQueryOptions } from "./resume.types.js";
+import {
+  CreateResumeDto,
+  ResumeFilter,
+  ResumeRepoQueryOptions,
+  UpdateResumeDto,
+} from "./resume.types.js";
+
+export async function createForUser(userId: string, data: CreateResumeDto) {
+  return ResumeModel.create({
+    user: new Types.ObjectId(userId),
+    ...data,
+  });
+}
 
 export async function findAll(query: ResumeRepoQueryOptions) {
   const {
@@ -44,13 +57,20 @@ function buildResumeMongoFilter(filter: ResumeFilter) {
   };
 }
 
-export const findById = async (id: string) => {
+export async function findById(id: string) {
   return ResumeModel.findById(id).exec();
-};
+}
 
-export const findByUserId = async (userId: string) => {
+export async function findByUserId(userId: string) {
   return ResumeModel.findOne({
     user: userId,
     isActive: true,
   }).exec();
-};
+}
+
+export async function updatebyId(id: string, data: UpdateResumeDto) {
+  return ResumeModel.findByIdAndUpdate(id, data, {
+    returnDocument: "after",
+    runValidators: true,
+  }).exec();
+}
