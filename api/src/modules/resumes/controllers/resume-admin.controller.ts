@@ -10,6 +10,7 @@ import {
   findResumeById,
   findResumes,
   removeResumeById,
+  toggleResumeStatusById,
 } from "../resume.service.js";
 import { BadRequestError } from "../../../shared/errors/http-errors.js";
 
@@ -82,5 +83,23 @@ export async function deleteResume(req: Request, res: Response) {
     success: true,
     message: "Resume deleted successfully",
     data: null,
+  });
+}
+
+export async function toggleResumeStatus(req: Request, res: Response) {
+  const { id: resumeId } = req.params;
+
+  if (typeof resumeId !== "string") {
+    throw new BadRequestError();
+  }
+
+  const resume = await toggleResumeStatusById(resumeId);
+
+  const status = resume.isActive ? "activated" : "deactivated";
+
+  return res.status(200).json({
+    success: true,
+    message: `Resume ${status} successfully`,
+    data: resume,
   });
 }
