@@ -1,17 +1,40 @@
 import {
+  CreateResumeDto,
   ResumeQueryDto,
   ResumeRepoQueryOptions,
   ResumeResponseDto,
+  UpdateResumeDto,
 } from "./resume.types.js";
 import {
+  createForUser,
   findAll,
   findById,
   findByUserId,
   getCount,
+  updatebyId,
 } from "./resume.repository.js";
-import { NotFoundError } from "../../shared/errors/http-errors.js";
+import {
+  ConflictError,
+  NotFoundError,
+} from "../../shared/errors/http-errors.js";
 
-export const findResumes = async (query: ResumeQueryDto) => {
+export async function createResume(userId: string, data: CreateResumeDto) {
+  const existingResume = await findByUserId(userId);
+
+  if (existingResume) {
+    throw new ConflictError("Resume already exists");
+  }
+
+  const resume = await createForUser(userId, data);
+
+  if (!resume) {
+    throw new NotFoundError("Failed to create resume");
+  }
+
+  return new ResumeResponseDto(resume);
+}
+
+export async function findResumes(query: ResumeQueryDto) {
   const {
     filter = {},
     page = 1,
@@ -47,9 +70,9 @@ export const findResumes = async (query: ResumeQueryDto) => {
       hasPreviousPage: skip > 0,
     },
   };
-};
+}
 
-export const findResumeById = async (id: string) => {
+export async function findResumeById(id: string) {
   const resume = await findById(id);
 
   if (!resume) {
@@ -57,9 +80,9 @@ export const findResumeById = async (id: string) => {
   }
 
   return new ResumeResponseDto(resume);
-};
+}
 
-export const findResumeByUserId = async (userId: string) => {
+export async function findResumeByUserId(userId: string) {
   const resume = await findByUserId(userId);
 
   if (!resume) {
@@ -67,4 +90,14 @@ export const findResumeByUserId = async (userId: string) => {
   }
 
   return new ResumeResponseDto(resume);
-};
+}
+
+export async function editResumeById(id: string, data: UpdateResumeDto) {
+  const resume = await updatebyId(id, data);
+
+  if (!resume) {
+    throw new NotFoundError("Resume doesn't exist");
+  }
+
+  return new ResumeResponseDto(resume);
+}
