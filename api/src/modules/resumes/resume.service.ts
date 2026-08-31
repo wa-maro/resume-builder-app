@@ -7,6 +7,8 @@ import {
 } from "./resume.types.js";
 import {
   createForUser,
+  deleteResumeById,
+  deleteResumeForUser,
   findAll,
   findById,
   findByUserId,
@@ -100,4 +102,24 @@ export async function editResumeById(id: string, data: UpdateResumeDto) {
   }
 
   return new ResumeResponseDto(resume);
+}
+
+export async function removeResumeById(id: string) {
+  const resume = await deleteResumeById(id);
+
+  if (!resume) {
+    throw new NotFoundError("Resume doesn't exist");
+  }
+
+  return resume;
+}
+
+export async function removeResumeForUser(userId: string, resumeId: string) {
+  const resume = await deleteResumeForUser(userId, resumeId);
+
+  if (!resume) {
+    throw new NotFoundError("Resume doesn't exist");
+  }
+
+  return resume;
 }
