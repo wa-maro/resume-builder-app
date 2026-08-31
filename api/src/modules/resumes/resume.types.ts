@@ -66,3 +66,12 @@ export class ResumeResponseDto implements Resume {
     this.updatedAt = resume.updatedAt;
   }
 }
+
+export interface CreateResumeDto {
+  title: string;
+  summary: string;
+  avatar?: string | undefined;
+  declaration?: Declaration | undefined;
+}
+
+export interface UpdateResumeDto extends Partial<CreateResumeDto> {}
