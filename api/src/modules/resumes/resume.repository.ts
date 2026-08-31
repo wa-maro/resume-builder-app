@@ -75,6 +75,21 @@ export async function updatebyId(id: string, data: UpdateResumeDto) {
   }).exec();
 }
 
+export async function updateForUser(
+  userId: string,
+  resumeId: string,
+  data: UpdateResumeDto,
+) {
+  return ResumeModel.findOneAndUpdate(
+    { _id: resumeId, user: userId },
+    { $set: data },
+    {
+      returnDocument: "after",
+      runValidators: true,
+    },
+  ).exec();
+}
+
 export async function deleteById(id: string) {
   return ResumeModel.findByIdAndDelete(id);
 }

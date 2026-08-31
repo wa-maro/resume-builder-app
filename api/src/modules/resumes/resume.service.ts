@@ -15,6 +15,7 @@ import {
   getCount,
   toggleStatusById,
   updatebyId,
+  updateForUser,
 } from "./resume.repository.js";
 import {
   ConflictError,
@@ -105,6 +106,20 @@ export async function editResumeById(id: string, data: UpdateResumeDto) {
   return new ResumeResponseDto(resume);
 }
 
+export async function editResumeForUser(
+  userId: string,
+  resumeId: string,
+  data: UpdateResumeDto,
+) {
+  const resume = await updateForUser(userId, resumeId, data);
+
+  if (!resume) {
+    throw new NotFoundError("Resume doesn't exist");
+  }
+
+  return new ResumeResponseDto(resume);
+}
+
 export async function removeResumeById(id: string) {
   const resume = await deleteById(id);
 
@@ -129,7 +144,7 @@ export async function toggleResumeStatusById(resumeId: string) {
   const resume = await toggleStatusById(resumeId);
 
   if (!resume) {
-    throw new NotFoundError("Resume not found.");
+    throw new NotFoundError("Resume doesn't exist");
   }
 
   return new ResumeResponseDto(resume);
