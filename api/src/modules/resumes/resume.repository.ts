@@ -74,3 +74,14 @@ export async function updatebyId(id: string, data: UpdateResumeDto) {
     runValidators: true,
   }).exec();
 }
+
+export async function deleteResumeById(id: string) {
+  return ResumeModel.findByIdAndDelete(id);
+}
+
+export async function deleteResumeForUser(userId: string, resumeId: string) {
+  return ResumeModel.findOneAndDelete({
+    _id: resumeId,
+    user: userId,
+  });
+}
