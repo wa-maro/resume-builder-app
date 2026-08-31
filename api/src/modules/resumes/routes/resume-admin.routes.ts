@@ -4,8 +4,12 @@ import tryCatch from "../../../shared/utils/try-catch.util.js";
 import {
   getResumes,
   getResume,
+  editResume,
 } from "../controllers/resume-admin.controller.js";
-import { ResumesQuerySchema } from "../resume.validation.js";
+import {
+  editResumeBodySchema,
+  ResumesQuerySchema,
+} from "../resume.validation.js";
 import { paramsWithIDsSchema } from "../../../shared/validators/params-with-id.js";
 
 const resumesAdminRouter = Router();
@@ -20,6 +24,11 @@ resumesAdminRouter
     "/:id",
     validate({ params: paramsWithIDsSchema }),
     tryCatch(getResume, "getResume"),
+  )
+  .patch(
+    "/:id",
+    validate({ params: paramsWithIDsSchema, body: editResumeBodySchema }),
+    tryCatch(editResume, "editResume"),
   );
 
 export default resumesAdminRouter;
