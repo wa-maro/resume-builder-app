@@ -69,16 +69,19 @@ export async function findUserByUsernameOrEmail(usernameOrEmail: string) {
   return findByUsernameOrEmail(usernameOrEmail);
 }
 
-export async function checkUsernameExist(username: string) {
-  const exists = await usernameExists(username);
+export async function checkUsernameExist(
+  username: string,
+  excludeUserId?: string,
+) {
+  const exists = await usernameExists(username, excludeUserId);
 
   if (exists) {
     throw new ConflictError("Username already taken");
   }
 }
 
-export async function checkEmailExist(email: string) {
-  const exists = await emailExists(email);
+export async function checkEmailExist(email: string, excludeUserId?: string) {
+  const exists = await emailExists(email, excludeUserId);
 
   if (exists) {
     throw new ConflictError("Email already taken");

@@ -47,12 +47,18 @@ export async function findByUsernameOrEmail(usernameOrEmail: string) {
     .exec();
 }
 
-export async function usernameExists(username: string) {
-  return UserModel.exists({ username });
+export async function usernameExists(username: string, excludeUserId?: string) {
+  return UserModel.exists({
+    username,
+    ...(excludeUserId && { _id: { $ne: excludeUserId } }),
+  });
 }
 
-export async function emailExists(email: string) {
-  return UserModel.exists({ email });
+export async function emailExists(email: string, excludeUserId?: string) {
+  return UserModel.exists({
+    email,
+    ...(excludeUserId && { _id: { $ne: excludeUserId } }),
+  });
 }
 
 export async function create(data: CreateUserDto) {

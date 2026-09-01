@@ -97,13 +97,13 @@ export async function updateAuthenticatedUser(
   const updateData: UpdateUserDto = {};
 
   if (data.newUsername) {
-    await checkUsernameExist(data.newUsername);
+    await checkUsernameExist(data.newUsername, id);
 
     updateData.username = data.newUsername;
   }
 
   if (data.newEmail) {
-    await checkUsernameExist(data.newEmail);
+    await checkUsernameExist(data.newEmail, id);
 
     updateData.email = data.newEmail;
   }
