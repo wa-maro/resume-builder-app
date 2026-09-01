@@ -2,6 +2,7 @@ import { Router } from "express";
 import tryCatch from "../../shared/utils/try-catch.util.js";
 import {
   createUser,
+  deleteUser,
   editUser,
   getUser,
   getUsers,
@@ -36,6 +37,11 @@ usersAdminRouter
     "/:id",
     validate({ params: paramsWithIDsSchema, body: editUserAdminBodySchema }),
     tryCatch(editUser, "editUser"),
+  )
+  .delete(
+    "/:id",
+    validate({ params: paramsWithIDsSchema }),
+    tryCatch(deleteUser, "deleteUser"),
   );
 
 export default usersAdminRouter;

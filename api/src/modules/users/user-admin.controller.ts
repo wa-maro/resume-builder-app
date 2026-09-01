@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import {
   createUserForAdmin,
+  deleteUserByIdForAdmin,
   findUserByIdForAdmin,
   findUsers,
   updateUserByIdForAdmin,
@@ -80,5 +81,21 @@ export async function editUser(req: Request, res: Response) {
     success: true,
     message: "User retrieved successfully",
     data: await updateUserByIdForAdmin(id, data),
+  });
+}
+
+export async function deleteUser(req: Request, res: Response) {
+  const { id } = req.params;
+
+  if (typeof id !== "string") {
+    throw new BadRequestError();
+  }
+
+  await deleteUserByIdForAdmin(id);
+
+  return res.status(200).json({
+    success: true,
+    message: "User deleted successfully",
+    data: null,
   });
 }
