@@ -76,3 +76,36 @@ export const createUserAdminBodySchema = Joi.object({
     "any.required": "Password is required.",
   }),
 });
+
+export const editUserAdminBodySchema = Joi.object({
+  username: Joi.string().trim().min(3).max(30).optional().messages({
+    "string.base": "Username must be a text.",
+    "string.empty": "Username cannot be empty.",
+    "string.min": "Username must be at least 3 characters long.",
+    "string.max": "Username must not exceed 30 characters.",
+  }),
+
+  email: Joi.string().trim().lowercase().email().optional().messages({
+    "string.base": "Email must be a text.",
+    "string.empty": "Email cannot be empty.",
+    "string.email": "Please provide a valid email address.",
+  }),
+
+  role: Joi.string()
+    .valid(...Object.values(UserRole))
+    .optional()
+    .messages({
+      "any.only": "Role must be either 'user' or 'admin'.",
+      "string.base": "Role must be a text.",
+    }),
+
+  password: Joi.string().min(6).optional().messages({
+    "string.base": "Password must be a text.",
+    "string.empty": "Password cannot be empty.",
+    "string.min": "Password must be at least 6 characters long.",
+  }),
+})
+  .min(1)
+  .messages({
+    "object.min": "At least one field must be provided to update.",
+  });
