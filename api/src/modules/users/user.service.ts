@@ -10,7 +10,8 @@ import {
   usernameExists,
   findByUsernameOrEmail,
   getCount,
-  updateById,
+  updateByIdForUser,
+  updateByIdForAdmin,
 } from "./user.repository.js";
 import {
   CreateUserAdminDto,
@@ -92,8 +93,12 @@ export async function createUserForAdmin(data: CreateUserAdminDto) {
   return create(data);
 }
 
-export async function updateUserProfileById(id: string, data: UpdateUserDto) {
-  const user = await updateById(id, data);
+export async function updateUserProfileById(
+  id: string,
+  data: UpdateUserDto,
+): Promise<UserResponseDto> {
+  const user = await updateByIdForUser(id, data);
+
   if (!user) {
     throw new NotFoundError("User not found");
   }
@@ -104,8 +109,9 @@ export async function updateUserProfileById(id: string, data: UpdateUserDto) {
 export async function updateUserByIdForAdmin(
   id: string,
   data: UpdateUserAdminDto,
-) {
-  const user = await updateById(id, data);
+): Promise<UserResponseDto> {
+  const user = await updateByIdForAdmin(id, data);
+
   if (!user) {
     throw new NotFoundError("User not found");
   }

@@ -63,7 +63,7 @@ export async function createForAdmin(data: CreateUserAdminDto) {
   return UserModel.create(data);
 }
 
-export async function updateById(id: string, data: UpdateUserDto) {
+export async function updateByIdForUser(id: string, data: UpdateUserDto) {
   return UserModel.findByIdAndUpdate(id, data, {
     returnDocument: "after",
     runValidators: true,
