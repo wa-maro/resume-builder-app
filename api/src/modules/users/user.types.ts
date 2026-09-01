@@ -71,18 +71,18 @@ export interface CreateUserDto extends Pick<
 
 export interface UpdateUserDto extends Partial<CreateUserDto> {}
 
-export interface CreateUserAdminDto extends Pick<
+export type CreateUserAdminDto = Pick<
   UserWithCredential,
   "username" | "email" | "passwordHash" | "role"
-> {}
+>;
 
-export interface CreateUserInputAdmin extends Pick<
+export type CreateUserInputAdmin = Pick<
   UserWithCredential,
   "username" | "email" | "role"
-> {
+> & {
   password: string;
-}
+};
 
-export interface UpdateUserInputAdmin extends Partial<CreateUserInputAdmin> {}
+export type UpdateUserInputAdmin = Partial<CreateUserInputAdmin>;
 
-export interface UpdateUserAdminDto extends Partial<CreateUserDto> {}
+export type UpdateUserAdminDto = Partial<CreateUserAdminDto>;

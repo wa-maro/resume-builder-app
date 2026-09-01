@@ -1,3 +1,4 @@
+import { doHash } from "../../security/password/password.service.js";
 import {
   ConflictError,
   NotFoundError,
@@ -12,10 +13,11 @@ import {
   getCount,
   updateByIdForUser,
   updateByIdForAdmin,
+  createForAdmin,
 } from "./user.repository.js";
 import {
-  CreateUserAdminDto,
   CreateUserDto,
+  CreateUserInputAdmin,
   UpdateUserAdminDto,
   UpdateUserDto,
   UserQueryDto,
@@ -102,8 +104,21 @@ export async function createUser(data: CreateUserDto) {
   return create(data);
 }
 
-export async function createUserForAdmin(data: CreateUserAdminDto) {
-  return create(data);
+export async function createUserForAdmin(data: CreateUserInputAdmin) {
+  const { username, email, password, role } = data;
+
+  await Promise.all([checkUsernameExist(username), checkEmailExist(email)]);
+
+  const passwordHash = await doHash(password);
+
+  const user = await createForAdmin({
+    username,
+    email,
+    passwordHash,
+    role,
+  });
+
+  return new UserResponseDto(user);
 }
 
 export async function updateUserProfileById(
