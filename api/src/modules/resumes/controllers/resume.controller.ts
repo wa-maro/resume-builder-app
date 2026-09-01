@@ -6,10 +6,11 @@ import {
   removeResumeForUser,
 } from "../resume.service.js";
 import { BadRequestError } from "../../../shared/errors/http-errors.js";
+import { CreateResumeDto, UpdateResumeDto } from "../resume.types.js";
 
 export async function createMyResume(req: Request, res: Response) {
   const { id } = req.user;
-  const data = req.body;
+  const data: CreateResumeDto = req.body;
 
   return res.status(201).json({
     success: true,
@@ -31,7 +32,7 @@ export async function getMyResume(req: Request, res: Response) {
 export async function editMyResume(req: Request, res: Response) {
   const { id: userId } = req.user;
   const { resumeId } = req.params;
-  const data = req.body;
+  const data: UpdateResumeDto = req.body;
 
   if (typeof resumeId !== "string") {
     throw new BadRequestError();
