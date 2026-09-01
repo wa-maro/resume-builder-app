@@ -1,7 +1,8 @@
 import type { Request, Response } from "express";
-import { findUsers } from "./user.service.js";
+import { findUserByIdForAdmin, findUsers } from "./user.service.js";
 import { SortOrderDto } from "../../shared/types/query-options.js";
 import { UserFilter, UserQueryDto, UserRole } from "./user.types.js";
+import { BadRequestError } from "../../shared/errors/http-errors.js";
 
 export async function getUsers(req: Request, res: Response) {
   const { page, limit, sort, sortOrder, search, role, isActive } = req.query;
@@ -29,5 +30,19 @@ export async function getUsers(req: Request, res: Response) {
     success: true,
     message: "Users retrieved successfully",
     ...(await findUsers(query)),
+  });
+}
+
+export async function getUser(req: Request, res: Response) {
+  const { id } = req.params;
+
+  if (typeof id !== "string") {
+    throw new BadRequestError();
+  }
+
+  return res.status(200).json({
+    success: true,
+    message: "User retrieved successfully",
+    data: await findUserByIdForAdmin(id),
   });
 }
