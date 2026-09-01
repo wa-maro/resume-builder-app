@@ -1,8 +1,27 @@
 import type { Request, Response } from "express";
-import { findUserByIdForAdmin, findUsers } from "./user.service.js";
+import {
+  createUserForAdmin,
+  findUserByIdForAdmin,
+  findUsers,
+} from "./user.service.js";
 import { SortOrderDto } from "../../shared/types/query-options.js";
-import { UserFilter, UserQueryDto, UserRole } from "./user.types.js";
+import {
+  CreateUserInputAdmin,
+  UserFilter,
+  UserQueryDto,
+  UserRole,
+} from "./user.types.js";
 import { BadRequestError } from "../../shared/errors/http-errors.js";
+
+export async function createUser(req: Request, res: Response) {
+  const data: CreateUserInputAdmin = req.body;
+
+  return res.status(200).json({
+    success: true,
+    message: "User created successfully",
+    data: await createUserForAdmin(data),
+  });
+}
 
 export async function getUsers(req: Request, res: Response) {
   const { page, limit, sort, sortOrder, search, role, isActive } = req.query;
