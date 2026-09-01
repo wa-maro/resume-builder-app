@@ -5,45 +5,49 @@ import {
   registerUser,
   updateAuthenticatedUser,
 } from "./auth.service.js";
+import {
+  LoginUserInput,
+  RegisterUserInput,
+  UpdateAuthenticatedUserInput,
+} from "./auth.types.js";
 
 export async function register(req: Request, res: Response) {
-  const { username, email, password } = req.body;
+  const data: RegisterUserInput = req.body;
 
   return res.status(201).json({
     success: true,
     message: "User registered successfully",
-    data: await registerUser(username, email, password),
+    data: await registerUser(data),
   });
 }
 
 export async function login(req: Request, res: Response) {
-  const { usernameOrEmail, password } = req.body;
+  const data: LoginUserInput = req.body;
 
   return res.status(200).json({
     success: true,
     message: "User logged in successfully",
-    data: await loginUser(usernameOrEmail, password),
+    data: await loginUser(data),
   });
 }
 
 export async function getUserProfile(req: Request, res: Response) {
+  const { id: userId } = req.user;
+
   return res.status(200).json({
     success: true,
     message: "Account retrieved successfully",
-    data: await findAuthenticatedUser(req.user.id),
+    data: await findAuthenticatedUser(userId),
   });
 }
 
 export async function updateUserProfile(req: Request, res: Response) {
-  const { newUsername, newEmail, newPassword } = req.body;
+  const { id: userId } = req.user;
+  const data: UpdateAuthenticatedUserInput = req.body;
 
   return res.status(200).json({
     success: true,
     message: "Account updated successfully",
-    data: await updateAuthenticatedUser(req.user.id, {
-      newUsername,
-      newEmail,
-      newPassword,
-    }),
+    data: await updateAuthenticatedUser(userId, data),
   });
 }

@@ -8,21 +8,28 @@ import {
   UnauthorizedError,
 } from "../../shared/errors/http-errors.js";
 import {
-  checkEmailExist,
-  checkUsernameExist,
   createUser,
+  checkEmailExist,
   findUserById,
+  checkUsernameExist,
   findUserByUsernameOrEmail,
   updateUserProfileById,
 } from "../users/user.service.js";
 import { UserResponseDto } from "../users/user.types.js";
-import { AuthResponse, AuthUser } from "./auth.types.js";
+import {
+  AuthResponse,
+  AuthUser,
+  LoginUserInput,
+  RegisterUserInput,
+  UpdateAuthenticatedUserInput,
+  UpdateUserProfileData,
+} from "./auth.types.js";
 
 export async function registerUser(
-  username: string,
-  email: string,
-  password: string,
+  data: RegisterUserInput,
 ): Promise<AuthResponse> {
+  const { username, email, password } = data;
+
   await Promise.all([checkUsernameExist(username), checkEmailExist(email)]);
 
   const passwordHash = await doHash(password);
@@ -39,20 +46,21 @@ export async function registerUser(
 
   return {
     user: authUser,
-    token: token,
+    token,
   };
 }
 
-export async function loginUser(
-  usernameOrEmail: string,
-  password: string,
-): Promise<AuthResponse> {
+export async function loginUser(data: LoginUserInput): Promise<AuthResponse> {
+  const { usernameOrEmail, password } = data;
+
   const user = await findUserByUsernameOrEmail(usernameOrEmail);
+
   if (!user) {
     throw new UnauthorizedError("Wrong credentials");
   }
 
   const isMatch = await compareHash(password, user.passwordHash);
+
   if (!isMatch) {
     throw new UnauthorizedError("Wrong credentials");
   }
@@ -75,6 +83,7 @@ export async function findAuthenticatedUser(
   id: string,
 ): Promise<UserResponseDto> {
   const user = await findUserById(id);
+
   if (!user) {
     throw new NotFoundError("User not found");
   }
@@ -84,23 +93,31 @@ export async function findAuthenticatedUser(
 
 export async function updateAuthenticatedUser(
   id: string,
-  data: { newUsername: string; newEmail: string; newPassword: string },
-) {
+  data: UpdateAuthenticatedUserInput,
+): Promise<UserResponseDto> {
+  const updateData: UpdateUserProfileData = {};
+
   if (data.newUsername) {
     await checkUsernameExist(data.newUsername);
+
+    updateData.username = data.newUsername;
   }
 
   if (data.newEmail) {
     await checkUsernameExist(data.newEmail);
+
+    updateData.email = data.newEmail;
   }
 
-  const passwordHash = await doHash(data.newPassword);
+  if (data.newPassword) {
+    updateData.passwordHash = await doHash(data.newPassword);
+  }
 
-  const user = await updateUserProfileById(id, {
-    username: data.newUsername,
-    email: data.newEmail,
-    passwordHash,
-  });
+  const user = await updateUserProfileById(id, updateData);
+
+  if (!user) {
+    throw new NotFoundError("User not found");
+  }
 
   return user;
 }
