@@ -42,3 +42,37 @@ export const UserQuerySchema = Joi.object({
     "boolean.base": "isActive must be a boolean",
   }),
 });
+
+export const createUserAdminBodySchema = Joi.object({
+  username: Joi.string().trim().min(3).max(30).required().messages({
+    "string.base": "Username must be a text.",
+    "string.empty": "Username is required.",
+    "string.min": "Username must be at least 3 characters long.",
+    "string.max": "Username must not exceed 30 characters.",
+    "any.required": "Username is required.",
+  }),
+
+  email: Joi.string().trim().lowercase().email().required().messages({
+    "string.base": "Email must be a text.",
+    "string.empty": "Email is required.",
+    "string.email": "Please provide a valid email address.",
+    "any.required": "Email is required.",
+  }),
+
+  role: Joi.string()
+    .valid(...Object.values(UserRole))
+    .required()
+    .messages({
+      "any.only": "Role must be either 'user' or 'admin'.",
+      "string.base": "Role must be a text.",
+      "string.empty": "Role is required.",
+      "any.required": "Role is required.",
+    }),
+
+  password: Joi.string().min(6).required().messages({
+    "string.base": "Password must be a text.",
+    "string.empty": "Password is required.",
+    "string.min": "Password must be at least 6 characters long.",
+    "any.required": "Password is required.",
+  }),
+});
