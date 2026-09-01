@@ -65,6 +65,16 @@ export async function findUserById(id: string) {
   return findById(id);
 }
 
+export async function findUserByIdForAdmin(id: string) {
+  const user = await findById(id);
+
+  if (!user) {
+    throw new NotFoundError("User not found");
+  }
+
+  return new UserResponseDto(user);
+}
+
 export async function findUserByUsernameOrEmail(usernameOrEmail: string) {
   return findByUsernameOrEmail(usernameOrEmail);
 }
