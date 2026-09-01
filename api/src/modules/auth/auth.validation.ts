@@ -9,29 +9,17 @@ export const registerBodySchema = Joi.object({
     "any.required": "Username is required.",
   }),
 
-  email: Joi.string()
-    .trim()
-    .lowercase()
-    .required()
-    .pattern(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/)
-    .messages({
-      "string.base": "Email must be a text.",
-      "string.empty": "Email is required.",
-      "string.pattern.base": "Please provide a valid email address.",
-      "any.required": "Email is required.",
-    }),
-
-  role: Joi.string().valid("user").required().messages({
-    "any.only": "Only 'user' role is allowed during registration.",
-    "string.base": "Role must be a text.",
-    "string.empty": "Role is required.",
-    "any.required": "Role is required.",
+  email: Joi.string().trim().lowercase().email().required().messages({
+    "string.base": "Email must be a text.",
+    "string.empty": "Email is required.",
+    "string.email": "Please provide a valid email address.",
+    "any.required": "Email is required.",
   }),
 
   password: Joi.string().min(6).required().messages({
     "string.base": "Password must be a text.",
     "string.empty": "Password is required.",
-    "string.min": "Password must be at least 8 characters long.",
+    "string.min": "Password must be at least 6 characters long.",
     "any.required": "Password is required.",
   }),
 
@@ -76,6 +64,15 @@ export const editProfileBodySchema = Joi.object({
     "string.base": "newPassword must be a text.",
     "string.min": "Password must be at least 8 characters long.",
   }),
+
+  confirmNewPassword: Joi.string()
+    .valid(Joi.ref("newPassword"))
+    .required()
+    .messages({
+      "any.only": "Passwords do not match.",
+      "string.empty": "Confirm password is required.",
+      "any.required": "Confirm password is required.",
+    }),
 })
   .min(1)
   .messages({
