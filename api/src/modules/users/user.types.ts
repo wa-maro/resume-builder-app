@@ -76,4 +76,13 @@ export interface CreateUserAdminDto extends Pick<
   "username" | "email" | "passwordHash" | "role"
 > {}
 
+export interface CreateUserInputAdmin extends Pick<
+  UserWithCredential,
+  "username" | "email" | "role"
+> {
+  password: string;
+}
+
+export interface UpdateUserInputAdmin extends Partial<CreateUserInputAdmin> {}
+
 export interface UpdateUserAdminDto extends Partial<CreateUserDto> {}
