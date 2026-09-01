@@ -15,6 +15,7 @@ import {
   updateByIdForAdmin,
   createForAdmin,
   deleteByIdForAdmin,
+  toggleStatusById,
 } from "./user.repository.js";
 import {
   CreateUserDto,
@@ -178,6 +179,16 @@ export async function deleteUserByIdForAdmin(
 
   if (!user) {
     throw new NotFoundError("User not found");
+  }
+
+  return new UserResponseDto(user);
+}
+
+export async function toggleUserStatusById(id: string) {
+  const user = await toggleStatusById(id);
+
+  if (!user) {
+    throw new NotFoundError("User doesn't exist");
   }
 
   return new UserResponseDto(user);

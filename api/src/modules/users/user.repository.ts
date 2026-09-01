@@ -87,6 +87,17 @@ export async function deleteByIdForAdmin(id: string) {
   return UserModel.findByIdAndDelete(id).exec();
 }
 
+export async function toggleStatusById(id: string) {
+  return await UserModel.findByIdAndUpdate(
+    id,
+    [{ $set: { isActive: { $not: ["$isActive"] } } }],
+    {
+      returnDocument: "after",
+      updatePipeline: true,
+    },
+  );
+}
+
 function buildUserMongoFilter(filter: UserFilter) {
   const { search, ...rest } = filter;
 
