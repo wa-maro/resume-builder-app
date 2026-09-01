@@ -1,10 +1,14 @@
-import { NotFoundError } from "../../shared/errors/http-errors.js";
+import {
+  ConflictError,
+  NotFoundError,
+} from "../../shared/errors/http-errors.js";
 import {
   create,
   findAll,
+  emailExists,
   findById,
+  usernameExists,
   findByUsernameOrEmail,
-  findOneBy,
   getCount,
   updateById,
 } from "./user.repository.js";
@@ -64,8 +68,20 @@ export async function findUserByUsernameOrEmail(usernameOrEmail: string) {
   return findByUsernameOrEmail(usernameOrEmail);
 }
 
-export async function findUserBy(username: string, email: string) {
-  return findOneBy(username, email);
+export async function checkUsernameExist(username: string) {
+  const exists = await usernameExists(username);
+
+  if (exists) {
+    throw new ConflictError("Username already taken");
+  }
+}
+
+export async function checkEmailExist(email: string) {
+  const exists = await emailExists(email);
+
+  if (exists) {
+    throw new ConflictError("Email already taken");
+  }
 }
 
 export async function createUser(data: CreateUserDto) {

@@ -4,13 +4,13 @@ import {
   doHash,
 } from "../../security/password/password.service.js";
 import {
-  ConflictError,
   NotFoundError,
   UnauthorizedError,
 } from "../../shared/errors/http-errors.js";
 import {
+  checkEmailExist,
+  checkUsernameExist,
   createUser,
-  findUserBy,
   findUserById,
   findUserByUsernameOrEmail,
   updateUserProfileById,
@@ -23,10 +23,7 @@ export async function registerUser(
   email: string,
   password: string,
 ): Promise<AuthResponse> {
-  const existingUser = await findUserBy(username, email);
-  if (existingUser) {
-    throw new ConflictError("User already exists");
-  }
+  await Promise.all([checkUsernameExist(username), checkEmailExist(email)]);
 
   const passwordHash = await doHash(password);
 
@@ -89,22 +86,19 @@ export async function updateAuthenticatedUser(
   id: string,
   data: { newUsername: string; newEmail: string; newPassword: string },
 ) {
-  const {
-    newUsername: username,
-    newEmail: email,
-    newPassword: password,
-  } = data;
-
-  const existingUser = await findUserBy(username, email);
-  if (existingUser) {
-    throw new ConflictError("Username or Email already in use");
+  if (data.newUsername) {
+    await checkUsernameExist(data.newUsername);
   }
 
-  const passwordHash = await doHash(password);
+  if (data.newEmail) {
+    await checkUsernameExist(data.newEmail);
+  }
+
+  const passwordHash = await doHash(data.newPassword);
 
   const user = await updateUserProfileById(id, {
-    username,
-    email,
+    username: data.newUsername,
+    email: data.newEmail,
     passwordHash,
   });
 

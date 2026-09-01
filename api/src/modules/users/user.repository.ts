@@ -47,10 +47,12 @@ export async function findByUsernameOrEmail(usernameOrEmail: string) {
     .exec();
 }
 
-export async function findOneBy(username: string, email: string) {
-  return UserModel.findOne({
-    $or: [{ username: username }, { email: email }],
-  }).exec();
+export async function usernameExists(username: string) {
+  return UserModel.exists({ username });
+}
+
+export async function emailExists(email: string) {
+  return UserModel.exists({ email });
 }
 
 export async function create(data: CreateUserDto) {
