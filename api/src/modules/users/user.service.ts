@@ -14,6 +14,7 @@ import {
   updateByIdForUser,
   updateByIdForAdmin,
   createForAdmin,
+  deleteByIdForAdmin,
 } from "./user.repository.js";
 import {
   CreateUserDto,
@@ -162,6 +163,18 @@ export async function updateUserByIdForAdmin(
   }
 
   const user = await updateByIdForAdmin(id, updateData);
+
+  if (!user) {
+    throw new NotFoundError("User not found");
+  }
+
+  return new UserResponseDto(user);
+}
+
+export async function deleteUserByIdForAdmin(
+  id: string,
+): Promise<UserResponseDto> {
+  const user = await deleteByIdForAdmin(id);
 
   if (!user) {
     throw new NotFoundError("User not found");

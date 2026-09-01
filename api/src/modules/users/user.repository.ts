@@ -83,6 +83,10 @@ export async function updateByIdForAdmin(id: string, data: UpdateUserAdminDto) {
   }).exec();
 }
 
+export async function deleteByIdForAdmin(id: string) {
+  return UserModel.findByIdAndDelete(id).exec();
+}
+
 function buildUserMongoFilter(filter: UserFilter) {
   const { search, ...rest } = filter;
 
