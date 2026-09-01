@@ -3,10 +3,12 @@ import {
   createUserForAdmin,
   findUserByIdForAdmin,
   findUsers,
+  updateUserByIdForAdmin,
 } from "./user.service.js";
 import { SortOrderDto } from "../../shared/types/query-options.js";
 import {
   CreateUserInputAdmin,
+  UpdateUserInputAdmin,
   UserFilter,
   UserQueryDto,
   UserRole,
@@ -63,5 +65,20 @@ export async function getUser(req: Request, res: Response) {
     success: true,
     message: "User retrieved successfully",
     data: await findUserByIdForAdmin(id),
+  });
+}
+
+export async function editUser(req: Request, res: Response) {
+  const { id } = req.params;
+  const data: UpdateUserInputAdmin = req.body;
+
+  if (typeof id !== "string") {
+    throw new BadRequestError();
+  }
+
+  return res.status(200).json({
+    success: true,
+    message: "User retrieved successfully",
+    data: await updateUserByIdForAdmin(id, data),
   });
 }

@@ -1,8 +1,14 @@
 import { Router } from "express";
 import tryCatch from "../../shared/utils/try-catch.util.js";
-import { createUser, getUser, getUsers } from "./user-admin.controller.js";
+import {
+  createUser,
+  editUser,
+  getUser,
+  getUsers,
+} from "./user-admin.controller.js";
 import {
   createUserAdminBodySchema,
+  editUserAdminBodySchema,
   UserQuerySchema,
 } from "./user.validation.js";
 import validate from "../../http/middlewares/validation.middleware.js";
@@ -25,6 +31,11 @@ usersAdminRouter
     "/:id",
     validate({ params: paramsWithIDsSchema }),
     tryCatch(getUser, "getUser"),
+  )
+  .patch(
+    "/:id",
+    validate({ params: paramsWithIDsSchema, body: editUserAdminBodySchema }),
+    tryCatch(editUser, "editUser"),
   );
 
 export default usersAdminRouter;
