@@ -6,6 +6,7 @@ import {
   editUser,
   getUser,
   getUsers,
+  toggleUserStatus,
 } from "./user-admin.controller.js";
 import {
   createUserAdminBodySchema,
@@ -42,6 +43,11 @@ usersAdminRouter
     "/:id",
     validate({ params: paramsWithIDsSchema }),
     tryCatch(deleteUser, "deleteUser"),
+  )
+  .patch(
+    "/:id/status",
+    validate({ params: paramsWithIDsSchema }),
+    tryCatch(toggleUserStatus, "toggleUserStatus"),
   );
 
 export default usersAdminRouter;

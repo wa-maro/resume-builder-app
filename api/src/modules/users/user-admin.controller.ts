@@ -4,6 +4,7 @@ import {
   deleteUserByIdForAdmin,
   findUserByIdForAdmin,
   findUsers,
+  toggleUserStatusById,
   updateUserByIdForAdmin,
 } from "./user.service.js";
 import { SortOrderDto } from "../../shared/types/query-options.js";
@@ -97,5 +98,23 @@ export async function deleteUser(req: Request, res: Response) {
     success: true,
     message: "User deleted successfully",
     data: null,
+  });
+}
+
+export async function toggleUserStatus(req: Request, res: Response) {
+  const { id } = req.params;
+
+  if (typeof id !== "string") {
+    throw new BadRequestError();
+  }
+
+  const user = await toggleUserStatusById(id);
+
+  const status = user.isActive ? "activated" : "deactivated";
+
+  return res.status(200).json({
+    success: true,
+    message: `User ${status} successfully`,
+    data: user,
   });
 }
