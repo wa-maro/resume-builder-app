@@ -20,6 +20,7 @@ import {
   CreateUserInputAdmin,
   UpdateUserAdminDto,
   UpdateUserDto,
+  UpdateUserInputAdmin,
   UserQueryDto,
   UserRepoQueryOptions,
   UserResponseDto,
@@ -136,9 +137,31 @@ export async function updateUserProfileById(
 
 export async function updateUserByIdForAdmin(
   id: string,
-  data: UpdateUserAdminDto,
+  data: UpdateUserInputAdmin,
 ): Promise<UserResponseDto> {
-  const user = await updateByIdForAdmin(id, data);
+  const updateData: UpdateUserAdminDto = {};
+
+  if (data.username !== undefined) {
+    await checkUsernameExist(data.username, id);
+
+    updateData.username = data.username;
+  }
+
+  if (data.email !== undefined) {
+    await checkEmailExist(data.email, id);
+
+    updateData.email = data.email;
+  }
+
+  if (data.role !== undefined) {
+    updateData.role = data.role;
+  }
+
+  if (data.password !== undefined) {
+    updateData.passwordHash = await doHash(data.password);
+  }
+
+  const user = await updateByIdForAdmin(id, updateData);
 
   if (!user) {
     throw new NotFoundError("User not found");
