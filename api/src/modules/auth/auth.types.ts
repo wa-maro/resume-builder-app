@@ -10,3 +10,26 @@ export interface AuthResponse {
   user: AuthUser;
   token: string;
 }
+
+export interface RegisterUserInput {
+  username: string;
+  email: string;
+  password: string;
+}
+
+export interface LoginUserInput {
+  usernameOrEmail: string;
+  password: string;
+}
+
+export interface UpdateAuthenticatedUserInput {
+  newUsername?: string;
+  newEmail?: string;
+  newPassword?: string;
+}
+
+export interface UpdateUserProfileData {
+  username?: string;
+  email?: string;
+  passwordHash?: string;
+}
