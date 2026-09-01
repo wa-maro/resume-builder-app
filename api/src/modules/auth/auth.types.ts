@@ -27,9 +27,3 @@ export interface UpdateAuthenticatedUserInput {
   newEmail?: string;
   newPassword?: string;
 }
-
-export interface UpdateUserProfileData {
-  username?: string;
-  email?: string;
-  passwordHash?: string;
-}

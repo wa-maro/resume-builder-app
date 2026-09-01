@@ -15,14 +15,13 @@ import {
   findUserByUsernameOrEmail,
   updateUserProfileById,
 } from "../users/user.service.js";
-import { UserResponseDto } from "../users/user.types.js";
+import { UpdateUserDto, UserResponseDto } from "../users/user.types.js";
 import {
   AuthResponse,
   AuthUser,
   LoginUserInput,
   RegisterUserInput,
   UpdateAuthenticatedUserInput,
-  UpdateUserProfileData,
 } from "./auth.types.js";
 
 export async function registerUser(
@@ -95,7 +94,7 @@ export async function updateAuthenticatedUser(
   id: string,
   data: UpdateAuthenticatedUserInput,
 ): Promise<UserResponseDto> {
-  const updateData: UpdateUserProfileData = {};
+  const updateData: UpdateUserDto = {};
 
   if (data.newUsername) {
     await checkUsernameExist(data.newUsername);
