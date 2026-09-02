@@ -43,21 +43,29 @@ export type ResumeRepoQueryOptions = RepositoryQueryOptions<
   ResumeSortFields
 >;
 
-export class ResumeResponseDto implements Resume {
-  id: string;
-  user: Types.ObjectId;
-  title: string;
-  summary: string;
-  avatar?: string | undefined;
-  declaration?: Declaration | undefined;
-  isActive: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+export class ResumeMinimalResponseDto {
+  readonly id: string;
+  readonly title: string;
 
   constructor(resume: ResumeDocument) {
     this.id = resume._id.toString();
-    this.user = resume.user;
     this.title = resume.title;
+  }
+}
+
+export class ResumeResponseDto extends ResumeMinimalResponseDto {
+  readonly user: Types.ObjectId;
+  readonly summary: string;
+  readonly avatar?: string | undefined;
+  readonly declaration?: Declaration | undefined;
+  readonly isActive: boolean;
+  readonly createdAt: Date;
+  readonly updatedAt: Date;
+
+  constructor(resume: ResumeDocument) {
+    super(resume);
+
+    this.user = resume.user;
     this.summary = resume.summary;
     this.avatar = resume.avatar;
     this.declaration = resume.declaration;
