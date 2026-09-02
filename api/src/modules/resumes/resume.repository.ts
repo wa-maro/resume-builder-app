@@ -26,6 +26,7 @@ export async function findAll(query: ResumeRepoQueryOptions) {
   const mongoFilter = buildResumeMongoFilter(filter);
 
   return ResumeModel.find(mongoFilter)
+    .populate("user", "_id username")
     .sort({
       [sort]: order,
       _id: -1,
@@ -58,14 +59,16 @@ function buildResumeMongoFilter(filter: ResumeFilter) {
 }
 
 export async function findById(id: string) {
-  return ResumeModel.findById(id).exec();
+  return ResumeModel.findById(id).populate("user", "_id username").exec();
 }
 
 export async function findByUserId(userId: string) {
   return ResumeModel.findOne({
     user: userId,
     isActive: true,
-  }).exec();
+  })
+    .populate("user", "_id username")
+    .exec();
 }
 
 export async function updatebyId(id: string, data: UpdateResumeDto) {
