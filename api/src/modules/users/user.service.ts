@@ -3,6 +3,7 @@ import {
   ConflictError,
   NotFoundError,
 } from "../../shared/errors/http-errors.js";
+import { hasResumeForUser } from "../resumes/resume.service.js";
 import {
   create,
   findAll,
@@ -26,6 +27,7 @@ import {
   UserQueryDto,
   UserRepoQueryOptions,
   UserResponseDto,
+  UserRole,
 } from "./user.types.js";
 
 export async function findUsers(query: UserQueryDto) {
@@ -141,6 +143,8 @@ export async function updateUserByIdForAdmin(
   id: string,
   data: UpdateUserInputAdmin,
 ): Promise<UserResponseDto> {
+  const user = await findUserByIdForAdmin(id);
+
   const updateData: UpdateUserAdminDto = {};
 
   if (data.username !== undefined) {
@@ -156,6 +160,10 @@ export async function updateUserByIdForAdmin(
   }
 
   if (data.role !== undefined) {
+    if (user.role !== UserRole.ADMIN && data.role === UserRole.ADMIN) {
+      await checkCanChangeRoleToAdmin(id);
+    }
+
     updateData.role = data.role;
   }
 
@@ -163,13 +171,9 @@ export async function updateUserByIdForAdmin(
     updateData.passwordHash = await doHash(data.password);
   }
 
-  const user = await updateByIdForAdmin(id, updateData);
+  const updatedUser = await updateByIdForAdmin(id, updateData);
 
-  if (!user) {
-    throw new NotFoundError("User not found");
-  }
-
-  return new UserResponseDto(user);
+  return new UserResponseDto(updatedUser!);
 }
 
 export async function deleteUserByIdForAdmin(
@@ -192,4 +196,14 @@ export async function toggleUserStatusById(id: string) {
   }
 
   return new UserResponseDto(user);
+}
+
+async function checkCanChangeRoleToAdmin(userId: string) {
+  const hasResume = await hasResumeForUser(userId);
+
+  if (hasResume) {
+    throw new ConflictError(
+      "Cannot change user role to admin while the user has a resume.",
+    );
+  }
 }
