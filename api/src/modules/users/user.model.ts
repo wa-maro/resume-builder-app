@@ -44,8 +44,17 @@ const UserSchema = new mongoose.Schema<UserWithCredential>(
 
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   },
 );
+
+UserSchema.virtual("resume", {
+  ref: "Resume",
+  localField: "_id",
+  foreignField: "user",
+  justOne: true,
+});
 
 // define a User model
 const UserModel = mongoose.model<UserWithCredential>("User", UserSchema);

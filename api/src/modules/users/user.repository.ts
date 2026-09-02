@@ -20,6 +20,7 @@ export async function findAll(query: UserRepoQueryOptions) {
   const mongoFilter = buildUserMongoFilter(filter);
 
   return UserModel.find(mongoFilter)
+    .populate("resume", "_id title")
     .sort({
       [sort]: order,
       _id: -1,
@@ -35,7 +36,7 @@ export async function getCount(filter: UserFilter) {
 }
 
 export async function findById(id: string) {
-  return UserModel.findById(id).exec();
+  return UserModel.findById(id).populate("resume", "_id title").exec();
 }
 
 export async function findByUsernameOrEmail(usernameOrEmail: string) {
