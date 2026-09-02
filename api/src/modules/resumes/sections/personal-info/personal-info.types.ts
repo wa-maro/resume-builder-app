@@ -36,3 +36,18 @@ export interface PersonalInfo {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export type AddPersonalInfoInput = {
+  fullName: string;
+  gender: Gender;
+  dateOfBirth: Date;
+  nationality?: string;
+  placeOfDomicile?: string;
+  maritalStatus?: MaritalStatus;
+  disabilities?: Disability[];
+  email: string;
+  phone: string;
+  physicalAddress: string;
+};
+
+export type EditPersonalInfoInput = Partial<AddPersonalInfoInput>;
