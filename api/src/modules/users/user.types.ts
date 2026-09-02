@@ -50,15 +50,16 @@ export type UserRepoQueryOptions = RepositoryQueryOptions<
 
 export class UserMinimalResponseDto {
   readonly id: string;
-  readonly username: string;
+  readonly username?: string | undefined;
 
-  constructor(id: string, username: string) {
+  constructor(id: string, username?: string | undefined) {
     this.id = id;
     this.username = username;
   }
 }
 
 export class UserResponseDto extends UserMinimalResponseDto {
+  override username: string;
   readonly role: UserRole;
   readonly email: string;
   readonly isActive: boolean;
@@ -70,6 +71,7 @@ export class UserResponseDto extends UserMinimalResponseDto {
   constructor(user: UserDocument) {
     super(user._id.toString(), user.username);
 
+    this.username = user.username;
     this.role = user.role;
     this.email = user.email;
     this.isActive = user.isActive;
