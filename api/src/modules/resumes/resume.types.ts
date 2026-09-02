@@ -37,6 +37,10 @@ export type PopulatedResumeDocument = Omit<ResumeDocument, "user"> & {
   user: ResumeUser;
 };
 
+export type PopulateResume =
+  | Types.ObjectId
+  | { _id: Types.ObjectId; title: string };
+
 export interface ResumeFilter {
   search?: string;
   isActive?: boolean;
@@ -56,9 +60,9 @@ export type ResumeRepoQueryOptions = RepositoryQueryOptions<
 
 export class ResumeMinimalResponseDto {
   readonly id: string;
-  readonly title: string;
+  readonly title?: string;
 
-  constructor(id: string, title: string) {
+  constructor(id: string, title?: string) {
     this.id = id;
     this.title = title;
   }
