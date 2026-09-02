@@ -16,8 +16,8 @@ export interface BaseResume {
   user: Types.ObjectId;
   title: string;
   summary: string;
-  avatar?: string | undefined;
-  declaration?: Declaration | undefined;
+  avatar?: string;
+  declaration?: Declaration;
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -67,8 +67,8 @@ export class ResumeMinimalResponseDto {
 export class ResumeResponseDto extends ResumeMinimalResponseDto {
   readonly user: UserMinimalResponseDto | null;
   readonly summary: string;
-  readonly avatar?: string | undefined;
-  readonly declaration?: Declaration | undefined;
+  readonly avatar?: string;
+  readonly declaration?: Declaration;
   readonly isActive: boolean;
   readonly createdAt: Date;
   readonly updatedAt: Date;
@@ -99,8 +99,8 @@ export class ResumeResponseDto extends ResumeMinimalResponseDto {
 export interface CreateResumeDto {
   title: string;
   summary: string;
-  avatar?: string | undefined;
-  declaration?: Declaration | undefined;
+  avatar?: string;
+  declaration?: Declaration;
 }
 
 export interface UpdateResumeDto extends Partial<CreateResumeDto> {}

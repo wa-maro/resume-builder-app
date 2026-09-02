@@ -11,6 +11,7 @@ export const generateToken = (user: AuthUser) => {
     id: user.id,
     username: user.username,
     role: user.role,
+    isActive: user.isActive,
   };
 
   return jwt.sign(payload, JWT_SECRET, {

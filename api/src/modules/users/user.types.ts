@@ -19,7 +19,7 @@ interface BaseUser {
   createdAt: Date;
   updatedAt: Date;
 
-  resume?: ResumeDocument | undefined;
+  resume?: ResumeDocument;
 }
 
 export interface User extends BaseUser {
@@ -50,9 +50,9 @@ export type UserRepoQueryOptions = RepositoryQueryOptions<
 
 export class UserMinimalResponseDto {
   readonly id: string;
-  readonly username?: string | undefined;
+  readonly username?: string;
 
-  constructor(id: string, username?: string | undefined) {
+  constructor(id: string, username?: string) {
     this.id = id;
     this.username = username;
   }
@@ -66,7 +66,7 @@ export class UserResponseDto extends UserMinimalResponseDto {
   readonly createdAt: Date;
   readonly updatedAt: Date;
 
-  readonly resume?: ResumeMinimalResponseDto | undefined;
+  readonly resume?: ResumeMinimalResponseDto;
 
   constructor(user: UserDocument) {
     super(user._id.toString(), user.username);
