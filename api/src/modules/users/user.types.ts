@@ -52,9 +52,9 @@ export class UserMinimalResponseDto {
   readonly id: string;
   readonly username: string;
 
-  constructor(user: UserDocument) {
-    this.id = user._id.toString();
-    this.username = user.username;
+  constructor(id: string, username: string) {
+    this.id = id;
+    this.username = username;
   }
 }
 
@@ -68,7 +68,7 @@ export class UserResponseDto extends UserMinimalResponseDto {
   readonly resume?: ResumeMinimalResponseDto | undefined;
 
   constructor(user: UserDocument) {
-    super(user);
+    super(user._id.toString(), user.username);
 
     this.role = user.role;
     this.email = user.email;
