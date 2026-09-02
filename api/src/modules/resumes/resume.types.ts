@@ -47,9 +47,9 @@ export class ResumeMinimalResponseDto {
   readonly id: string;
   readonly title: string;
 
-  constructor(resume: ResumeDocument) {
-    this.id = resume._id.toString();
-    this.title = resume.title;
+  constructor(id: string, title: string) {
+    this.id = id;
+    this.title = title;
   }
 }
 
@@ -63,7 +63,7 @@ export class ResumeResponseDto extends ResumeMinimalResponseDto {
   readonly updatedAt: Date;
 
   constructor(resume: ResumeDocument) {
-    super(resume);
+    super(resume._id.toString(), resume.title);
 
     this.user = resume.user;
     this.summary = resume.summary;

@@ -77,7 +77,10 @@ export class UserResponseDto extends UserMinimalResponseDto {
     this.updatedAt = user.updatedAt;
 
     this.resume = user.resume
-      ? new ResumeMinimalResponseDto(user.resume)
+      ? new ResumeMinimalResponseDto(
+          user.resume._id.toString(),
+          user.resume.title,
+        )
       : undefined;
   }
 }
