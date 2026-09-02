@@ -4,7 +4,7 @@ import {
   RepositoryQueryOptions,
 } from "../../shared/types/query-options.js";
 import { ResumeDocument } from "./resume.model.js";
-import { UserDocument } from "../users/user.model.js";
+import { UserMinimalResponseDto } from "../users/user.types.js";
 
 export interface Declaration {
   statement: string;
@@ -65,7 +65,7 @@ export class ResumeMinimalResponseDto {
 }
 
 export class ResumeResponseDto extends ResumeMinimalResponseDto {
-  readonly user: Types.ObjectId;
+  readonly user: UserMinimalResponseDto | null;
   readonly summary: string;
   readonly avatar?: string | undefined;
   readonly declaration?: Declaration | undefined;
@@ -76,7 +76,17 @@ export class ResumeResponseDto extends ResumeMinimalResponseDto {
   constructor(resume: PopulatedResumeDocument) {
     super(resume._id.toString(), resume.title);
 
-    this.user = resume.user;
+    if (resume.user instanceof Types.ObjectId) {
+      this.user = new UserMinimalResponseDto(resume.user.toString());
+    } else if (resume.user) {
+      this.user = new UserMinimalResponseDto(
+        resume.user._id.toString(),
+        resume.user.username,
+      );
+    } else {
+      this.user = null;
+    }
+
     this.summary = resume.summary;
     this.avatar = resume.avatar;
     this.declaration = resume.declaration;
