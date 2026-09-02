@@ -9,6 +9,7 @@ import {
   createForUser,
   deleteById,
   deleteForUser,
+  existsByUserId,
   findAll,
   findById,
   findByUserId,
@@ -148,4 +149,8 @@ export async function toggleResumeStatusById(resumeId: string) {
   }
 
   return new ResumeResponseDto(resume);
+}
+
+export async function hasResumeForUser(userId: string): Promise<boolean> {
+  return Boolean(await existsByUserId(userId));
 }

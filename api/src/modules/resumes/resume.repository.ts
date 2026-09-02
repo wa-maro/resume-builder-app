@@ -117,3 +117,7 @@ export async function toggleStatusById(resumeId: string) {
     },
   );
 }
+
+export async function existsByUserId(userId: string) {
+  return ResumeModel.exists({ user: userId });
+}
