@@ -2,6 +2,8 @@ import {
   QueryOptions,
   RepositoryQueryOptions,
 } from "../../shared/types/query-options.js";
+import { ResumeDocument } from "../resumes/resume.model.js";
+import { ResumeMinimalResponseDto } from "../resumes/resume.types.js";
 import { UserDocument } from "./user.model.js";
 
 export enum UserRole {
@@ -16,6 +18,8 @@ interface BaseUser {
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
+
+  resume?: ResumeDocument | undefined;
 }
 
 export interface User extends BaseUser {
@@ -44,23 +48,37 @@ export type UserRepoQueryOptions = RepositoryQueryOptions<
   UserSortFields
 >;
 
-export class UserResponseDto implements User {
-  id: string;
-  username: string;
-  email: string;
-  role: UserRole;
-  isActive: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+export class UserMinimalResponseDto {
+  readonly id: string;
+  readonly username: string;
 
   constructor(user: UserDocument) {
     this.id = user._id.toString();
     this.username = user.username;
-    this.email = user.email;
+  }
+}
+
+export class UserResponseDto extends UserMinimalResponseDto {
+  readonly role: UserRole;
+  readonly email: string;
+  readonly isActive: boolean;
+  readonly createdAt: Date;
+  readonly updatedAt: Date;
+
+  readonly resume?: ResumeMinimalResponseDto | undefined;
+
+  constructor(user: UserDocument) {
+    super(user);
+
     this.role = user.role;
+    this.email = user.email;
     this.isActive = user.isActive;
     this.createdAt = user.createdAt;
     this.updatedAt = user.updatedAt;
+
+    this.resume = user.resume
+      ? new ResumeMinimalResponseDto(user.resume)
+      : undefined;
   }
 }
 
