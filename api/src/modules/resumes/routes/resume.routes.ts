@@ -12,6 +12,7 @@ import {
   editResumeBodySchema,
 } from "../resume.validation.js";
 import { paramsWithIDsSchema } from "../../../shared/validators/params-with-id.js";
+import personalInfoRouter from "../sections/personal-info/routes/personal-info.routes.js";
 
 const resumeRouter = Router();
 
@@ -32,5 +33,7 @@ resumeRouter
     validate({ params: paramsWithIDsSchema }),
     tryCatch(deleteMyResume, "deleteMyResume"),
   );
+
+resumeRouter.use("/:resumeId/personal-information", personalInfoRouter);
 
 export default resumeRouter;
