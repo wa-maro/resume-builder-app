@@ -4,6 +4,7 @@ import {
   CreateResumeDto,
   ResumeFilter,
   ResumeRepoQueryOptions,
+  ResumeUser,
   UpdateResumeDto,
 } from "./resume.types.js";
 
@@ -26,7 +27,7 @@ export async function findAll(query: ResumeRepoQueryOptions) {
   const mongoFilter = buildResumeMongoFilter(filter);
 
   return ResumeModel.find(mongoFilter)
-    .populate("user", "_id username")
+    .populate<ResumeUser>("user", "_id username")
     .sort({
       [sort]: order,
       _id: -1,
@@ -59,7 +60,9 @@ function buildResumeMongoFilter(filter: ResumeFilter) {
 }
 
 export async function findById(id: string) {
-  return ResumeModel.findById(id).populate("user", "_id username").exec();
+  return ResumeModel.findById(id)
+    .populate<ResumeUser>("user", "_id username")
+    .exec();
 }
 
 export async function findByUserId(userId: string) {
@@ -67,7 +70,7 @@ export async function findByUserId(userId: string) {
     user: userId,
     isActive: true,
   })
-    .populate("user", "_id username")
+    .populate<ResumeUser>("user", "_id username")
     .exec();
 }
 

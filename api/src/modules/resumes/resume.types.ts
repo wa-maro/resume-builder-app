@@ -4,6 +4,7 @@ import {
   RepositoryQueryOptions,
 } from "../../shared/types/query-options.js";
 import { ResumeDocument } from "./resume.model.js";
+import { UserDocument } from "../users/user.model.js";
 
 export interface Declaration {
   statement: string;
@@ -25,6 +26,16 @@ export interface BaseResume {
 export interface Resume extends BaseResume {
   id: string;
 }
+
+export type ResumeUser =
+  | Types.ObjectId
+  | { _id: Types.ObjectId; username: string }
+  | null;
+
+export type PopulatedResumeDocument = Omit<ResumeDocument, "user"> & {
+  _id: Types.ObjectId;
+  user: ResumeUser;
+};
 
 export interface ResumeFilter {
   search?: string;
@@ -62,7 +73,7 @@ export class ResumeResponseDto extends ResumeMinimalResponseDto {
   readonly createdAt: Date;
   readonly updatedAt: Date;
 
-  constructor(resume: ResumeDocument) {
+  constructor(resume: PopulatedResumeDocument) {
     super(resume._id.toString(), resume.title);
 
     this.user = resume.user;
