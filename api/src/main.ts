@@ -9,7 +9,7 @@ async function bootstrap() {
   await connectDatabase();
 
   app.listen(PORT, () => {
-    infoLogger.info(`Server running at http://localhost:${PORT}`);
+    infoLogger.info(`Server running on port ${PORT}`);
   });
 }
 
