@@ -58,8 +58,19 @@ const ResumeSchema = new Schema<BaseResume>(
       default: true,
     },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  },
 );
+
+ResumeSchema.virtual("personalInfo", {
+  ref: "PersonalInformation",
+  localField: "_id",
+  foreignField: "resume",
+  justOne: true,
+});
 
 const ResumeModel = model<BaseResume>("Resume", ResumeSchema);
 

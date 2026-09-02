@@ -1,10 +1,9 @@
-import mongoose, { type HydratedDocument } from "mongoose";
+import { model, Schema, type HydratedDocument } from "mongoose";
 import { UserRole, UserWithCredential } from "./user.types.js";
 
 export type UserDocument = HydratedDocument<UserWithCredential>;
 
-// define a User schema
-const UserSchema = new mongoose.Schema<UserWithCredential>(
+const UserSchema = new Schema<UserWithCredential>(
   {
     username: {
       type: String,
@@ -19,6 +18,7 @@ const UserSchema = new mongoose.Schema<UserWithCredential>(
       required: true,
       unique: true,
       trim: true,
+      lowercase: true,
     },
 
     passwordHash: {
@@ -56,7 +56,6 @@ UserSchema.virtual("resume", {
   justOne: true,
 });
 
-// define a User model
-const UserModel = mongoose.model<UserWithCredential>("User", UserSchema);
+const UserModel = model<UserWithCredential>("User", UserSchema);
 
 export default UserModel;
