@@ -39,6 +39,7 @@ export async function registerUser(
     id: user.id,
     username: user.username,
     role: user.role,
+    isActive: user.isActive,
   };
 
   const token = generateToken(authUser);
@@ -68,6 +69,7 @@ export async function loginUser(data: LoginUserInput): Promise<AuthResponse> {
     id: user.id,
     username: user.username,
     role: user.role,
+    isActive: user.isActive,
   };
 
   const token = generateToken(authUser);

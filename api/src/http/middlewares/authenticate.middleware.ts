@@ -35,6 +35,7 @@ const authenticate = async (
       email: user.email,
       username: user.username,
       role: user.role,
+      isActive: user.isActive,
     };
 
     next();
