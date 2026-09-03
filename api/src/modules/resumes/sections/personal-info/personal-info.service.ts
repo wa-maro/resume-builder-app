@@ -6,6 +6,7 @@ import { findResumeById } from "../../resume.service.js";
 import {
   createForResume,
   deleteById,
+  findById,
   findByResumeAndId,
   findByResumeId,
   updateByResumeAndId,
@@ -37,6 +38,16 @@ export const getPersonalInfo = async (resumeId: string, id: string) => {
   const resume = await findResumeById(resumeId);
 
   const personalInfo = await findByResumeAndId(resume.id, id);
+
+  if (!personalInfo) {
+    throw new NotFoundError("Personal information doesn't exists");
+  }
+
+  return new PersonalInfoResponseDto(personalInfo);
+};
+
+export const getPersonalInfoForAdmin = async (id: string) => {
+  const personalInfo = await findById(id);
 
   if (!personalInfo) {
     throw new NotFoundError("Personal information doesn't exists");

@@ -11,6 +11,16 @@ export async function createForResume(
   return PersonalInfoModel.create({ resume: resumeId, ...data });
 }
 
+export async function findById(id: string) {
+  return PersonalInfoModel.findById(id)
+    .populate({
+      path: "resume",
+      select: "_id title user",
+      populate: { path: "user", select: "_id username" },
+    })
+    .exec();
+}
+
 export async function findByResumeId(resumeId: string) {
   return PersonalInfoModel.findOne({ resume: resumeId }).exec();
 }
