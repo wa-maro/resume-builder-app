@@ -6,15 +6,19 @@ import { findResumeById } from "../../resume.service.js";
 import {
   createForResume,
   deleteById,
+  findAll,
   findById,
   findByResumeAndId,
   findByResumeId,
+  getCount,
   updateById,
   updateByResumeAndId,
 } from "./personal-info.repository.js";
 import {
   AddPersonalInfoInput,
   EditPersonalInfoInput,
+  PersonalInfoQueryDto,
+  PersonalInfoRepoQueryOptions,
   PersonalInfoResponseDto,
 } from "./personal-info.types.js";
 
@@ -33,6 +37,46 @@ export async function addPersonalInfo(
   const personalInfo = await createForResume(resumeId, data);
 
   return new PersonalInfoResponseDto(personalInfo);
+}
+
+export async function getPersonalInfosForAdmin(query: PersonalInfoQueryDto) {
+  const {
+    filter = {},
+    page = 1,
+    limit = 10,
+    sort = "createdAt",
+    sortOrder = "desc",
+  } = query;
+
+  const skip = (page - 1) * limit;
+  const order = sortOrder === "asc" ? 1 : -1;
+
+  const repoQuery: PersonalInfoRepoQueryOptions = {
+    filter,
+    skip,
+    limit,
+    sort,
+    order,
+  };
+
+  const [personalInfos, total] = await Promise.all([
+    findAll(repoQuery),
+    getCount(filter),
+  ]);
+
+  return {
+    data: personalInfos.map(
+      (personalInfo) => new PersonalInfoResponseDto(personalInfo),
+    ),
+    pagination: {
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+      hasNextPage: skip + personalInfos.length < total,
+      hasPreviousPage: skip > 0,
+    },
+  };
 }
 
 export const getPersonalInfobyResume = async (resumeId: string, id: string) => {
