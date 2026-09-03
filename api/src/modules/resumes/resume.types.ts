@@ -51,6 +51,8 @@ export type ResumeSortFields = Pick<
   "createdAt" | "updatedAt" | "title"
 >;
 
+export type ResumeSortField = keyof ResumeSortFields;
+
 export type ResumeQueryDto = QueryOptions<ResumeFilter, ResumeSortFields>;
 
 export type ResumeRepoQueryOptions = RepositoryQueryOptions<
