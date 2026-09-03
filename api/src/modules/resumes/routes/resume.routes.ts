@@ -12,7 +12,7 @@ import {
   editResumeBodySchema,
 } from "../resume.validation.js";
 import { paramsWithIDsSchema } from "../../../shared/validators/params-with-id.js";
-import personalInfoRouter from "../sections/personal-info/routes/personal-info.routes.js";
+import personalInfoRouter from "../../sections/personal-info/routes/personal-info.routes.js";
 
 const resumeRouter = Router();
 

@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { BadRequestError } from "../../../../../shared/errors/http-errors.js";
+import { BadRequestError } from "../../../../shared/errors/http-errors.js";
 import {
   addPersonalInfo,
   editPersonalInfoByResume,

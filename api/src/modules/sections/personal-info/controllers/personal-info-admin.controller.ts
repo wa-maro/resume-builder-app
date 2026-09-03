@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { BadRequestError } from "../../../../../shared/errors/http-errors.js";
+import { BadRequestError } from "../../../../shared/errors/http-errors.js";
 import {
   editPersonalInfoById,
   getPersonalInfoForAdmin,
@@ -14,7 +14,7 @@ import {
   PersonalInfoQueryDto,
   PersonalInfoSortField,
 } from "../personal-info.types.js";
-import { SortOrderDto } from "../../../../../shared/types/query-options.js";
+import { SortOrderDto } from "../../../../shared/types/query-options.js";
 
 export async function getPersonalInfos(req: Request, res: Response) {
   const {

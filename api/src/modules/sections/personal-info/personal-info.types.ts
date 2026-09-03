@@ -3,11 +3,11 @@ import { PersonalInfoDocument } from "./personal-info.model.js";
 import {
   PopulateResume,
   ResumeMinimalResponseDto,
-} from "../../resume.types.js";
+} from "../../resumes/resume.types.js";
 import {
   QueryOptions,
   RepositoryQueryOptions,
-} from "../../../../shared/types/query-options.js";
+} from "../../../shared/types/query-options.js";
 
 export enum Gender {
   MALE = "male",

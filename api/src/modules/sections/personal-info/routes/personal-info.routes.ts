@@ -1,6 +1,6 @@
 import { Router } from "express";
-import validate from "../../../../../http/middlewares/validation.middleware.js";
-import { paramsWithIDsSchema } from "../../../../../shared/validators/params-with-id.js";
+import validate from "../../../../http/middlewares/validation.middleware.js";
+import { paramsWithIDsSchema } from "../../../../shared/validators/params-with-id.js";
 import {
   addPersonalInfoBodySchema,
   editPersonalInfoBodySchema,
@@ -10,7 +10,7 @@ import {
   getPersonalInfo,
   updatePersonalInfo,
 } from "../controllers/personal-info.controller.js";
-import tryCatch from "../../../../../shared/utils/try-catch.util.js";
+import tryCatch from "../../../../shared/utils/try-catch.util.js";
 
 const personalInfoRouter = Router({ mergeParams: true });
 

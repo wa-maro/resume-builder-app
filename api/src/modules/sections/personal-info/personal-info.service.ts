@@ -1,8 +1,8 @@
 import {
   ConflictError,
   NotFoundError,
-} from "../../../../shared/errors/http-errors.js";
-import { findResumeById } from "../../resume.service.js";
+} from "../../../shared/errors/http-errors.js";
+import { findResumeById } from "../../resumes/resume.service.js";
 import {
   createForResume,
   deleteById,
