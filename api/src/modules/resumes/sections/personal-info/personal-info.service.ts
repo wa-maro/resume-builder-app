@@ -9,6 +9,7 @@ import {
   findById,
   findByResumeAndId,
   findByResumeId,
+  updateById,
   updateByResumeAndId,
 } from "./personal-info.repository.js";
 import {
@@ -34,7 +35,7 @@ export async function addPersonalInfo(
   return new PersonalInfoResponseDto(personalInfo);
 }
 
-export const getPersonalInfo = async (resumeId: string, id: string) => {
+export const getPersonalInfobyResume = async (resumeId: string, id: string) => {
   const resume = await findResumeById(resumeId);
 
   const personalInfo = await findByResumeAndId(resume.id, id);
@@ -64,6 +65,19 @@ export async function editPersonalInfoByResume(
   const resume = await findResumeById(resumeId);
 
   const personalInfo = await updateByResumeAndId(resume.id, id, data);
+
+  if (!personalInfo) {
+    throw new NotFoundError("Personal information doesn't exists");
+  }
+
+  return new PersonalInfoResponseDto(personalInfo);
+}
+
+export async function editPersonalInfoById(
+  id: string,
+  data: EditPersonalInfoInput,
+) {
+  const personalInfo = await updateById(id, data);
 
   if (!personalInfo) {
     throw new NotFoundError("Personal information doesn't exists");

@@ -32,6 +32,17 @@ export async function findByResumeAndId(resumeId: string, id: string) {
   }).exec();
 }
 
+export async function updateById(id: string, data: EditPersonalInfoInput) {
+  return PersonalInfoModel.findByIdAndUpdate(
+    id,
+    { $set: data },
+    {
+      returnDocument: "after",
+      runValidators: true,
+    },
+  ).exec();
+}
+
 export async function updateByResumeAndId(
   resumeId: string,
   id: string,
