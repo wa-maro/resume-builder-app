@@ -23,8 +23,4 @@ export interface LoginUserInput {
   password: string;
 }
 
-export interface UpdateAuthenticatedUserInput {
-  newUsername?: string;
-  newEmail?: string;
-  newPassword?: string;
-}
+export type UpdateAuthenticatedUserInput = Partial<RegisterUserInput>;

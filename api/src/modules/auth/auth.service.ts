@@ -96,22 +96,24 @@ export async function updateAuthenticatedUser(
   id: string,
   data: UpdateAuthenticatedUserInput,
 ): Promise<UserResponseDto> {
+  const { username, email, password } = data;
+
   const updateData: UpdateUserDto = {};
 
-  if (data.newUsername) {
-    await checkUsernameExist(data.newUsername, id);
+  if (username) {
+    await checkUsernameExist(username, id);
 
-    updateData.username = data.newUsername;
+    updateData.username = username;
   }
 
-  if (data.newEmail) {
-    await checkUsernameExist(data.newEmail, id);
+  if (email) {
+    await checkUsernameExist(email, id);
 
-    updateData.email = data.newEmail;
+    updateData.email = email;
   }
 
-  if (data.newPassword) {
-    updateData.passwordHash = await doHash(data.newPassword);
+  if (password) {
+    updateData.passwordHash = await doHash(password);
   }
 
   const user = await updateUserProfileById(id, updateData);
