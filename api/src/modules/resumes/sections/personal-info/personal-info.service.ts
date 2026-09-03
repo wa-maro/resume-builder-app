@@ -6,10 +6,13 @@ import { findResumeById } from "../../resume.service.js";
 import {
   createForResume,
   deleteById,
+  findByResumeAndId,
   findByResumeId,
+  updateByResumeAndId,
 } from "./personal-info.repository.js";
 import {
   AddPersonalInfoInput,
+  EditPersonalInfoInput,
   PersonalInfoResponseDto,
 } from "./personal-info.types.js";
 
@@ -41,6 +44,22 @@ export const getPersonalInfo = async (resumeId: string, id: string) => {
 
   return new PersonalInfoResponseDto(personalInfo);
 };
+
+export async function editPersonalInfoByResume(
+  resumeId: string,
+  id: string,
+  data: EditPersonalInfoInput,
+) {
+  const resume = await findResumeById(resumeId);
+
+  const personalInfo = await updateByResumeAndId(resume.id, id, data);
+
+  if (!personalInfo) {
+    throw new NotFoundError("Personal information doesn't exists");
+  }
+
+  return new PersonalInfoResponseDto(personalInfo);
+}
 
 export const removePersonalInfo = async (id: string) => {
   const personalInfo = await deleteById(id);

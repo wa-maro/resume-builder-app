@@ -1,5 +1,8 @@
 import PersonalInfoModel from "./personal-info.model.js";
-import { AddPersonalInfoInput } from "./personal-info.types.js";
+import {
+  AddPersonalInfoInput,
+  EditPersonalInfoInput,
+} from "./personal-info.types.js";
 
 export async function createForResume(
   resumeId: string,
@@ -17,6 +20,21 @@ export async function findByResumeAndId(resumeId: string, id: string) {
     _id: id,
     resume: resumeId,
   }).exec();
+}
+
+export async function updateByResumeAndId(
+  resumeId: string,
+  id: string,
+  data: EditPersonalInfoInput,
+) {
+  return PersonalInfoModel.findOneAndUpdate(
+    { _id: id, resume: resumeId },
+    { $set: data },
+    {
+      returnDocument: "after",
+      runValidators: true,
+    },
+  ).exec();
 }
 
 export async function deleteById(id: string) {
