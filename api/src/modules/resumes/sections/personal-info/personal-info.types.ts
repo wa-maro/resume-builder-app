@@ -4,6 +4,10 @@ import {
   PopulateResume,
   ResumeMinimalResponseDto,
 } from "../../resume.types.js";
+import {
+  QueryOptions,
+  RepositoryQueryOptions,
+} from "../../../../shared/types/query-options.js";
 
 export enum Gender {
   MALE = "male",
@@ -105,3 +109,28 @@ export type AddPersonalInfoInput = {
 };
 
 export type EditPersonalInfoInput = Partial<AddPersonalInfoInput>;
+
+export interface PersonalInfoFilter {
+  search?: string;
+
+  gender?: Gender;
+  maritalStatus?: MaritalStatus;
+  disabilities?: Disability[];
+  nationality?: string;
+  placeOfDomicile?: string;
+}
+
+export type PersonalInfoSortFields = Pick<
+  PersonalInfo,
+  "createdAt" | "updatedAt" | "fullName" | "dateOfBirth" | "placeOfDomicile"
+>;
+
+export type PersonalInfoQueryDto = QueryOptions<
+  PersonalInfoFilter,
+  PersonalInfoSortFields
+>;
+
+export type PersonalInfoRepoQueryOptions = RepositoryQueryOptions<
+  PersonalInfoFilter,
+  PersonalInfoSortFields
+>;
