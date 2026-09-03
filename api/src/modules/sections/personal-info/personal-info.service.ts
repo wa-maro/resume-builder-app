@@ -79,10 +79,10 @@ export async function getPersonalInfosForAdmin(query: PersonalInfoQueryDto) {
   };
 }
 
-export const getPersonalInfobyResume = async (resumeId: string, id: string) => {
+export const getPersonalInfobyResume = async (resumeId: string) => {
   const resume = await findResumeById(resumeId);
 
-  const personalInfo = await findByResumeAndId(resume.id, id);
+  const personalInfo = await findByResumeAndId(resume.id);
 
   if (!personalInfo) {
     throw new NotFoundError("Personal information doesn't exists");

@@ -26,20 +26,16 @@ export async function createPersonalInfo(req: Request, res: Response) {
 }
 
 export async function getPersonalInfo(req: Request, res: Response) {
-  const { resumeId, id } = req.params;
+  const { resumeId } = req.params;
 
   if (typeof resumeId !== "string") {
-    throw new BadRequestError();
-  }
-
-  if (typeof id !== "string") {
     throw new BadRequestError();
   }
 
   return res.status(200).json({
     success: true,
     message: "Personal information retrieved successfully",
-    data: await getPersonalInfobyResume(resumeId, id),
+    data: await getPersonalInfobyResume(resumeId),
   });
 }
 

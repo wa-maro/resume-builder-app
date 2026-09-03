@@ -23,11 +23,7 @@ personalInfoRouter
     }),
     tryCatch(createPersonalInfo, "createPersonalInfo"),
   )
-  .get(
-    "/:id",
-    validate({ params: paramsWithIDsSchema }),
-    tryCatch(getPersonalInfo, "getPersonalInfo"),
-  )
+  .get("/", tryCatch(getPersonalInfo, "getPersonalInfo"))
   .patch(
     "/:id",
     validate({
