@@ -38,6 +38,11 @@ export async function findAll(query: PersonalInfoRepoQueryOptions) {
     .exec();
 }
 
+export async function getCount(filter: PersonalInfoFilter) {
+  const mongoFilter = buildPersonalInfoMongoFilter(filter);
+  return PersonalInfoModel.countDocuments(mongoFilter).exec();
+}
+
 export async function findById(id: string) {
   return PersonalInfoModel.findById(id)
     .populate({
