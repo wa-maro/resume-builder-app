@@ -41,6 +41,8 @@ export type UserSortFields = Pick<
   "createdAt" | "updatedAt" | "username"
 >;
 
+export type UserSortField = keyof UserSortFields;
+
 export type UserQueryDto = QueryOptions<UserFilter, UserSortFields>;
 
 export type UserRepoQueryOptions = RepositoryQueryOptions<

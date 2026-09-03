@@ -11,9 +11,9 @@ import { SortOrderDto } from "../../shared/types/query-options.js";
 import {
   CreateUserInputAdmin,
   UpdateUserInputAdmin,
-  UserFilter,
   UserQueryDto,
   UserRole,
+  UserSortField,
 } from "./user.types.js";
 import { BadRequestError } from "../../shared/errors/http-errors.js";
 
@@ -30,24 +30,23 @@ export async function createUser(req: Request, res: Response) {
 export async function getUsers(req: Request, res: Response) {
   const { page, limit, sort, sortOrder, search, role, isActive } = req.query;
 
-  const query: UserQueryDto = {};
-  const filter: UserFilter = {};
+  const query: UserQueryDto = {
+    filter: {},
+  };
 
   if (page) query.page = Number(page);
 
   if (limit) query.limit = Number(limit);
 
-  if (sort) query.sort = sort as "createdAt" | "updatedAt" | "username";
+  if (sort) query.sort = sort as UserSortField;
 
   if (sortOrder) query.sortOrder = sortOrder as SortOrderDto;
 
-  if (search) filter.search = search as string;
+  if (search) query.filter!.search = search as string;
 
-  if (role) filter.role = role as UserRole;
+  if (role) query.filter!.role = role as UserRole;
 
-  if (isActive) filter.isActive = isActive === "true";
-
-  query.filter = filter;
+  if (isActive) query.filter!.isActive = isActive === "true";
 
   return res.status(200).json({
     success: true,
