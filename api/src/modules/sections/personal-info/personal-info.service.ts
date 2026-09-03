@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import {
   ConflictError,
   NotFoundError,
@@ -21,6 +22,7 @@ import {
   PersonalInfoRepoQueryOptions,
   PersonalInfoResponseDto,
 } from "./personal-info.types.js";
+import { AppError } from "../../../shared/errors/app-error.js";
 
 export async function addPersonalInfo(
   resumeId: string,
@@ -98,7 +100,24 @@ export const getPersonalInfoForAdmin = async (id: string) => {
     throw new NotFoundError("Personal information doesn't exists");
   }
 
-  return new PersonalInfoResponseDto(personalInfo);
+  const user = personalInfo.resume.user;
+
+  if (!(user && !(user instanceof Types.ObjectId))) {
+    throw new AppError("Expected resume.user to be populated", 500);
+  }
+
+  const info = new PersonalInfoResponseDto(personalInfo);
+
+  return {
+    ...info,
+    resume: {
+      ...info.resume,
+      user: {
+        id: user._id.toString(),
+        username: user.username,
+      },
+    },
+  };
 };
 
 export async function editPersonalInfoByResume(

@@ -1,3 +1,4 @@
+import { PopulatedResumeDocument } from "../../resumes/resume.types.js";
 import PersonalInfoModel from "./personal-info.model.js";
 import {
   AddPersonalInfoInput,
@@ -45,7 +46,9 @@ export async function getCount(filter: PersonalInfoFilter) {
 
 export async function findById(id: string) {
   return PersonalInfoModel.findById(id)
-    .populate({
+    .populate<{
+      resume: PopulatedResumeDocument;
+    }>({
       path: "resume",
       select: "_id title user",
       populate: { path: "user", select: "_id username" },
