@@ -30,6 +30,18 @@ export async function addPersonalInfo(
   return new PersonalInfoResponseDto(personalInfo);
 }
 
+export const getPersonalInfo = async (resumeId: string, id: string) => {
+  const resume = await findResumeById(resumeId);
+
+  const personalInfo = await findByResumeAndId(resume.id, id);
+
+  if (!personalInfo) {
+    throw new NotFoundError("Personal information doesn't exists");
+  }
+
+  return new PersonalInfoResponseDto(personalInfo);
+};
+
 export const removePersonalInfo = async (id: string) => {
   const personalInfo = await deleteById(id);
 
