@@ -123,6 +123,8 @@ export type PersonalInfoSortFields = Pick<
   "createdAt" | "updatedAt" | "fullName" | "dateOfBirth" | "placeOfDomicile"
 >;
 
+export type PersonalInfoSortField = keyof PersonalInfoSortFields;
+
 export type PersonalInfoQueryDto = QueryOptions<
   PersonalInfoFilter,
   PersonalInfoSortFields

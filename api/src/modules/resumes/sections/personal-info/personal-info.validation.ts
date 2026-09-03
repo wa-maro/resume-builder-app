@@ -104,6 +104,7 @@ export const addPersonalInfoBodySchema = Joi.object({
 
   disabilities: Joi.array()
     .items(Joi.string().valid(...Object.values(Disability)))
+    .single()
     .unique()
     .default([Disability.NONE])
     .custom((value: Disability[], helpers) => {

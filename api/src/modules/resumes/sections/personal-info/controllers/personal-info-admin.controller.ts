@@ -3,9 +3,58 @@ import { BadRequestError } from "../../../../../shared/errors/http-errors.js";
 import {
   editPersonalInfoById,
   getPersonalInfoForAdmin,
+  getPersonalInfosForAdmin,
   removePersonalInfo,
 } from "../personal-info.service.js";
-import { EditPersonalInfoInput } from "../personal-info.types.js";
+import {
+  Disability,
+  EditPersonalInfoInput,
+  Gender,
+  MaritalStatus,
+  PersonalInfoQueryDto,
+  PersonalInfoSortField,
+} from "../personal-info.types.js";
+import { SortOrderDto } from "../../../../../shared/types/query-options.js";
+
+export async function getPersonalInfos(req: Request, res: Response) {
+  const {
+    page,
+    limit,
+    sort,
+    sortOrder,
+    search,
+    gender,
+    maritalStatus,
+    disabilities,
+  } = req.query;
+
+  const query: PersonalInfoQueryDto = {
+    filter: {},
+  };
+
+  if (page) query.page = Number(page);
+
+  if (limit) query.limit = Number(limit);
+
+  if (sort) query.sort = sort as PersonalInfoSortField;
+
+  if (sortOrder) query.sortOrder = sortOrder as SortOrderDto;
+
+  if (search) query.filter!.search = search as string;
+
+  if (gender) query.filter!.gender = gender as Gender;
+
+  if (maritalStatus)
+    query.filter!.maritalStatus = maritalStatus as MaritalStatus;
+
+  if (disabilities) query.filter!.disabilities = disabilities as Disability[];
+
+  return res.status(200).json({
+    success: true,
+    message: "Personal informations retrieved successfully",
+    ...(await getPersonalInfosForAdmin(query)),
+  });
+}
 
 export async function getPersonalInfo(req: Request, res: Response) {
   const { id } = req.params;
