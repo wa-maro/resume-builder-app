@@ -76,7 +76,7 @@ export const editResumeBodySchema = Joi.object({
       "string.base": "Statement must be a text.",
     }),
 
-    signature: Joi.string().trim().optional().messages({
+    signature: Joi.string().trim().optional().allow("").messages({
       "string.base": "Signature must be a text.",
     }),
 
