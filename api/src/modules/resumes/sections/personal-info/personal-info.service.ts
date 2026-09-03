@@ -1,9 +1,6 @@
-import {
-  ConflictError,
-  NotFoundError,
-} from "../../../../shared/errors/http-errors.js";
+import { ConflictError } from "../../../../shared/errors/http-errors.js";
 import { findResumeById } from "../../resume.service.js";
-import { createForResume, findByResume } from "./personal-info.repository.js";
+import { createForResume, findByResumeId } from "./personal-info.repository.js";
 import {
   AddPersonalInfoInput,
   PersonalInfoResponseDto,
@@ -15,11 +12,7 @@ export async function addPersonalInfo(
 ) {
   const resume = await findResumeById(resumeId);
 
-  if (!resume) {
-    throw new NotFoundError("Resume doesn't exist");
-  }
-
-  const existingInfo = await findByResume(resumeId);
+  const existingInfo = await findByResumeId(resume.id);
 
   if (existingInfo) {
     throw new ConflictError("Personal information already exists");

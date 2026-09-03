@@ -8,6 +8,6 @@ export async function createForResume(
   return PersonalInfoModel.create({ resume: resumeId, ...data });
 }
 
-export async function findByResume(resumeId: string) {
+export async function findByResumeId(resumeId: string) {
   return PersonalInfoModel.findOne({ resume: resumeId }).exec();
 }
