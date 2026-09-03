@@ -116,8 +116,6 @@ export interface PersonalInfoFilter {
   gender?: Gender;
   maritalStatus?: MaritalStatus;
   disabilities?: Disability[];
-  nationality?: string;
-  placeOfDomicile?: string;
 }
 
 export type PersonalInfoSortFields = Pick<
