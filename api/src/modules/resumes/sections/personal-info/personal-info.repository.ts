@@ -11,3 +11,7 @@ export async function createForResume(
 export async function findByResumeId(resumeId: string) {
   return PersonalInfoModel.findOne({ resume: resumeId }).exec();
 }
+
+export async function deleteById(id: string) {
+  return PersonalInfoModel.findByIdAndDelete(id).exec();
+}
