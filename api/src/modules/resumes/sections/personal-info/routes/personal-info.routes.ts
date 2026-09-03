@@ -1,10 +1,14 @@
 import { Router } from "express";
 import validate from "../../../../../http/middlewares/validation.middleware.js";
 import { paramsWithIDsSchema } from "../../../../../shared/validators/params-with-id.js";
-import { addPersonalInfoBodySchema } from "../personal-info.validation.js";
+import {
+  addPersonalInfoBodySchema,
+  editPersonalInfoBodySchema,
+} from "../personal-info.validation.js";
 import {
   createPersonalInfo,
   getPersonalInfo,
+  updatePersonalInfo,
 } from "../controllers/personal-info.controller.js";
 import tryCatch from "../../../../../shared/utils/try-catch.util.js";
 
@@ -23,6 +27,14 @@ personalInfoRouter
     "/:id",
     validate({ params: paramsWithIDsSchema }),
     tryCatch(getPersonalInfo, "getPersonalInfo"),
+  )
+  .patch(
+    "/:id",
+    validate({
+      params: paramsWithIDsSchema,
+      body: editPersonalInfoBodySchema,
+    }),
+    tryCatch(updatePersonalInfo, "updatePersonalInfo"),
   );
 
 export default personalInfoRouter;
