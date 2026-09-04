@@ -1,8 +1,9 @@
 import { errorLogger, infoLogger } from "@shared/utils";
 import { connectDatabase, disconnectDatabase } from "./connection.js";
-import { seedResumes } from "./seeders/resume.seeder.js";
-import { seedUsers } from "./seeders/user.seeder.js";
 import { seedAdmins } from "./seeders/admin.seeder.js";
+import { seedUsers } from "./seeders/user.seeder.js";
+import { seedResumes } from "./seeders/resume.seeder.js";
+import { seedPersonalInfos } from "./seeders/personal-info.seeder.js";
 
 async function seed() {
   await connectDatabase();
@@ -12,6 +13,7 @@ async function seed() {
   await seedAdmins();
   await seedUsers();
   await seedResumes();
+  await seedPersonalInfos();
 
   infoLogger.info("Seeding completed.");
 }
