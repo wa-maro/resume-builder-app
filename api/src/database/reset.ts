@@ -1,6 +1,7 @@
 import { errorLogger, infoLogger } from "@shared/utils";
 import { connectDatabase, disconnectDatabase } from "./connection.js";
 import { resetPersonalInfo } from "./resets/personal-info.reset.js";
+import { resetResumes } from "./resets/resume.reset.js";
 
 async function reset() {
   await connectDatabase();
@@ -8,6 +9,7 @@ async function reset() {
   infoLogger.info("Reset started.");
 
   await resetPersonalInfo();
+  await resetResumes();
 
   infoLogger.info("Reset completed.");
 }
