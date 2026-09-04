@@ -3,15 +3,15 @@ import { validate } from "@http/middlewares";
 import { tryCatch } from "@shared/utils";
 import { paramsWithIDsSchema } from "@shared/validators";
 import {
-  deletePersonalInfo,
-  getPersonalInfo,
-  getPersonalInfos,
-  updatePersonalInfo,
-} from "../controllers/personal-info-admin.controller.js";
+  deletePersonalInfoAdmin,
+  getPersonalInfoAdmin,
+  getPersonalInfosAdmin,
+  updatePersonalInfoAdmin,
+} from "@personal-info/controllers";
 import {
   editPersonalInfoBodySchema,
   personalInfoQuerySchema,
-} from "../personal-info.validation.js";
+} from "@personal-info";
 
 const personalInfoAdminRouter = Router();
 
@@ -22,12 +22,12 @@ personalInfoAdminRouter
       query: personalInfoQuerySchema,
       body: editPersonalInfoBodySchema,
     }),
-    tryCatch(getPersonalInfos, "getPersonalInfos"),
+    tryCatch(getPersonalInfosAdmin, "getPersonalInfos"),
   )
   .get(
     "/:id",
     validate({ params: paramsWithIDsSchema }),
-    tryCatch(getPersonalInfo, "getPersonalInfo"),
+    tryCatch(getPersonalInfoAdmin, "getPersonalInfo"),
   )
   .patch(
     "/:id",
@@ -35,12 +35,12 @@ personalInfoAdminRouter
       params: paramsWithIDsSchema,
       body: editPersonalInfoBodySchema,
     }),
-    tryCatch(updatePersonalInfo, "updatePersonalInfo"),
+    tryCatch(updatePersonalInfoAdmin, "updatePersonalInfo"),
   )
   .delete(
     "/:id",
     validate({ params: paramsWithIDsSchema }),
-    tryCatch(deletePersonalInfo, "deletePersonalInfo"),
+    tryCatch(deletePersonalInfoAdmin, "deletePersonalInfo"),
   );
 
-export default personalInfoAdminRouter;
+export { personalInfoAdminRouter };

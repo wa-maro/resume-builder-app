@@ -4,7 +4,7 @@ import {
   Gender,
   MaritalStatus,
   PersonalInfo,
-} from "./personal-info.types.js";
+} from "@personal-info/types";
 
 export type PersonalInfoDocument = HydratedDocument<PersonalInfo>;
 
@@ -94,4 +94,4 @@ const PersonalInfoModel = model<PersonalInfo>(
   PersonalInfoSchema,
 );
 
-export default PersonalInfoModel;
+export { PersonalInfoModel };

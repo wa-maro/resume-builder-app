@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 import { QueryOptions, RepositoryQueryOptions } from "@shared/types";
 import { PopulateResume, ResumeMinimalResponseDto } from "@resumes/types";
-import { PersonalInfoDocument } from "./personal-info.model.js";
+import { PersonalInfoDocument } from "@personal-info";
 
 export enum Gender {
   MALE = "male",

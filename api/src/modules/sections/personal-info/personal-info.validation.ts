@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { Disability, Gender, MaritalStatus } from "./personal-info.types.js";
+import { Disability, Gender, MaritalStatus } from "@personal-info/types";
 
 export const personalInfoQuerySchema = Joi.object({
   page: Joi.number().integer().min(1).messages({

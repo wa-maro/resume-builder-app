@@ -3,14 +3,14 @@ import { validate } from "@http/middlewares";
 import { tryCatch } from "@shared/utils";
 import { paramsWithIDsSchema } from "@shared/validators";
 import {
-  addPersonalInfoBodySchema,
-  editPersonalInfoBodySchema,
-} from "../personal-info.validation.js";
-import {
   createPersonalInfo,
   getPersonalInfo,
   updatePersonalInfo,
-} from "../controllers/personal-info.controller.js";
+} from "@personal-info/controllers";
+import {
+  addPersonalInfoBodySchema,
+  editPersonalInfoBodySchema,
+} from "@personal-info";
 
 const personalInfoRouter = Router({ mergeParams: true });
 
@@ -33,4 +33,4 @@ personalInfoRouter
     tryCatch(updatePersonalInfo, "updatePersonalInfo"),
   );
 
-export default personalInfoRouter;
+export { personalInfoRouter };

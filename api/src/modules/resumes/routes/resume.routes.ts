@@ -12,7 +12,7 @@ import {
   getMyResumeAvatar,
 } from "@resumes/controllers";
 import { resumeUpload } from "@resumes";
-import personalInfoRouter from "../../sections/personal-info/routes/personal-info.routes.js";
+import { personalInfoRouter } from "@personal-info/routes";
 
 const resumeRouter = Router();
 

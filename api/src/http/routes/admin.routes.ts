@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { usersAdminRouter } from "@users/routes";
 import { resumesAdminRouter } from "@resumes/routes";
-import personalInfoAdminRouter from "../../modules/sections/personal-info/routes/personal-info-admin.routes.js";
+import { personalInfoAdminRouter } from "@personal-info/routes";
 
 const adminRouter = Router();
 

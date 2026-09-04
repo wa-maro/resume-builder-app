@@ -1,5 +1,5 @@
 import { PopulatedResumeDocument } from "@resumes/types";
-import PersonalInfoModel from "./personal-info.model.js";
+import { PersonalInfoModel } from "@personal-info";
 import {
   AddPersonalInfoInput,
   Disability,
@@ -8,7 +8,7 @@ import {
   MaritalStatus,
   PersonalInfoFilter,
   PersonalInfoRepoQueryOptions,
-} from "./personal-info.types.js";
+} from "@personal-info/types";
 
 export async function createForResume(
   resumeId: string,

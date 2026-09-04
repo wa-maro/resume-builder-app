@@ -6,7 +6,7 @@ import {
   getPersonalInfoForAdmin,
   getPersonalInfosForAdmin,
   removePersonalInfo,
-} from "../personal-info.service.js";
+} from "@personal-info/services";
 import {
   Disability,
   EditPersonalInfoInput,
@@ -14,9 +14,9 @@ import {
   MaritalStatus,
   PersonalInfoQueryDto,
   PersonalInfoSortField,
-} from "../personal-info.types.js";
+} from "@personal-info/types";
 
-export async function getPersonalInfos(req: Request, res: Response) {
+export async function getPersonalInfosAdmin(req: Request, res: Response) {
   const {
     page,
     limit,
@@ -56,7 +56,7 @@ export async function getPersonalInfos(req: Request, res: Response) {
   });
 }
 
-export async function getPersonalInfo(req: Request, res: Response) {
+export async function getPersonalInfoAdmin(req: Request, res: Response) {
   const { id } = req.params;
 
   if (typeof id !== "string") {
@@ -70,7 +70,7 @@ export async function getPersonalInfo(req: Request, res: Response) {
   });
 }
 
-export async function updatePersonalInfo(req: Request, res: Response) {
+export async function updatePersonalInfoAdmin(req: Request, res: Response) {
   const { id } = req.params;
   const data: EditPersonalInfoInput = req.body;
 
@@ -85,7 +85,7 @@ export async function updatePersonalInfo(req: Request, res: Response) {
   });
 }
 
-export async function deletePersonalInfo(req: Request, res: Response) {
+export async function deletePersonalInfoAdmin(req: Request, res: Response) {
   const { id } = req.params;
 
   if (typeof id !== "string") {

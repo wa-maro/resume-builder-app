@@ -4,11 +4,11 @@ import {
   addPersonalInfo,
   editPersonalInfoByResume,
   getPersonalInfobyResume,
-} from "../personal-info.service.js";
+} from "@personal-info/services";
 import {
   AddPersonalInfoInput,
   EditPersonalInfoInput,
-} from "../personal-info.types.js";
+} from "@personal-info/types";
 
 export async function createPersonalInfo(req: Request, res: Response) {
   const { resumeId } = req.params;

@@ -16,25 +16,46 @@
 
     "paths": {
       "@config": ["./src/config/index.ts"],
+
       "@database": ["./src/database/index.ts"],
+
       "@security/jwt-token": ["./src/security/jwt-token/index.ts"],
       "@security/password": ["./src/security/password/index.ts"],
+
       "@shared/errors": ["./src/shared/errors/index.ts"],
       "@shared/types": ["./src/shared/types/index.ts"],
       "@shared/utils": ["./src/shared/utils/index.ts"],
       "@shared/validators": ["./src/shared/validators/index.ts"],
+
       "@http/middlewares": ["./src/http/middlewares/index.ts"],
       "@http/routes": ["./src/http/routes/index.ts"],
+
       "@auth": ["./src/modules/auth/index.ts"],
+
       "@users": ["./src/modules/users/index.ts"],
       "@users/routes": ["./src/modules/users/routes/index.ts"],
       "@users/services": ["./src/modules/users/services/index.ts"],
       "@users/types": ["./src/modules/users/types/index.ts"],
+
       "@resumes": ["./src/modules/resumes/index.ts"],
       "@resumes/controllers": ["./src/modules/resumes/controllers/index.ts"],
       "@resumes/routes": ["./src/modules/resumes/routes/index.ts"],
       "@resumes/services": ["./src/modules/resumes/services/index.ts"],
-      "@resumes/types": ["./src/modules/resumes/types/index.ts"]
+      "@resumes/types": ["./src/modules/resumes/types/index.ts"],
+
+      "@personal-info": ["./src/modules/sections/personal-info/index.ts"],
+      "@personal-info/controllers": [
+        "./src/modules/sections/personal-info/controllers/index.ts"
+      ],
+      "@personal-info/types": [
+        "./src/modules/sections/personal-info/types/index.ts"
+      ],
+      "@personal-info/services": [
+        "./src/modules/sections/personal-info/services/index.ts"
+      ],
+      "@personal-info/routes": [
+        "./src/modules/sections/personal-info/routes/index.ts"
+      ]
     },
 
     "skipLibCheck": true

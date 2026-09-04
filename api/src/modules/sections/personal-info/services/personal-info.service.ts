@@ -11,14 +11,14 @@ import {
   getCount,
   updateById,
   updateByResumeAndId,
-} from "./personal-info.repository.js";
+} from "@personal-info";
 import {
   AddPersonalInfoInput,
   EditPersonalInfoInput,
   PersonalInfoQueryDto,
   PersonalInfoRepoQueryOptions,
   PersonalInfoResponseDto,
-} from "./personal-info.types.js";
+} from "@personal-info/types";
 
 export async function addPersonalInfo(
   resumeId: string,
