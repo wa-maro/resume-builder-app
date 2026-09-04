@@ -1,6 +1,6 @@
 import { errorLogger, infoLogger } from "@shared/utils";
+import { doHash } from "@security/password";
 import UserModel from "../../modules/users/user.model.js";
-import { doHash } from "../../security/password/password.service.js";
 import users from "./data/users.js";
 
 export async function seedUsers() {

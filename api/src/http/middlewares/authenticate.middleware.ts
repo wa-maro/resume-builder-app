@@ -1,6 +1,6 @@
 import { UnauthorizedError } from "@shared/errors";
+import { verifyToken } from "@security/jwt-token";
 import type { NextFunction, Request, Response } from "express";
-import { verifyToken } from "../../security/jwt-token/jwt-token.service.js";
 import { findUserById } from "../../modules/users/user.service.js";
 
 export const authenticate = async (

@@ -1,5 +1,5 @@
 import { ConflictError, NotFoundError } from "@shared/errors";
-import { doHash } from "../../security/password/password.service.js";
+import { doHash } from "@security/password";
 import { hasResumeForUser } from "../resumes/resume.service.js";
 import {
   create,

@@ -17,6 +17,8 @@
     "paths": {
       "@config": ["./src/config/index.ts"],
       "@database": ["./src/database/index.ts"],
+      "@security/jwt-token": ["./src/security/jwt-token/index.ts"],
+      "@security/password": ["./src/security/password/index.ts"],
       "@shared/errors": ["./src/shared/errors/index.ts"],
       "@shared/types": ["./src/shared/types/index.ts"],
       "@shared/utils": ["./src/shared/utils/index.ts"],
