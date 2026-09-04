@@ -15,7 +15,12 @@ if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
-const createUpload = (folder?: UploadFolder) => {
+export const createUpload = (
+  folder?: UploadFolder,
+  options?: {
+    allowedMimeTypes?: readonly string[];
+  },
+) => {
   const destination = folder ? path.join(uploadsDir, folder) : uploadsDir;
 
   fs.mkdirSync(destination, { recursive: true });
@@ -32,7 +37,24 @@ const createUpload = (folder?: UploadFolder) => {
     },
   });
 
-  return multer({ storage });
+  const fileFilter: multer.Options["fileFilter"] = (_req, file, cb) => {
+    if (
+      options?.allowedMimeTypes &&
+      !options.allowedMimeTypes.includes(file.mimetype)
+    ) {
+      return cb(new Error("Invalid file type"));
+    }
+
+    cb(null, true);
+  };
+
+  return multer({
+    storage,
+    fileFilter,
+    limits: {
+      fileSize: 5 * 1024 * 1024,
+    },
+  });
 };
 
 export default createUpload;
