@@ -9,6 +9,7 @@
     "build": "tsc -p tsconfig.app.json",
     "start": "node dist/main.js",
     "db:seed": "tsx src/database/seed.ts",
+    "db:reset": "tsx src/database/reset.ts",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
