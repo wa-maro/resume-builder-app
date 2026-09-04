@@ -168,3 +168,17 @@ export async function toggleResumeStatusById(resumeId: string) {
 export async function hasResumeForUser(userId: string): Promise<boolean> {
   return Boolean(await existsByUserId(userId));
 }
+
+export async function findResumeForUser(userId: string, resumeId: string) {
+  const resume = await findForUser(userId, resumeId);
+
+  if (!resume) {
+    throw new NotFoundError("Resume doesn't exist");
+  }
+
+  if (!resume.avatar) {
+    throw new NotFoundError("Resume avatar doesn't exist");
+  }
+
+  return resume.avatar;
+}
