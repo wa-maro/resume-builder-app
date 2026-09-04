@@ -1,5 +1,5 @@
+import { envConfig } from "@config";
 import bcrypt from "bcryptjs";
-import { envConfig } from "../../config/env.js";
 
 /**
  * Hash the password in plain text

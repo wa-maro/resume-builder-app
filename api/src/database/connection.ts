@@ -1,5 +1,5 @@
+import { envConfig } from "@config";
 import mongoose from "mongoose";
-import { envConfig } from "../config/env.js";
 import { infoLogger } from "../shared/utils/loggers.util.js";
 
 export async function connectDatabase(): Promise<void> {
