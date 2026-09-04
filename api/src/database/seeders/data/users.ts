@@ -1,70 +1,58 @@
-import { UserRole } from "@users/types";
-
-export default [
-  {
-    username: "expo",
-    email: "expo@example.com",
-    password: "Expo@123",
-    role: UserRole.ADMIN,
-  },
+export const users = [
   {
     username: "jonijo",
     email: "jonijo@example.com",
-    password: "User@123",
-    role: UserRole.USER,
   },
   {
     username: "jasper",
     email: "jasper@example.com",
-    password: "User@123",
-    role: UserRole.USER,
+  },
+  {
+    username: "cheeeks",
+    email: "cheeeks@example.com",
+  },
+  {
+    username: "coastal",
+    email: "coastal@example.com",
   },
   {
     username: "samsung",
     email: "samsung@example.com",
-    password: "User@123",
-    role: UserRole.USER,
+  },
+  {
+    username: "league",
+    email: "league@example.com",
   },
   {
     username: "memosa",
     email: "memosa@example.com",
-    password: "User@123",
-    role: UserRole.USER,
   },
   {
     username: "kidumu",
     email: "kidumu@example.com",
-    password: "User@123",
-    role: UserRole.USER,
   },
   {
     username: "neema-j",
     email: "neema-j@example.com",
-    password: "User@123",
-    role: UserRole.USER,
   },
   {
     username: "chapio",
     email: "chapio@example.com",
-    password: "User@123",
-    role: UserRole.USER,
-  },
-  {
-    username: "admin",
-    email: "admin@example.com",
-    password: "Expo@123",
-    role: UserRole.ADMIN,
   },
   {
     username: "lolomike",
     email: "lolomike@example.com",
-    password: "User@123",
-    role: UserRole.USER,
   },
   {
     username: "futuhi",
     email: "futuhi@example.com",
-    password: "User@123",
-    role: UserRole.USER,
+  },
+  {
+    username: "boriti",
+    email: "boriti@example.com",
+  },
+  {
+    username: "eukae",
+    email: "eukae@example.com",
   },
 ];
