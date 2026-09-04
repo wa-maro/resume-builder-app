@@ -27,7 +27,6 @@ resumeRouter
   .get("/", tryCatch(getMyResume, "getMyResume"))
   .patch(
     "/:resumeId",
-    resumeUpload.single("avatar"),
     validate({ params: paramsWithIDsSchema, body: editResumeBodySchema }),
     tryCatch(editMyResume, "editMyResume"),
   )

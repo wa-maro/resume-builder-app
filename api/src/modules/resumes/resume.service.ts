@@ -120,16 +120,10 @@ export async function editResumeForUser(
     throw new NotFoundError("Resume doesn't exist");
   }
 
-  const oldAvatar = existingResume.avatar;
-
   const resume = await updateForUser(userId, resumeId, data);
 
   if (!resume) {
     throw new NotFoundError("Resume doesn't exist");
-  }
-
-  if (data.avatar && oldAvatar) {
-    await deleteUpload(oldAvatar, UploadFolder.RESUMES);
   }
 
   return new ResumeResponseDto(resume);

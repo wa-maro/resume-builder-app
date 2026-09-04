@@ -37,10 +37,6 @@ export async function editMyResume(req: Request, res: Response) {
   const { resumeId } = req.params;
   const data: UpdateResumeDto = req.body;
 
-  if (req.file) {
-    data.avatar = req.file.filename;
-  }
-
   if (typeof resumeId !== "string") {
     throw new BadRequestError();
   }

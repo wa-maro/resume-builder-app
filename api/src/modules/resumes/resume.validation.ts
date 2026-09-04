@@ -86,4 +86,8 @@ export const editResumeBodySchema = Joi.object({
   })
     .min(1)
     .optional(),
-});
+})
+  .min(1)
+  .messages({
+    "object.min": "At least one field must be provided for update.",
+  });
