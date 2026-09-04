@@ -1,4 +1,5 @@
 import express from "express";
+import type { NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import helmet from "helmet";
@@ -6,11 +7,10 @@ import { httpLogger } from "./shared/utils/loggers.util.js";
 import errorHandler from "./http/middlewares/error-handler.middleware.js";
 import { envConfig } from "./config/env.js";
 import appRouter from "./http/routes/app.routes.js";
-import { uploadsDir } from "./shared/utils/upload.util.js";
 
 const app = express();
 
-app.use((req, _res, next) => {
+app.use((req: Request, _res: Response, next: NextFunction) => {
   httpLogger.http(`${req.method} ${req.url}`);
 
   next();
@@ -34,8 +34,6 @@ app.use(
 app.use(express.json());
 
 app.use(cookieParser());
-
-app.use("/uploads", express.static(uploadsDir));
 
 app.use("/api/v1", appRouter);
 
