@@ -1,6 +1,6 @@
+import { Request, Response } from "express";
 import { BadRequestError } from "@shared/errors";
 import { SortOrderDto } from "@shared/types";
-import { Request, Response } from "express";
 import {
   editPersonalInfoById,
   getPersonalInfoForAdmin,

@@ -1,7 +1,7 @@
+import type { NextFunction, Request, Response } from "express";
 import { envConfig } from "@config";
 import { AppError, ValidationError } from "@shared/errors";
 import { errorLogger } from "@shared/utils";
-import type { NextFunction, Request, Response } from "express";
 
 export const errorHandler = (
   error: unknown,

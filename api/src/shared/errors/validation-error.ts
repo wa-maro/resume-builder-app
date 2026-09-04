@@ -1,5 +1,5 @@
-import { AppError } from "./app-error.js";
 import Joi from "joi";
+import { AppError } from "./app-error.js";
 
 export class ValidationError extends AppError {
   public readonly details: Joi.ValidationErrorItem[];

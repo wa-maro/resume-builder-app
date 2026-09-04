@@ -1,5 +1,5 @@
-import { envConfig } from "@config";
 import jwt from "jsonwebtoken";
+import { envConfig } from "@config";
 import { AuthUser } from "../../modules/auth/auth.types.js";
 import { JwtPayload } from "./jwt-token.types.js";
 

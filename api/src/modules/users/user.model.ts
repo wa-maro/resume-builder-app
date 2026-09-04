@@ -1,5 +1,5 @@
-import { UserRole, UserWithCredential } from "@users/types";
 import { model, Schema, type HydratedDocument } from "mongoose";
+import { UserRole, UserWithCredential } from "@users/types";
 
 export type UserDocument = HydratedDocument<UserWithCredential>;
 

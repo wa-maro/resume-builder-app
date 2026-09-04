@@ -1,6 +1,6 @@
+import type { RequestHandler } from "express";
 import { ValidationError } from "@shared/errors";
 import { ValidateOptions } from "@shared/types";
-import type { RequestHandler } from "express";
 
 export const validate = <
   TBody = unknown,

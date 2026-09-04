@@ -1,6 +1,6 @@
+import type { Request, Response } from "express";
 import { SortOrderDto } from "@shared/types";
 import { BadRequestError } from "@shared/errors";
-import type { Request, Response } from "express";
 import {
   ResumeQueryDto,
   ResumeSortField,

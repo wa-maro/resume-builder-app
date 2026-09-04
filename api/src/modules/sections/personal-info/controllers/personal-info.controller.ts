@@ -1,5 +1,5 @@
-import { BadRequestError } from "@shared/errors";
 import type { Request, Response } from "express";
+import { BadRequestError } from "@shared/errors";
 import {
   addPersonalInfo,
   editPersonalInfoByResume,

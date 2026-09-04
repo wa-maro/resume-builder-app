@@ -1,7 +1,7 @@
+import type { NextFunction, Request, Response } from "express";
 import { UnauthorizedError } from "@shared/errors";
 import { verifyToken } from "@security/jwt-token";
 import { findUserById } from "@users/services";
-import type { NextFunction, Request, Response } from "express";
 
 export const authenticate = async (
   req: Request,
