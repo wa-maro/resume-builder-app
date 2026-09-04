@@ -6,7 +6,7 @@ type ControllerFunction = (
   next: NextFunction,
 ) => Promise<Response<any, Record<string, any>> | void>;
 
-const tryCatch = (
+export const tryCatch = (
   controllerFunc: ControllerFunction,
   controllerName = "UnnamedController",
 ): RequestHandler => {
@@ -22,5 +22,3 @@ const tryCatch = (
     }
   };
 };
-
-export default tryCatch;

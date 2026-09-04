@@ -1,8 +1,5 @@
+import { AppError, ConflictError, NotFoundError } from "@shared/errors";
 import { Types } from "mongoose";
-import {
-  ConflictError,
-  NotFoundError,
-} from "../../../shared/errors/http-errors.js";
 import { findResumeById } from "../../resumes/resume.service.js";
 import {
   createForResume,
@@ -22,7 +19,6 @@ import {
   PersonalInfoRepoQueryOptions,
   PersonalInfoResponseDto,
 } from "./personal-info.types.js";
-import { AppError } from "../../../shared/errors/app-error.js";
 
 export async function addPersonalInfo(
   resumeId: string,

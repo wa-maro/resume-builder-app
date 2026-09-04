@@ -1,8 +1,5 @@
+import { QueryOptions, RepositoryQueryOptions } from "@shared/types";
 import { Types } from "mongoose";
-import {
-  QueryOptions,
-  RepositoryQueryOptions,
-} from "../../shared/types/query-options.js";
 import { ResumeDocument } from "./resume.model.js";
 import { UserMinimalResponseDto } from "../users/user.types.js";
 

@@ -1,6 +1,7 @@
+import { tryCatch } from "@shared/utils";
+import { paramsWithIDsSchema } from "@shared/validators";
 import { Router } from "express";
 import validate from "../../../http/middlewares/validation.middleware.js";
-import tryCatch from "../../../shared/utils/try-catch.util.js";
 import {
   getResumes,
   getResume,
@@ -12,7 +13,6 @@ import {
   editResumeBodySchema,
   ResumesQuerySchema,
 } from "../resume.validation.js";
-import { paramsWithIDsSchema } from "../../../shared/validators/params-with-id.js";
 
 const resumesAdminRouter = Router();
 

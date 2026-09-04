@@ -1,4 +1,4 @@
-import { createUpload, UploadFolder } from "../../shared/utils/upload.util.js";
+import { createUpload, UploadFolder } from "@shared/utils";
 
 export const RESUME_AVATAR_MIME_TYPES = [
   "image/jpeg",

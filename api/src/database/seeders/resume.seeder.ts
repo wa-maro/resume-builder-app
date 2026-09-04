@@ -1,7 +1,7 @@
+import { errorLogger, infoLogger } from "@shared/utils";
 import ResumeModel from "../../modules/resumes/resume.model.js";
 import UserModel from "../../modules/users/user.model.js";
 import { UserRole } from "../../modules/users/user.types.js";
-import { infoLogger } from "../../shared/utils/loggers.util.js";
 import resumes from "./data/resumes.js";
 
 export async function resumeSeeder() {
@@ -12,12 +12,12 @@ export async function resumeSeeder() {
     .lean();
 
   if (users.length === 0) {
-    infoLogger.info("No users found. Resume seeding skipped.");
+    errorLogger.error("No users found. Resume seeding skipped.");
     return;
   }
 
   if (resumes.length === 0) {
-    infoLogger.info("No resumes found. Resume seeding skipped.");
+    errorLogger.error("No resumes found. Resume seeding skipped.");
     return;
   }
 

@@ -1,3 +1,5 @@
+import { BadRequestError } from "@shared/errors";
+import { UploadFolder, uploadsDir } from "@shared/utils";
 import path from "node:path";
 import type { Request, Response } from "express";
 import {
@@ -8,9 +10,7 @@ import {
   removeResumeForUser,
   changeResumeAvatarForUser,
 } from "../resume.service.js";
-import { BadRequestError } from "../../../shared/errors/http-errors.js";
 import { CreateResumeDto, UpdateResumeDto } from "../resume.types.js";
-import { UploadFolder, uploadsDir } from "../../../shared/utils/upload.util.js";
 
 export async function createMyResume(req: Request, res: Response) {
   const { id } = req.user;

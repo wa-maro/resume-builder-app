@@ -1,5 +1,5 @@
+import { UnauthorizedError } from "@shared/errors";
 import type { NextFunction, Request, Response } from "express";
-import { UnauthorizedError } from "../../shared/errors/http-errors.js";
 import { verifyToken } from "../../security/jwt-token/jwt-token.service.js";
 import { findUserById } from "../../modules/users/user.service.js";
 

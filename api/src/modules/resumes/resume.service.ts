@@ -1,3 +1,5 @@
+import { ConflictError, NotFoundError } from "@shared/errors";
+import { deleteUpload, UploadFolder } from "@shared/utils";
 import {
   CreateResumeDto,
   ResumeQueryDto,
@@ -19,11 +21,6 @@ import {
   updatebyId,
   updateForUser,
 } from "./resume.repository.js";
-import {
-  ConflictError,
-  NotFoundError,
-} from "../../shared/errors/http-errors.js";
-import { deleteUpload, UploadFolder } from "../../shared/utils/upload.util.js";
 
 export async function createResume(userId: string, data: CreateResumeDto) {
   const existingResume = await findByUserId(userId);

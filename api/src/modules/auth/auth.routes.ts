@@ -1,7 +1,7 @@
+import { tryCatch } from "@shared/utils";
 import { Router } from "express";
 import validate from "../../http/middlewares/validation.middleware.js";
 import authenticate from "../../http/middlewares/authenticate.middleware.js";
-import tryCatch from "../../shared/utils/try-catch.util.js";
 import {
   loginBodySchema,
   registerBodySchema,

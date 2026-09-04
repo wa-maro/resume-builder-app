@@ -1,7 +1,7 @@
 import { envConfig } from "@config";
 import { connectDatabase } from "@database";
+import { infoLogger } from "@shared/utils";
 import app from "./app.js";
-import { infoLogger } from "./shared/utils/loggers.util.js";
 
 async function bootstrap() {
   const PORT = envConfig.port;

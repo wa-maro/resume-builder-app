@@ -16,7 +16,11 @@
 
     "paths": {
       "@config": ["./src/config/index.ts"],
-      "@database": ["./src/database/index.ts"]
+      "@database": ["./src/database/index.ts"],
+      "@shared/errors": ["./src/shared/errors/index.ts"],
+      "@shared/types": ["./src/shared/types/index.ts"],
+      "@shared/utils": ["./src/shared/utils/index.ts"],
+      "@shared/validators": ["./src/shared/validators/index.ts"]
     },
 
     "skipLibCheck": true

@@ -1,6 +1,6 @@
 import { envConfig } from "@config";
+import { infoLogger } from "@shared/utils";
 import mongoose from "mongoose";
-import { infoLogger } from "../shared/utils/loggers.util.js";
 
 export async function connectDatabase(): Promise<void> {
   if (!envConfig.mongodbUri) {

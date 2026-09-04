@@ -1,12 +1,9 @@
+import { NotFoundError, UnauthorizedError } from "@shared/errors";
 import { generateToken } from "../../security/jwt-token/jwt-token.service.js";
 import {
   compareHash,
   doHash,
 } from "../../security/password/password.service.js";
-import {
-  NotFoundError,
-  UnauthorizedError,
-} from "../../shared/errors/http-errors.js";
 import {
   createUser,
   checkEmailExist,

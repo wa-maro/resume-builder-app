@@ -1,8 +1,8 @@
 import { envConfig } from "@config";
+import { AppError } from "@shared/errors";
+import { ValidationError } from "@shared/errors";
+import { errorLogger } from "@shared/utils";
 import type { NextFunction, Request, Response } from "express";
-import { AppError } from "../../shared/errors/app-error.js";
-import { ValidationError } from "../../shared/errors/validation-error.js";
-import { errorLogger } from "../../shared/utils/loggers.util.js";
 
 const errorHandler = (
   error: unknown,

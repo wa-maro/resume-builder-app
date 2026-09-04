@@ -1,4 +1,4 @@
-import { errorLogger, infoLogger } from "../shared/utils/loggers.util.js";
+import { errorLogger, infoLogger } from "@shared/utils";
 import { connectDatabase, disconnectDatabase } from "./connection.js";
 import { resumeSeeder } from "./seeders/resume.seeder.js";
 import { seedUsers } from "./seeders/user.seeder.js";

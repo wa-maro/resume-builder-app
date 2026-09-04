@@ -1,10 +1,11 @@
+import { SortOrderDto } from "@shared/types";
+import { BadRequestError } from "@shared/errors";
 import type { Request, Response } from "express";
 import {
   ResumeQueryDto,
   ResumeSortField,
   UpdateResumeDto,
 } from "../resume.types.js";
-import { SortOrderDto } from "../../../shared/types/query-options.js";
 import {
   editResumeById,
   findResumeById,
@@ -12,7 +13,6 @@ import {
   removeResumeById,
   toggleResumeStatusById,
 } from "../resume.service.js";
-import { BadRequestError } from "../../../shared/errors/http-errors.js";
 
 export async function getResumes(req: Request, res: Response) {
   const { page, limit, sort, sortOrder, search, isActive } = req.query;

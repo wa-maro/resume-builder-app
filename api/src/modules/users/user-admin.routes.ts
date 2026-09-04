@@ -1,5 +1,6 @@
+import { tryCatch } from "@shared/utils";
+import { paramsWithIDsSchema } from "@shared/validators";
 import { Router } from "express";
-import tryCatch from "../../shared/utils/try-catch.util.js";
 import {
   createUser,
   deleteUser,
@@ -14,7 +15,6 @@ import {
   UserQuerySchema,
 } from "./user.validation.js";
 import validate from "../../http/middlewares/validation.middleware.js";
-import { paramsWithIDsSchema } from "../../shared/validators/params-with-id.js";
 
 const usersAdminRouter = Router();
 

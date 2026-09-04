@@ -1,11 +1,11 @@
+import { errorLogger, infoLogger } from "@shared/utils";
 import UserModel from "../../modules/users/user.model.js";
 import { doHash } from "../../security/password/password.service.js";
-import { infoLogger } from "../../shared/utils/loggers.util.js";
 import users from "./data/users.js";
 
 export async function seedUsers() {
   if (users.length === 0) {
-    infoLogger.info("No users found. User seeding skipped.");
+    errorLogger.error("No users found. User seeding skipped.");
     return;
   }
 
