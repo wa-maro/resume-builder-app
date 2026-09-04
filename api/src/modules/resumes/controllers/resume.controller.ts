@@ -4,8 +4,9 @@ import {
   createResume,
   editResumeForUser,
   findResumeByUserId,
-  findResumeForUser,
+  findResumeAvatarForUser,
   removeResumeForUser,
+  changeResumeAvatarForUser,
 } from "../resume.service.js";
 import { BadRequestError } from "../../../shared/errors/http-errors.js";
 import { CreateResumeDto, UpdateResumeDto } from "../resume.types.js";
@@ -73,9 +74,30 @@ export async function getMyResumeAvatar(req: Request, res: Response) {
     throw new BadRequestError();
   }
 
-  const avatar = await findResumeForUser(userId, resumeId);
+  const avatar = await findResumeAvatarForUser(userId, resumeId);
 
   const filePath = path.join(uploadsDir, UploadFolder.RESUMES, avatar);
 
   return res.sendFile(filePath);
+}
+
+export async function changeMyResumeAvatar(req: Request, res: Response) {
+  const { id: userId } = req.user;
+  const { resumeId } = req.params;
+
+  if (typeof resumeId !== "string") {
+    throw new BadRequestError();
+  }
+
+  const resume = await changeResumeAvatarForUser(
+    userId,
+    resumeId,
+    req.file!.filename,
+  );
+
+  return res.status(200).json({
+    success: true,
+    message: "Avatar updated successfully",
+    data: resume,
+  });
 }

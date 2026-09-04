@@ -1,6 +1,7 @@
 import { Router } from "express";
 import tryCatch from "../../../shared/utils/try-catch.util.js";
 import {
+  changeMyResumeAvatar,
   createMyResume,
   deleteMyResume,
   editMyResume,
@@ -15,6 +16,7 @@ import {
 import { paramsWithIDsSchema } from "../../../shared/validators/params-with-id.js";
 import personalInfoRouter from "../../sections/personal-info/routes/personal-info.routes.js";
 import { resumeUpload } from "../resume-upload.js";
+import requireFile from "../../../http/middlewares/require-file.middleware.js";
 
 const resumeRouter = Router();
 
@@ -39,6 +41,13 @@ resumeRouter
     "/:resumeId/avatar",
     validate({ params: paramsWithIDsSchema }),
     tryCatch(getMyResumeAvatar, "getMyResumeAvatar"),
+  )
+  .patch(
+    "/:resumeId/avatar",
+    resumeUpload.single("avatar"),
+    requireFile("avatar"),
+    validate({ params: paramsWithIDsSchema }),
+    tryCatch(changeMyResumeAvatar, "changeMyResumeAvatar"),
   );
 
 resumeRouter.use("/:resumeId/personal-information", personalInfoRouter);

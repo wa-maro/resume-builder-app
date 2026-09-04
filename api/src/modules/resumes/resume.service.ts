@@ -163,7 +163,10 @@ export async function hasResumeForUser(userId: string): Promise<boolean> {
   return Boolean(await existsByUserId(userId));
 }
 
-export async function findResumeForUser(userId: string, resumeId: string) {
+export async function findResumeAvatarForUser(
+  userId: string,
+  resumeId: string,
+) {
   const resume = await findForUser(userId, resumeId);
 
   if (!resume) {
@@ -175,4 +178,32 @@ export async function findResumeForUser(userId: string, resumeId: string) {
   }
 
   return resume.avatar;
+}
+
+export async function changeResumeAvatarForUser(
+  userId: string,
+  resumeId: string,
+  filename: string,
+) {
+  const existingResume = await findForUser(userId, resumeId);
+
+  if (!existingResume) {
+    throw new NotFoundError("Resume doesn't exist");
+  }
+
+  const oldAvatar = existingResume.avatar;
+
+  const resume = await updateForUser(userId, resumeId, {
+    avatar: filename,
+  });
+
+  if (!resume) {
+    throw new NotFoundError("Resume doesn't exist");
+  }
+
+  if (oldAvatar) {
+    await deleteUpload(oldAvatar, UploadFolder.RESUMES);
+  }
+
+  return new ResumeResponseDto(resume);
 }
