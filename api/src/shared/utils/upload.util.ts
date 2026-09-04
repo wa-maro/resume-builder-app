@@ -57,4 +57,10 @@ export const createUpload = (
   });
 };
 
-export default createUpload;
+export async function deleteUpload(filename: string, folder?: UploadFolder) {
+  const filePath = folder
+    ? path.join(uploadsDir, folder, filename)
+    : path.join(uploadsDir, filename);
+
+  await fs.promises.unlink(filePath);
+}
