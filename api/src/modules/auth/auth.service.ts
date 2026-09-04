@@ -8,8 +8,8 @@ import {
   checkUsernameExist,
   findUserByUsernameOrEmail,
   updateUserProfileById,
-} from "../users/user.service.js";
-import { UpdateUserDto, UserResponseDto } from "../users/user.types.js";
+} from "@users/services";
+import { UpdateUserDto, UserResponseDto } from "@users/types";
 import {
   AuthResponse,
   AuthUser,

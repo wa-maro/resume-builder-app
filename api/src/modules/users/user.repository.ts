@@ -1,4 +1,3 @@
-import UserModel from "./user.model.js";
 import {
   CreateUserAdminDto,
   CreateUserDto,
@@ -6,7 +5,8 @@ import {
   UpdateUserDto,
   UserFilter,
   UserRepoQueryOptions,
-} from "./user.types.js";
+} from "@users/types";
+import UserModel from "./user.model.js";
 
 export async function findAll(query: UserRepoQueryOptions) {
   const {

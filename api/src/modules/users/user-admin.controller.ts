@@ -1,6 +1,5 @@
 import { SortOrderDto } from "@shared/types";
 import { BadRequestError } from "@shared/errors";
-import type { Request, Response } from "express";
 import {
   createUserForAdmin,
   deleteUserByIdForAdmin,
@@ -8,14 +7,15 @@ import {
   findUsers,
   toggleUserStatusById,
   updateUserByIdForAdmin,
-} from "./user.service.js";
+} from "@users/services";
 import {
   CreateUserInputAdmin,
   UpdateUserInputAdmin,
   UserQueryDto,
   UserRole,
   UserSortField,
-} from "./user.types.js";
+} from "@users/types";
+import type { Request, Response } from "express";
 
 export async function createUser(req: Request, res: Response) {
   const data: CreateUserInputAdmin = req.body;

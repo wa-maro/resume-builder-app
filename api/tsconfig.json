@@ -24,7 +24,11 @@
       "@shared/utils": ["./src/shared/utils/index.ts"],
       "@shared/validators": ["./src/shared/validators/index.ts"],
       "@http/middlewares": ["./src/http/middlewares/index.ts"],
-      "@http/routes": ["./src/http/routes/index.ts"]
+      "@http/routes": ["./src/http/routes/index.ts"],
+      "@users": ["./src/modules/users/index.ts"],
+      "@users/routes": ["./src/modules/users/routes/index.ts"],
+      "@users/services": ["./src/modules/users/services/index.ts"],
+      "@users/types": ["./src/modules/users/types/index.ts"]
     },
 
     "skipLibCheck": true

@@ -9,12 +9,12 @@ import {
   getUser,
   getUsers,
   toggleUserStatus,
-} from "./user-admin.controller.js";
+} from "../user-admin.controller.js";
 import {
   createUserAdminBodySchema,
   editUserAdminBodySchema,
   UserQuerySchema,
-} from "./user.validation.js";
+} from "../user.validation.js";
 
 const usersAdminRouter = Router();
 
@@ -50,4 +50,4 @@ usersAdminRouter
     tryCatch(toggleUserStatus, "toggleUserStatus"),
   );
 
-export default usersAdminRouter;
+export { usersAdminRouter };

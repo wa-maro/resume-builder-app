@@ -1,5 +1,5 @@
+import { UserRole, UserWithCredential } from "@users/types";
 import { model, Schema, type HydratedDocument } from "mongoose";
-import { UserRole, UserWithCredential } from "./user.types.js";
 
 export type UserDocument = HydratedDocument<UserWithCredential>;
 
@@ -56,6 +56,4 @@ UserSchema.virtual("resume", {
   justOne: true,
 });
 
-const UserModel = model<UserWithCredential>("User", UserSchema);
-
-export default UserModel;
+export const UserModel = model<UserWithCredential>("User", UserSchema);

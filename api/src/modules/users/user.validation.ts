@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { UserRole } from "./user.types.js";
+import { UserRole } from "@users/types";
 
 export const UserQuerySchema = Joi.object({
   page: Joi.number().integer().min(1).messages({

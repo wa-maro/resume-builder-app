@@ -1,7 +1,7 @@
 import { errorLogger, infoLogger } from "@shared/utils";
+import { UserModel } from "@users";
+import { UserRole } from "@users/types";
 import ResumeModel from "../../modules/resumes/resume.model.js";
-import UserModel from "../../modules/users/user.model.js";
-import { UserRole } from "../../modules/users/user.types.js";
 import resumes from "./data/resumes.js";
 
 export async function resumeSeeder() {

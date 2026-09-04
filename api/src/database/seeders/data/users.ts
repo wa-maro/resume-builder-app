@@ -1,4 +1,4 @@
-import { UserRole } from "../../../modules/users/user.types.js";
+import { UserRole } from "@users/types";
 
 export default [
   {

@@ -1,6 +1,6 @@
 import { ConflictError, NotFoundError } from "@shared/errors";
 import { doHash } from "@security/password";
-import { hasResumeForUser } from "../resumes/resume.service.js";
+import { hasResumeForUser } from "../../resumes/resume.service.js";
 import {
   create,
   findAll,
@@ -14,7 +14,7 @@ import {
   createForAdmin,
   deleteByIdForAdmin,
   toggleStatusById,
-} from "./user.repository.js";
+} from "../user.repository.js";
 import {
   CreateUserDto,
   CreateUserInputAdmin,
@@ -25,7 +25,7 @@ import {
   UserRepoQueryOptions,
   UserResponseDto,
   UserRole,
-} from "./user.types.js";
+} from "../types/user.types.js";
 
 export async function findUsers(query: UserQueryDto) {
   const {
