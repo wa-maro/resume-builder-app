@@ -10,6 +10,7 @@
     "start": "node dist/main.js",
     "db:seed": "tsx src/database/seed.ts",
     "db:reset": "tsx src/database/reset.ts",
+    "db:refresh": "tsx src/database/refresh.ts",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
