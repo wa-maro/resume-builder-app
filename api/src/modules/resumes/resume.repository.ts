@@ -74,6 +74,13 @@ export async function findByUserId(userId: string) {
     .exec();
 }
 
+export async function findForUser(userId: string, id: string) {
+  return ResumeModel.findOne({
+    _id: id,
+    user: userId,
+  }).exec();
+}
+
 export async function updatebyId(id: string, data: UpdateResumeDto) {
   return ResumeModel.findByIdAndUpdate(id, data, {
     returnDocument: "after",
@@ -97,14 +104,14 @@ export async function updateForUser(
 }
 
 export async function deleteById(id: string) {
-  return ResumeModel.findByIdAndDelete(id);
+  return ResumeModel.findByIdAndDelete(id).exec();
 }
 
 export async function deleteForUser(userId: string, resumeId: string) {
   return ResumeModel.findOneAndDelete({
     _id: resumeId,
     user: userId,
-  });
+  }).exec();
 }
 
 export async function toggleStatusById(resumeId: string) {
@@ -115,9 +122,9 @@ export async function toggleStatusById(resumeId: string) {
       returnDocument: "after",
       updatePipeline: true,
     },
-  );
+  ).exec();
 }
 
 export async function existsByUserId(userId: string) {
-  return ResumeModel.exists({ user: userId });
+  return ResumeModel.exists({ user: userId }).exec();
 }
