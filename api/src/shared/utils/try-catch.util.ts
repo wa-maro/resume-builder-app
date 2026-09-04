@@ -4,7 +4,7 @@ type ControllerFunction = (
   req: Request,
   res: Response,
   next: NextFunction,
-) => Promise<Response<any, Record<string, any>>>;
+) => Promise<Response<any, Record<string, any>> | void>;
 
 const tryCatch = (
   controllerFunc: ControllerFunction,

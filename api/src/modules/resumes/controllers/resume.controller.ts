@@ -1,12 +1,15 @@
+import path from "node:path";
 import type { Request, Response } from "express";
 import {
   createResume,
   editResumeForUser,
   findResumeByUserId,
+  findResumeForUser,
   removeResumeForUser,
 } from "../resume.service.js";
 import { BadRequestError } from "../../../shared/errors/http-errors.js";
 import { CreateResumeDto, UpdateResumeDto } from "../resume.types.js";
+import { UploadFolder, uploadsDir } from "../../../shared/utils/upload.util.js";
 
 export async function createMyResume(req: Request, res: Response) {
   const { id } = req.user;
@@ -64,4 +67,19 @@ export async function deleteMyResume(req: Request, res: Response) {
     message: "Resume deleted successfully",
     data: null,
   });
+}
+
+export async function getMyResumeAvatar(req: Request, res: Response) {
+  const { id: userId } = req.user;
+  const { resumeId } = req.params;
+
+  if (typeof resumeId !== "string") {
+    throw new BadRequestError();
+  }
+
+  const avatar = await findResumeForUser(userId, resumeId);
+
+  const filePath = path.join(uploadsDir, UploadFolder.RESUMES, avatar);
+
+  return res.sendFile(filePath);
 }

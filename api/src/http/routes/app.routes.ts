@@ -1,19 +1,16 @@
-import express, { Router } from "express";
+import { Router } from "express";
 import adminRouter from "./admin.routes.js";
 import authRouter from "../../modules/auth/auth.routes.js";
 import userRouter from "./user.routes.js";
 import authenticate from "../middlewares/authenticate.middleware.js";
 import authorize from "../middlewares/authorize.middleware.js";
 import { UserRole } from "../../modules/users/user.types.js";
-import { uploadsDir } from "../../shared/utils/upload.util.js";
 
 const appRouter = Router();
 
 appRouter.use("/admin", authenticate, authorize(UserRole.ADMIN), adminRouter);
 
 appRouter.use("/auth", authRouter);
-
-appRouter.use("/uploads", express.static(uploadsDir));
 
 appRouter.use("", authenticate, authorize(UserRole.USER), userRouter);
 

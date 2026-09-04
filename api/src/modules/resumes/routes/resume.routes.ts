@@ -5,6 +5,7 @@ import {
   deleteMyResume,
   editMyResume,
   getMyResume,
+  getMyResumeAvatar,
 } from "../controllers/resume.controller.js";
 import validate from "../../../http/middlewares/validation.middleware.js";
 import {
@@ -34,6 +35,11 @@ resumeRouter
     "/:resumeId",
     validate({ params: paramsWithIDsSchema }),
     tryCatch(deleteMyResume, "deleteMyResume"),
+  )
+  .get(
+    "/:resumeId/avatar",
+    validate({ params: paramsWithIDsSchema }),
+    tryCatch(getMyResumeAvatar, "getMyResumeAvatar"),
   );
 
 resumeRouter.use("/:resumeId/personal-information", personalInfoRouter);
