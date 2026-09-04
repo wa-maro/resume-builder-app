@@ -13,6 +13,7 @@ import {
   findAll,
   findById,
   findByUserId,
+  findForUser,
   getCount,
   toggleStatusById,
   updatebyId,
@@ -22,6 +23,7 @@ import {
   ConflictError,
   NotFoundError,
 } from "../../shared/errors/http-errors.js";
+import { deleteUpload, UploadFolder } from "../../shared/utils/upload.util.js";
 
 export async function createResume(userId: string, data: CreateResumeDto) {
   const existingResume = await findByUserId(userId);
@@ -112,10 +114,22 @@ export async function editResumeForUser(
   resumeId: string,
   data: UpdateResumeDto,
 ) {
+  const existingResume = await findForUser(userId, resumeId);
+
+  if (!existingResume) {
+    throw new NotFoundError("Resume doesn't exist");
+  }
+
+  const oldAvatar = existingResume.avatar;
+
   const resume = await updateForUser(userId, resumeId, data);
 
   if (!resume) {
     throw new NotFoundError("Resume doesn't exist");
+  }
+
+  if (data.avatar && oldAvatar) {
+    await deleteUpload(oldAvatar, UploadFolder.RESUMES);
   }
 
   return new ResumeResponseDto(resume);
