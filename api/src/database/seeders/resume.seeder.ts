@@ -4,7 +4,7 @@ import { UserRole } from "@users/types";
 import { ResumeModel } from "@resumes";
 import resumes from "./data/resumes.js";
 
-export async function resumeSeeder() {
+export async function seedResumes() {
   const users = await UserModel.find()
     .select("_id")
     .where("role")
