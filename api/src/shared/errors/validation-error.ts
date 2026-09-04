@@ -10,3 +10,9 @@ export class ValidationError extends AppError {
     this.details = details;
   }
 }
+
+export class FileRequiredError extends AppError {
+  constructor(message = "File is required") {
+    super(message, 400);
+  }
+}
