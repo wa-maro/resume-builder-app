@@ -1,10 +1,10 @@
-import { envConfig } from "@config";
-import { httpLogger } from "@shared/utils";
 import express from "express";
 import type { NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import helmet from "helmet";
+import { envConfig } from "@config";
+import { httpLogger } from "@shared/utils";
 import { errorHandler } from "@http/middlewares";
 import { appRouter } from "@http/routes";
 

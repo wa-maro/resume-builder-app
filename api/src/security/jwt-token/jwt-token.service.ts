@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { envConfig } from "@config";
-import { AuthUser } from "../../modules/auth/auth.types.js";
+import { AuthUser } from "@auth";
 import { JwtPayload } from "./jwt-token.types.js";
 
 const JWT_SECRET = envConfig.jwtSecret;

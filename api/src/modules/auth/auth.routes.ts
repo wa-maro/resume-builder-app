@@ -30,4 +30,4 @@ authRouter
     tryCatch(updateUserProfile, "updateUserProfile"),
   );
 
-export default authRouter;
+export { authRouter };

@@ -1,9 +1,9 @@
+import { Router } from "express";
 import { authenticate, authorize } from "@http/middlewares";
 import { UserRole } from "@users/types";
-import { Router } from "express";
+import { authRouter } from "@auth";
 import { adminRouter } from "./admin.routes.js";
 import { userRouter } from "./user.routes.js";
-import authRouter from "../../modules/auth/auth.routes.js";
 
 const appRouter = Router();
 
