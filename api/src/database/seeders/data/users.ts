@@ -56,3 +56,14 @@ export const users = [
     email: "eukae@example.com",
   },
 ];
+
+export const admins = [
+  {
+    username: "admin",
+    email: "admin@example.com",
+  },
+  {
+    username: "expo",
+    email: "expo@example.com",
+  },
+];
