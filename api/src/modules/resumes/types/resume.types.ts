@@ -1,7 +1,7 @@
 import { QueryOptions, RepositoryQueryOptions } from "@shared/types";
-import { UserMinimalResponseDto } from "@users";
+import { UserMinimalResponseDto } from "@users/types";
+import { ResumeDocument } from "@resumes";
 import { Types } from "mongoose";
-import { ResumeDocument } from "./resume.model.js";
 
 export interface Declaration {
   statement: string;

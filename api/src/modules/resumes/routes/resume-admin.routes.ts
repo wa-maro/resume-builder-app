@@ -1,18 +1,15 @@
+import { Router } from "express";
 import { validate } from "@http/middlewares";
 import { tryCatch } from "@shared/utils";
 import { paramsWithIDsSchema } from "@shared/validators";
-import { Router } from "express";
 import {
   getResumes,
   getResume,
   editResume,
   deleteResume,
   toggleResumeStatus,
-} from "../controllers/resume-admin.controller.js";
-import {
-  editResumeBodySchema,
-  ResumesQuerySchema,
-} from "../resume.validation.js";
+} from "@resumes/controllers";
+import { editResumeBodySchema, ResumesQuerySchema } from "@resumes";
 
 const resumesAdminRouter = Router();
 
@@ -43,4 +40,4 @@ resumesAdminRouter
     tryCatch(toggleResumeStatus, "toggleResumeStatus"),
   );
 
-export default resumesAdminRouter;
+export { resumesAdminRouter };

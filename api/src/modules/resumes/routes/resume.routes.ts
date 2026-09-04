@@ -1,11 +1,8 @@
+import { Router } from "express";
 import { requireFile, validate } from "@http/middlewares";
 import { tryCatch } from "@shared/utils";
 import { paramsWithIDsSchema } from "@shared/validators";
-import { Router } from "express";
-import {
-  createResumeBodySchema,
-  editResumeBodySchema,
-} from "../resume.validation.js";
+import { createResumeBodySchema, editResumeBodySchema } from "@resumes";
 import {
   changeMyResumeAvatar,
   createMyResume,
@@ -13,8 +10,8 @@ import {
   editMyResume,
   getMyResume,
   getMyResumeAvatar,
-} from "../controllers/resume.controller.js";
-import { resumeUpload } from "../resume-upload.js";
+} from "@resumes/controllers";
+import { resumeUpload } from "@resumes";
 import personalInfoRouter from "../../sections/personal-info/routes/personal-info.routes.js";
 
 const resumeRouter = Router();
@@ -51,4 +48,4 @@ resumeRouter
 
 resumeRouter.use("/:resumeId/personal-information", personalInfoRouter);
 
-export default resumeRouter;
+export { resumeRouter };

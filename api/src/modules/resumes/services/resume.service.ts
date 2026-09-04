@@ -6,7 +6,7 @@ import {
   ResumeRepoQueryOptions,
   ResumeResponseDto,
   UpdateResumeDto,
-} from "./resume.types.js";
+} from "@resumes/types";
 import {
   createForUser,
   deleteById,
@@ -20,7 +20,7 @@ import {
   toggleStatusById,
   updatebyId,
   updateForUser,
-} from "./resume.repository.js";
+} from "@resumes";
 
 export async function createResume(userId: string, data: CreateResumeDto) {
   const existingResume = await findByUserId(userId);

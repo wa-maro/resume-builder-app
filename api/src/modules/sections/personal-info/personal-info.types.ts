@@ -1,10 +1,7 @@
-import { QueryOptions, RepositoryQueryOptions } from "@shared/types";
 import { Types } from "mongoose";
+import { QueryOptions, RepositoryQueryOptions } from "@shared/types";
+import { PopulateResume, ResumeMinimalResponseDto } from "@resumes/types";
 import { PersonalInfoDocument } from "./personal-info.model.js";
-import {
-  PopulateResume,
-  ResumeMinimalResponseDto,
-} from "../../resumes/resume.types.js";
 
 export enum Gender {
   MALE = "male",

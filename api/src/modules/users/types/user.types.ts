@@ -1,7 +1,7 @@
 import { QueryOptions, RepositoryQueryOptions } from "@shared/types";
 import { UserDocument } from "@users";
-import { ResumeDocument } from "../../resumes/resume.model.js";
-import { ResumeMinimalResponseDto } from "../../resumes/resume.types.js";
+import { ResumeDocument } from "@resumes";
+import { ResumeMinimalResponseDto } from "@resumes/types";
 
 export enum UserRole {
   ADMIN = "admin",

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { usersAdminRouter } from "@users/routes";
-import resumesAdminRouter from "../../modules/resumes/routes/resume-admin.routes.js";
+import { resumesAdminRouter } from "@resumes/routes";
 import personalInfoAdminRouter from "../../modules/sections/personal-info/routes/personal-info-admin.routes.js";
 
 const adminRouter = Router();

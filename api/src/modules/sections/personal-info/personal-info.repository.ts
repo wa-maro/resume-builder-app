@@ -1,4 +1,4 @@
-import { PopulatedResumeDocument } from "../../resumes/resume.types.js";
+import { PopulatedResumeDocument } from "@resumes/types";
 import PersonalInfoModel from "./personal-info.model.js";
 import {
   AddPersonalInfoInput,

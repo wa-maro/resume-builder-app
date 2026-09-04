@@ -6,7 +6,7 @@ import {
   UserFilter,
   UserRepoQueryOptions,
 } from "@users/types";
-import UserModel from "./user.model.js";
+import { UserModel } from "@users";
 
 export async function findAll(query: UserRepoQueryOptions) {
   const {

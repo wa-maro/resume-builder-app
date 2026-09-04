@@ -1,12 +1,12 @@
 import { Types } from "mongoose";
-import ResumeModel from "./resume.model.js";
+import { ResumeModel } from "@resumes";
 import {
   CreateResumeDto,
   ResumeFilter,
   ResumeRepoQueryOptions,
   ResumeUser,
   UpdateResumeDto,
-} from "./resume.types.js";
+} from "@resumes/types";
 
 export async function createForUser(userId: string, data: CreateResumeDto) {
   return ResumeModel.create({

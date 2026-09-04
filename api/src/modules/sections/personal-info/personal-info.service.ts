@@ -1,6 +1,6 @@
-import { AppError, ConflictError, NotFoundError } from "@shared/errors";
 import { Types } from "mongoose";
-import { findResumeById } from "../../resumes/resume.service.js";
+import { AppError, ConflictError, NotFoundError } from "@shared/errors";
+import { findResumeById } from "@resumes/services";
 import {
   createForResume,
   deleteById,

@@ -5,14 +5,14 @@ import {
   ResumeQueryDto,
   ResumeSortField,
   UpdateResumeDto,
-} from "../resume.types.js";
+} from "@resumes/types";
 import {
   editResumeById,
   findResumeById,
   findResumes,
   removeResumeById,
   toggleResumeStatusById,
-} from "../resume.service.js";
+} from "@resumes/services";
 
 export async function getResumes(req: Request, res: Response) {
   const { page, limit, sort, sortOrder, search, isActive } = req.query;

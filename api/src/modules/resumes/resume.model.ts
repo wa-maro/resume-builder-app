@@ -1,5 +1,5 @@
 import { Schema, model, type HydratedDocument } from "mongoose";
-import { BaseResume, Declaration } from "./resume.types.js";
+import { BaseResume, Declaration } from "@resumes/types";
 
 export type ResumeDocument = HydratedDocument<BaseResume>;
 
@@ -72,6 +72,4 @@ ResumeSchema.virtual("personalInfo", {
   justOne: true,
 });
 
-const ResumeModel = model<BaseResume>("Resume", ResumeSchema);
-
-export default ResumeModel;
+export const ResumeModel = model<BaseResume>("Resume", ResumeSchema);
