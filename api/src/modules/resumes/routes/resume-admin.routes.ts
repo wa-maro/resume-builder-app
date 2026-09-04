@@ -1,7 +1,7 @@
+import { validate } from "@http/middlewares";
 import { tryCatch } from "@shared/utils";
 import { paramsWithIDsSchema } from "@shared/validators";
 import { Router } from "express";
-import validate from "../../../http/middlewares/validation.middleware.js";
 import {
   getResumes,
   getResume,

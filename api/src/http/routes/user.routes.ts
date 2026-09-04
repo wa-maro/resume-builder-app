@@ -5,4 +5,4 @@ const userRouter = Router();
 
 userRouter.use("/resume", resumeRouter);
 
-export default userRouter;
+export { userRouter };

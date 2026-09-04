@@ -2,7 +2,7 @@ import { ValidationError } from "@shared/errors";
 import { ValidateOptions } from "@shared/types";
 import type { RequestHandler } from "express";
 
-const validate = <
+export const validate = <
   TBody = unknown,
   TParams = unknown,
   TQuery extends object = Record<string, unknown>,
@@ -63,5 +63,3 @@ const validate = <
     next();
   };
 };
-
-export default validate;

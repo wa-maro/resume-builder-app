@@ -1,3 +1,4 @@
+import { validate } from "@http/middlewares";
 import { tryCatch } from "@shared/utils";
 import { paramsWithIDsSchema } from "@shared/validators";
 import { Router } from "express";
@@ -7,7 +8,6 @@ import {
   getPersonalInfos,
   updatePersonalInfo,
 } from "../controllers/personal-info-admin.controller.js";
-import validate from "../../../../http/middlewares/validation.middleware.js";
 import {
   editPersonalInfoBodySchema,
   personalInfoQuerySchema,

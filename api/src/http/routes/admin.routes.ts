@@ -9,4 +9,4 @@ adminRouter.use("/users", usersAdminRouter);
 adminRouter.use("/resumes", resumesAdminRouter);
 adminRouter.use("/personal-informations", personalInfoAdminRouter);
 
-export default adminRouter;
+export { adminRouter };

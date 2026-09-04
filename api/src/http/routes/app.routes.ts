@@ -1,9 +1,8 @@
+import { authenticate, authorize } from "@http/middlewares";
 import { Router } from "express";
-import adminRouter from "./admin.routes.js";
+import { adminRouter } from "./admin.routes.js";
+import { userRouter } from "./user.routes.js";
 import authRouter from "../../modules/auth/auth.routes.js";
-import userRouter from "./user.routes.js";
-import authenticate from "../middlewares/authenticate.middleware.js";
-import authorize from "../middlewares/authorize.middleware.js";
 import { UserRole } from "../../modules/users/user.types.js";
 
 const appRouter = Router();
@@ -14,4 +13,4 @@ appRouter.use("/auth", authRouter);
 
 appRouter.use("", authenticate, authorize(UserRole.USER), userRouter);
 
-export default appRouter;
+export { appRouter };

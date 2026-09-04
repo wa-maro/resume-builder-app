@@ -1,10 +1,9 @@
 import { envConfig } from "@config";
-import { AppError } from "@shared/errors";
-import { ValidationError } from "@shared/errors";
+import { AppError, ValidationError } from "@shared/errors";
 import { errorLogger } from "@shared/utils";
 import type { NextFunction, Request, Response } from "express";
 
-const errorHandler = (
+export const errorHandler = (
   error: unknown,
   req: Request,
   res: Response,
@@ -56,5 +55,3 @@ const errorHandler = (
 
   res.status(statusCode).json(responseBody);
 };
-
-export default errorHandler;

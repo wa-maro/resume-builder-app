@@ -1,7 +1,6 @@
+import { authenticate, validate } from "@http/middlewares";
 import { tryCatch } from "@shared/utils";
 import { Router } from "express";
-import validate from "../../http/middlewares/validation.middleware.js";
-import authenticate from "../../http/middlewares/authenticate.middleware.js";
 import {
   loginBodySchema,
   registerBodySchema,

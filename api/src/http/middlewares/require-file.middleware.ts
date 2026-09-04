@@ -1,7 +1,7 @@
 import { FileRequiredError } from "@shared/errors";
 import type { NextFunction, Request, RequestHandler, Response } from "express";
 
-const requireFile = (fieldName: string): RequestHandler => {
+export const requireFile = (fieldName: string): RequestHandler => {
   return (req: Request, _res: Response, next: NextFunction) => {
     if (!req.file) {
       return next(new FileRequiredError(`File "${fieldName}" is required`));
@@ -10,5 +10,3 @@ const requireFile = (fieldName: string): RequestHandler => {
     next();
   };
 };
-
-export default requireFile;

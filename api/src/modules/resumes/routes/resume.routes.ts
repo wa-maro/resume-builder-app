@@ -1,5 +1,11 @@
+import { requireFile, validate } from "@http/middlewares";
+import { tryCatch } from "@shared/utils";
+import { paramsWithIDsSchema } from "@shared/validators";
 import { Router } from "express";
-import tryCatch from "../../../shared/utils/try-catch.util.js";
+import {
+  createResumeBodySchema,
+  editResumeBodySchema,
+} from "../resume.validation.js";
 import {
   changeMyResumeAvatar,
   createMyResume,
@@ -8,15 +14,8 @@ import {
   getMyResume,
   getMyResumeAvatar,
 } from "../controllers/resume.controller.js";
-import validate from "../../../http/middlewares/validation.middleware.js";
-import {
-  createResumeBodySchema,
-  editResumeBodySchema,
-} from "../resume.validation.js";
-import { paramsWithIDsSchema } from "../../../shared/validators/params-with-id.js";
-import personalInfoRouter from "../../sections/personal-info/routes/personal-info.routes.js";
 import { resumeUpload } from "../resume-upload.js";
-import requireFile from "../../../http/middlewares/require-file.middleware.js";
+import personalInfoRouter from "../../sections/personal-info/routes/personal-info.routes.js";
 
 const resumeRouter = Router();
 

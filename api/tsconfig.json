@@ -20,7 +20,9 @@
       "@shared/errors": ["./src/shared/errors/index.ts"],
       "@shared/types": ["./src/shared/types/index.ts"],
       "@shared/utils": ["./src/shared/utils/index.ts"],
-      "@shared/validators": ["./src/shared/validators/index.ts"]
+      "@shared/validators": ["./src/shared/validators/index.ts"],
+      "@http/middlewares": ["./src/http/middlewares/index.ts"],
+      "@http/routes": ["./src/http/routes/index.ts"]
     },
 
     "skipLibCheck": true

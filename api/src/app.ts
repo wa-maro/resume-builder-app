@@ -5,8 +5,8 @@ import type { NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import helmet from "helmet";
-import errorHandler from "./http/middlewares/error-handler.middleware.js";
-import appRouter from "./http/routes/app.routes.js";
+import { errorHandler } from "@http/middlewares";
+import { appRouter } from "@http/routes";
 
 const app = express();
 
