@@ -1,6 +1,6 @@
 import { envConfig } from "@config";
+import { connectDatabase } from "@database";
 import app from "./app.js";
-import { connectDatabase } from "./database/connection.js";
 import { infoLogger } from "./shared/utils/loggers.util.js";
 
 async function bootstrap() {
