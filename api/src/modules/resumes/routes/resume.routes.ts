@@ -13,6 +13,7 @@ import {
 } from "../resume.validation.js";
 import { paramsWithIDsSchema } from "../../../shared/validators/params-with-id.js";
 import personalInfoRouter from "../../sections/personal-info/routes/personal-info.routes.js";
+import { resumeUpload } from "../resume-upload.js";
 
 const resumeRouter = Router();
 
@@ -25,6 +26,7 @@ resumeRouter
   .get("/", tryCatch(getMyResume, "getMyResume"))
   .patch(
     "/:resumeId",
+    resumeUpload.single("avatar"),
     validate({ params: paramsWithIDsSchema, body: editResumeBodySchema }),
     tryCatch(editMyResume, "editMyResume"),
   )
