@@ -2,6 +2,14 @@ import "dotenv/config";
 import Joi from "joi";
 import { SignOptions } from "jsonwebtoken";
 
+interface SmtpConfigOptions {
+  host: string;
+  port: number;
+  secure: boolean;
+  user: string;
+  pass: string;
+}
+
 interface EnvConfig {
   mongodbUri: string;
   nodeEnv: "development" | "test" | "production";
@@ -10,6 +18,7 @@ interface EnvConfig {
   jwtSecret: string;
   jwtExpiration: NonNullable<SignOptions["expiresIn"]>;
   bcryptRounds: number;
+  smtpOptions: SmtpConfigOptions;
 }
 
 const schema = Joi.object({
@@ -35,6 +44,16 @@ const schema = Joi.object({
   JWT_EXPIRATION: Joi.string().required(),
 
   BCRYPT_ROUNDS: Joi.number().integer().min(10).max(15).default(12),
+
+  SMTP_HOST: Joi.string().hostname().required(),
+
+  SMTP_PORT: Joi.number().integer().min(1).max(65535).required(),
+
+  SMTP_SECURE: Joi.boolean().default(false).required(),
+
+  SMTP_USER: Joi.string().email().required(),
+
+  SMTP_PASS: Joi.string().min(1).required(),
 }).unknown();
 
 const config = {
@@ -61,4 +80,11 @@ export const envConfig: EnvConfig = {
   jwtSecret: value.JWT_SECRET,
   jwtExpiration: value.JWT_EXPIRATION,
   bcryptRounds: value.BCRYPT_ROUNDS,
+  smtpOptions: {
+    host: value.SMTP_HOST,
+    port: value.SMTP_PORT,
+    secure: value.SMTP_SECURE,
+    user: value.SMTP_USER,
+    pass: value.SMTP_PASS,
+  },
 };
