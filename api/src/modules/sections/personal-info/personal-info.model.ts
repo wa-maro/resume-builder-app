@@ -89,9 +89,7 @@ const PersonalInfoSchema = new Schema<PersonalInfo>(
   },
 );
 
-const PersonalInfoModel = model<PersonalInfo>(
+export const PersonalInfoModel = model<PersonalInfo>(
   "PersonalInformation",
   PersonalInfoSchema,
 );
-
-export { PersonalInfoModel };
