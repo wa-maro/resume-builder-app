@@ -55,7 +55,13 @@
       ],
       "@personal-info/routes": [
         "./src/modules/sections/personal-info/routes/index.ts"
-      ]
+      ],
+
+      "@messages": ["./src/modules/messages/index.ts"],
+      "@messages/controllers": ["./src/modules/messages/controllers/index.ts"],
+      "@messages/routes": ["./src/modules/messages/routes/index.ts"],
+      "@messages/services": ["./src/modules/messages/services/index.ts"],
+      "@messages/types": ["./src/modules/messages/types/index.ts"]
     },
 
     "skipLibCheck": true
