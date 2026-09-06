@@ -1,8 +1,17 @@
 import { tryCatch } from "@shared/utils";
 import { Router } from "express";
 import { validate } from "@http/middlewares";
-import { addFAQSchema, faqsQuerySchema } from "../faq.validation.js";
-import { createFAQAdmin, getFAQAdmin, getFAQsAdmin } from "@faqs/controllers";
+import {
+  addFAQSchema,
+  editFAQSchema,
+  faqsQuerySchema,
+} from "../faq.validation.js";
+import {
+  createFAQAdmin,
+  getFAQAdmin,
+  getFAQsAdmin,
+  updateFAQForAdmin,
+} from "@faqs/controllers";
 import { paramsWithIDsSchema } from "@shared/validators";
 
 const faqsAdminRouter = Router();
@@ -22,6 +31,14 @@ faqsAdminRouter
     "/:id",
     validate({ params: paramsWithIDsSchema }),
     tryCatch(getFAQAdmin, "getFAQAdmin"),
+  )
+  .patch(
+    "/:id",
+    validate({
+      params: paramsWithIDsSchema,
+      body: editFAQSchema,
+    }),
+    tryCatch(updateFAQForAdmin, "updateFAQForAdmin"),
   );
 
 export { faqsAdminRouter };

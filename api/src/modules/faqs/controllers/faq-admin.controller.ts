@@ -1,8 +1,13 @@
 import type { Request, Response } from "express";
-import { CreateFAQInput, FAQQueryDto, FAQSortField } from "@faqs/types";
+import {
+  CreateFAQInput,
+  FAQQueryDto,
+  FAQSortField,
+  UpdateFAQInput,
+} from "@faqs/types";
 import { createForAdmin } from "../faq.repository.js";
 import { SortOrderDto } from "@shared/types";
-import { findFAQById, findFAQs } from "@faqs/services";
+import { findFAQById, findFAQs, updateFAQById } from "@faqs/services";
 import { BadRequestError } from "@shared/errors";
 
 export async function createFAQAdmin(req: Request, res: Response) {
@@ -52,5 +57,20 @@ export async function getFAQAdmin(req: Request, res: Response) {
     success: true,
     message: "FAQ retrieved successfully",
     data: await findFAQById(id),
+  });
+}
+
+export async function updateFAQForAdmin(req: Request, res: Response) {
+  const { id } = req.params;
+  const data: UpdateFAQInput = req.body;
+
+  if (typeof id !== "string") {
+    throw new BadRequestError();
+  }
+
+  return res.status(200).json({
+    success: true,
+    message: "FAQ updated successfully",
+    data: await updateFAQById(id, data),
   });
 }
