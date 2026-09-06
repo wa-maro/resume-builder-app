@@ -4,7 +4,11 @@ import {
   MessageMinimalResponseDto,
   MessageResponseDto,
 } from "@messages/types";
-import { createForUser, findById } from "../message.repository.js";
+import {
+  createForUser,
+  deactivateById,
+  findById,
+} from "../message.repository.js";
 
 export async function createMessageForUser(data: CreateMessageInput) {
   const message = await createForUser(data);
@@ -22,3 +26,13 @@ export const getMessageById = async (id: string) => {
 
   return new MessageResponseDto(message);
 };
+
+export async function deactivateMessageById(id: string) {
+  const message = await deactivateById(id);
+
+  if (!message) {
+    throw new NotFoundError("Message not found");
+  }
+
+  return new MessageMinimalResponseDto(message._id.toString(), message.name);
+}

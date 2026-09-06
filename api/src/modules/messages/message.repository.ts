@@ -8,3 +8,14 @@ export async function createForUser(data: CreateMessageInput) {
 export async function findById(id: string) {
   return MessageModel.findById(id);
 }
+
+export async function deactivateById(id: string) {
+  return MessageModel.findByIdAndUpdate(
+    id,
+    { isActive: false },
+    {
+      returnDocument: "after",
+      runValidators: true,
+    },
+  );
+}
