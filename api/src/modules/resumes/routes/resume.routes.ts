@@ -12,7 +12,6 @@ import {
   getMyResumeAvatar,
 } from "@resumes/controllers";
 import { resumeUpload } from "@resumes";
-import { personalInfoRouter } from "@personal-info/routes";
 
 const resumeRouter = Router();
 
@@ -45,7 +44,5 @@ resumeRouter
     validate({ params: paramsWithIDsSchema }),
     tryCatch(changeMyResumeAvatar, "changeMyResumeAvatar"),
   );
-
-resumeRouter.use("/:resumeId/personal-information", personalInfoRouter);
 
 export { resumeRouter };
