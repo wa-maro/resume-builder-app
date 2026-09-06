@@ -11,6 +11,7 @@ import {
   findFAQById,
   findFAQs,
   removeFAQById,
+  toggleFAQStatusById,
   updateFAQById,
 } from "@faqs/services";
 import { BadRequestError } from "@shared/errors";
@@ -91,5 +92,23 @@ export async function deleteFAQForAdmin(req: Request, res: Response) {
     success: true,
     message: "FAQ deleted successfully",
     data: await removeFAQById(id),
+  });
+}
+
+export async function toggleFAQStatusForAdmin(req: Request, res: Response) {
+  const { id } = req.params;
+
+  if (typeof id !== "string") {
+    throw new BadRequestError();
+  }
+
+  const faq = await toggleFAQStatusById(id);
+
+  const status = faq.isActive ? "activated" : "deactivated";
+
+  return res.status(200).json({
+    success: true,
+    message: `FAQ ${status} successfully`,
+    data: faq,
   });
 }

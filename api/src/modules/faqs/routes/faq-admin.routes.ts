@@ -11,6 +11,7 @@ import {
   deleteFAQForAdmin,
   getFAQAdmin,
   getFAQsAdmin,
+  toggleFAQStatusForAdmin,
   updateFAQForAdmin,
 } from "@faqs/controllers";
 import { paramsWithIDsSchema } from "@shared/validators";
@@ -45,6 +46,11 @@ faqsAdminRouter
     "/:id",
     validate({ params: paramsWithIDsSchema }),
     tryCatch(deleteFAQForAdmin, "deleteFAQForAdmin"),
+  )
+  .patch(
+    "/:id/status",
+    validate({ params: paramsWithIDsSchema }),
+    tryCatch(toggleFAQStatusForAdmin, "toggleFAQStatusForAdmin"),
   );
 
 export { faqsAdminRouter };

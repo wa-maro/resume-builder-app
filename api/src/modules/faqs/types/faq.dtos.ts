@@ -10,17 +10,18 @@ export class FAQMinimalResponseDto {
   id: string;
   question: string;
   answer: string;
+  isActive: boolean;
 
   constructor(faq: FAQDocument) {
     this.id = faq._id.toString();
     this.question = faq.question;
     this.answer = faq.answer;
+    this.isActive = faq.isActive;
   }
 }
 
 export class FAQResponseDto extends FAQMinimalResponseDto {
   order?: number;
-  isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
 
@@ -28,7 +29,6 @@ export class FAQResponseDto extends FAQMinimalResponseDto {
     super(faq);
 
     this.order = faq.order;
-    this.isActive = faq.isActive;
     this.createdAt = faq.createdAt;
     this.updatedAt = faq.updatedAt;
   }
