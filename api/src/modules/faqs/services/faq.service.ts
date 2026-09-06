@@ -8,6 +8,7 @@ import {
 } from "@faqs/types";
 import {
   createForAdmin,
+  deleteById,
   findAll,
   findAllActive,
   findById,
@@ -70,7 +71,7 @@ export async function findFAQById(id: string) {
   const faq = await findById(id);
 
   if (!faq) {
-    throw new NotFoundError("faq not found");
+    throw new NotFoundError("FAQ doesn't exist");
   }
 
   return new FAQResponseDto(faq);
@@ -80,8 +81,18 @@ export async function updateFAQById(id: string, data: UpdateFAQInput) {
   const faq = await updateById(id, data);
 
   if (!faq) {
-    throw new NotFoundError("faq not found");
+    throw new NotFoundError("FAQ doesn't exist");
   }
 
   return new FAQResponseDto(faq);
+}
+
+export async function removeResumeById(id: string) {
+  const faq = await deleteById(id);
+
+  if (!faq) {
+    throw new NotFoundError("FAQ doesn't exist");
+  }
+
+  return new FAQMinimalResponseDto(faq);
 }

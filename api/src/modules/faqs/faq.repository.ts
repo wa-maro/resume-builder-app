@@ -71,3 +71,7 @@ export async function updateById(id: string, data: UpdateFAQInput) {
     },
   ).exec();
 }
+
+export async function deleteById(id: string) {
+  return FAQModel.findByIdAndDelete(id).exec();
+}
