@@ -5,6 +5,10 @@ export async function createForAdmin(data: CreateFAQInput) {
   return FAQModel.create(data);
 }
 
+export async function findAllActive() {
+  return FAQModel.find({ isActive: true }).sort({ order: -1 }).exec();
+}
+
 export async function findAll(query: FAQRepoQueryOptions) {
   const {
     filter = {},

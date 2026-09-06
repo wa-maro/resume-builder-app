@@ -5,12 +5,23 @@ import {
   FAQRepoQueryOptions,
   FAQResponseDto,
 } from "@faqs/types";
-import { createForAdmin, findAll, getCount } from "../faq.repository.js";
+import {
+  createForAdmin,
+  findAll,
+  findAllActive,
+  getCount,
+} from "../faq.repository.js";
 
 export async function createFAQForAdmin(data: CreateFAQInput) {
   const faq = await createForAdmin(data);
 
   return new FAQMinimalResponseDto(faq);
+}
+
+export async function findActiveFAQs() {
+  const faqs = await findAllActive();
+
+  return faqs.map((faq) => new FAQResponseDto(faq));
 }
 
 export async function findFAQs(query: FAQQueryDto) {
