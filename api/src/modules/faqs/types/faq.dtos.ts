@@ -1,4 +1,10 @@
+import { QueryOptions } from "@shared/types";
 import { FAQDocument } from "../faq.model.js";
+import { FAQ, FAQFilter, FAQSortFields } from "./faq.types.js";
+
+export type CreateFAQInput = Pick<FAQ, "question" | "answer" | "order">;
+
+export type ReplyFAQInput = Partial<CreateFAQInput>;
 
 export class FAQMinimalResponseDto {
   id: string;
@@ -27,3 +33,5 @@ export class FAQResponseDto extends FAQMinimalResponseDto {
     this.updatedAt = faq.updatedAt;
   }
 }
+
+export type FAQQueryDto = QueryOptions<FAQFilter, FAQSortFields>;
