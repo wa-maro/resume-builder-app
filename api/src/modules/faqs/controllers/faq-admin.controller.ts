@@ -7,7 +7,12 @@ import {
 } from "@faqs/types";
 import { createForAdmin } from "../faq.repository.js";
 import { SortOrderDto } from "@shared/types";
-import { findFAQById, findFAQs, updateFAQById } from "@faqs/services";
+import {
+  findFAQById,
+  findFAQs,
+  removeFAQById,
+  updateFAQById,
+} from "@faqs/services";
 import { BadRequestError } from "@shared/errors";
 
 export async function createFAQAdmin(req: Request, res: Response) {
@@ -72,5 +77,19 @@ export async function updateFAQForAdmin(req: Request, res: Response) {
     success: true,
     message: "FAQ updated successfully",
     data: await updateFAQById(id, data),
+  });
+}
+
+export async function deleteFAQForAdmin(req: Request, res: Response) {
+  const { id } = req.params;
+
+  if (typeof id !== "string") {
+    throw new BadRequestError();
+  }
+
+  return res.status(200).json({
+    success: true,
+    message: "FAQ deleted successfully",
+    data: await removeFAQById(id),
   });
 }

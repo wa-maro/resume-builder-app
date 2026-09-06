@@ -8,6 +8,7 @@ import {
 } from "../faq.validation.js";
 import {
   createFAQAdmin,
+  deleteFAQForAdmin,
   getFAQAdmin,
   getFAQsAdmin,
   updateFAQForAdmin,
@@ -39,6 +40,11 @@ faqsAdminRouter
       body: editFAQSchema,
     }),
     tryCatch(updateFAQForAdmin, "updateFAQForAdmin"),
+  )
+  .delete(
+    "/:id",
+    validate({ params: paramsWithIDsSchema }),
+    tryCatch(deleteFAQForAdmin, "deleteFAQForAdmin"),
   );
 
 export { faqsAdminRouter };
