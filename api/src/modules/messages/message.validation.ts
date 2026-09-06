@@ -24,3 +24,13 @@ export const createMessageSchema = Joi.object({
     "any.required": "Message is required",
   }),
 }).required();
+
+export const replyMessageSchema = Joi.object({
+  reply: Joi.string().trim().min(1).max(5000).required().messages({
+    "string.base": "Reply must be a string",
+    "string.empty": "Reply is required",
+    "string.min": "Reply cannot be empty",
+    "string.max": "Reply cannot exceed 5000 characters",
+    "any.required": "Reply is required",
+  }),
+}).required();

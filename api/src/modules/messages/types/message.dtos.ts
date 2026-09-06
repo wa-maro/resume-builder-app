@@ -3,7 +3,7 @@ import { Message } from "@messages/types";
 
 export type CreateMessageInput = Pick<Message, "name" | "email" | "message">;
 
-export type ReplyMessageInput = Pick<Message, "reply" | "isReplied">;
+export type ReplyMessageInput = Pick<Message, "reply">;
 
 export class MessageMinimalResponseDto {
   id: string;
