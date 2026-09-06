@@ -2,12 +2,16 @@ import { NotFoundError } from "@shared/errors";
 import {
   CreateMessageInput,
   MessageMinimalResponseDto,
+  MessageQueryDto,
+  MessageRepoQueryOptions,
   MessageResponseDto,
 } from "@messages/types";
 import {
   createForUser,
   deactivateById,
+  findAll,
   findById,
+  getCount,
   replyById,
 } from "../message.repository.js";
 import { sendEmail } from "@shared/utils";
@@ -18,7 +22,45 @@ export async function createMessageForUser(data: CreateMessageInput) {
   return new MessageMinimalResponseDto(message._id.toString(), message.name);
 }
 
-export const getMessageById = async (id: string) => {
+export const findMessages = async (query: MessageQueryDto) => {
+  const {
+    filter = {},
+    page = 1,
+    limit = 10,
+    sort = "createdAt",
+    sortOrder = "desc",
+  } = query;
+
+  const skip = (page - 1) * limit;
+  const order = sortOrder === "asc" ? 1 : -1;
+
+  const repoQuery: MessageRepoQueryOptions = {
+    filter,
+    skip,
+    limit,
+    sort,
+    order,
+  };
+
+  const [messages, total] = await Promise.all([
+    findAll(repoQuery),
+    getCount(filter),
+  ]);
+
+  return {
+    data: messages.map((message) => new MessageResponseDto(message)),
+    pagination: {
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+      hasNextPage: skip + messages.length < total,
+      hasPreviousPage: skip > 0,
+    },
+  };
+};
+
+export async function findMessageById(id: string) {
   const message = await findById(id);
 
   if (!message) {
@@ -26,7 +68,7 @@ export const getMessageById = async (id: string) => {
   }
 
   return new MessageResponseDto(message);
-};
+}
 
 export async function replyMessageForAdmin(id: string, reply: string) {
   const message = await replyById(id, reply);
