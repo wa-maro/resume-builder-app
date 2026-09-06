@@ -61,7 +61,13 @@
       "@messages/controllers": ["./src/modules/messages/controllers/index.ts"],
       "@messages/routes": ["./src/modules/messages/routes/index.ts"],
       "@messages/services": ["./src/modules/messages/services/index.ts"],
-      "@messages/types": ["./src/modules/messages/types/index.ts"]
+      "@messages/types": ["./src/modules/messages/types/index.ts"],
+
+      "@faqs": ["./src/modules/faqs/index.ts"],
+      "@faqs/controllers": ["./src/modules/faqs/controllers/index.ts"],
+      "@faqs/routes": ["./src/modules/faqs/routes/index.ts"],
+      "@faqs/services": ["./src/modules/faqs/services/index.ts"],
+      "@faqs/types": ["./src/modules/faqs/types/index.ts"]
     },
 
     "skipLibCheck": true
