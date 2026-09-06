@@ -1,4 +1,9 @@
-import { CreateFAQInput, FAQFilter, FAQRepoQueryOptions } from "@faqs/types";
+import {
+  CreateFAQInput,
+  FAQFilter,
+  FAQRepoQueryOptions,
+  UpdateFAQInput,
+} from "@faqs/types";
 import { FAQModel } from "./faq.model.js";
 
 export async function createForAdmin(data: CreateFAQInput) {
@@ -37,7 +42,7 @@ export async function getCount(filter: FAQFilter) {
 }
 
 export async function findById(id: string) {
-  return FAQModel.findById(id);
+  return FAQModel.findById(id).exec();
 }
 
 function buildFAQMongoFilter(filter: FAQFilter) {
@@ -54,4 +59,15 @@ function buildFAQMongoFilter(filter: FAQFilter) {
       { answer: { $regex: search, $options: "i" } },
     ],
   };
+}
+
+export async function updateById(id: string, data: UpdateFAQInput) {
+  return FAQModel.findByIdAndUpdate(
+    id,
+    { $set: data },
+    {
+      returnDocument: "after",
+      runValidators: true,
+    },
+  ).exec();
 }

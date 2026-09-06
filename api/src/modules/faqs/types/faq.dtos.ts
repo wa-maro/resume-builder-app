@@ -4,7 +4,7 @@ import { FAQ, FAQFilter, FAQSortFields } from "./faq.types.js";
 
 export type CreateFAQInput = Pick<FAQ, "question" | "answer" | "order">;
 
-export type ReplyFAQInput = Partial<CreateFAQInput>;
+export type UpdateFAQInput = Partial<CreateFAQInput>;
 
 export class FAQMinimalResponseDto {
   id: string;

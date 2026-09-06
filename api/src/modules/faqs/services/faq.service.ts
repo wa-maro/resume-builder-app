@@ -4,6 +4,7 @@ import {
   FAQQueryDto,
   FAQRepoQueryOptions,
   FAQResponseDto,
+  UpdateFAQInput,
 } from "@faqs/types";
 import {
   createForAdmin,
@@ -11,6 +12,7 @@ import {
   findAllActive,
   findById,
   getCount,
+  updateById,
 } from "../faq.repository.js";
 import { NotFoundError } from "@shared/errors";
 
@@ -66,6 +68,16 @@ export async function findFAQs(query: FAQQueryDto) {
 
 export async function findFAQById(id: string) {
   const faq = await findById(id);
+
+  if (!faq) {
+    throw new NotFoundError("faq not found");
+  }
+
+  return new FAQResponseDto(faq);
+}
+
+export async function updateFAQById(id: string, data: UpdateFAQInput) {
+  const faq = await updateById(id, data);
 
   if (!faq) {
     throw new NotFoundError("faq not found");
