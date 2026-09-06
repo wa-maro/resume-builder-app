@@ -1,5 +1,6 @@
 import { MessageDocument } from "@messages";
-import { Message } from "@messages/types";
+import { Message, MessageFilter, MessageSortFields } from "@messages/types";
+import { QueryOptions } from "@shared/types";
 
 export type CreateMessageInput = Pick<Message, "name" | "email" | "message">;
 
@@ -36,3 +37,5 @@ export class MessageResponseDto extends MessageMinimalResponseDto {
     this.updatedAt = message.updatedAt;
   }
 }
+
+export type MessageQueryDto = QueryOptions<MessageFilter, MessageSortFields>;
