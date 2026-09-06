@@ -9,6 +9,17 @@ export async function findById(id: string) {
   return MessageModel.findById(id);
 }
 
+export async function replyById(id: string, reply: string) {
+  return MessageModel.findByIdAndUpdate(
+    { _id: id, isActive: true },
+    { reply, isReplied: true },
+    {
+      returnDocument: "after",
+      runValidators: true,
+    },
+  );
+}
+
 export async function deactivateById(id: string) {
   return MessageModel.findByIdAndUpdate(
     id,
