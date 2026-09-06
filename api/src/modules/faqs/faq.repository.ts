@@ -36,6 +36,10 @@ export async function getCount(filter: FAQFilter) {
   return FAQModel.countDocuments(mongoFilter).exec();
 }
 
+export async function findById(id: string) {
+  return FAQModel.findById(id);
+}
+
 function buildFAQMongoFilter(filter: FAQFilter) {
   const { search, ...rest } = filter;
 

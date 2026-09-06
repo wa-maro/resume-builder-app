@@ -9,8 +9,10 @@ import {
   createForAdmin,
   findAll,
   findAllActive,
+  findById,
   getCount,
 } from "../faq.repository.js";
+import { NotFoundError } from "@shared/errors";
 
 export async function createFAQForAdmin(data: CreateFAQInput) {
   const faq = await createForAdmin(data);
@@ -60,4 +62,14 @@ export async function findFAQs(query: FAQQueryDto) {
       hasPreviousPage: skip > 0,
     },
   };
+}
+
+export async function findFAQById(id: string) {
+  const faq = await findById(id);
+
+  if (!faq) {
+    throw new NotFoundError("faq not found");
+  }
+
+  return new FAQResponseDto(faq);
 }
