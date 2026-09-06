@@ -13,6 +13,7 @@ import {
   findAllActive,
   findById,
   getCount,
+  toggleStatusById,
   updateById,
 } from "../faq.repository.js";
 import { NotFoundError } from "@shared/errors";
@@ -87,7 +88,17 @@ export async function updateFAQById(id: string, data: UpdateFAQInput) {
   return new FAQResponseDto(faq);
 }
 
-export async function removeResumeById(id: string) {
+export async function toggleFAQStatusById(id: string) {
+  const faq = await toggleStatusById(id);
+
+  if (!faq) {
+    throw new NotFoundError("FAQ doesn't exist");
+  }
+
+  return new FAQMinimalResponseDto(faq);
+}
+
+export async function removeFAQById(id: string) {
   const faq = await deleteById(id);
 
   if (!faq) {

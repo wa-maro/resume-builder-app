@@ -72,6 +72,17 @@ export async function updateById(id: string, data: UpdateFAQInput) {
   ).exec();
 }
 
+export async function toggleStatusById(id: string) {
+  return await FAQModel.findByIdAndUpdate(
+    id,
+    [{ $set: { isActive: { $not: ["$isActive"] } } }],
+    {
+      returnDocument: "after",
+      updatePipeline: true,
+    },
+  ).exec();
+}
+
 export async function deleteById(id: string) {
   return FAQModel.findByIdAndDelete(id).exec();
 }
