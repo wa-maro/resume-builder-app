@@ -1,6 +1,11 @@
-import { Request, Response } from "express";
-import { deactivateMessageById, getMessageById } from "@messages/services";
+import type { Request, Response } from "express";
+import {
+  deactivateMessageById,
+  getMessageById,
+  replyMessageForAdmin,
+} from "@messages/services";
 import { BadRequestError } from "@shared/errors";
+import { ReplyMessageInput } from "@messages/types";
 
 export async function getMessage(req: Request, res: Response) {
   const { id } = req.params;
@@ -13,6 +18,21 @@ export async function getMessage(req: Request, res: Response) {
     success: true,
     message: "Message retrieved successfully",
     data: await getMessageById(id),
+  });
+}
+
+export async function replyMessage(req: Request, res: Response) {
+  const { id } = req.params;
+  const data: ReplyMessageInput = req.body;
+
+  if (typeof id !== "string") {
+    throw new BadRequestError();
+  }
+
+  res.status(200).json({
+    success: true,
+    message: "Reply sent successfully",
+    data: await replyMessageForAdmin(id, data.reply),
   });
 }
 
