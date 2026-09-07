@@ -1,6 +1,9 @@
 import { MessageModel } from "@messages";
+import { MessageResponseDto } from "@messages/types";
 import { ResumeModel } from "@resumes";
+import { ResumeResponseDto } from "@resumes/types";
 import { UserModel } from "@users";
+import { UserResponseDto } from "@users/types";
 
 export async function adminDashboardStats() {
   return {
@@ -17,11 +20,15 @@ async function resumeStats() {
     ResumeModel.find()
       .sort({ createdAt: -1 })
       .limit(10)
-      .select("_id title user createdAt")
-      .populate("user", "_id username email createdAt"),
+      .select("_id title user isActive createdAt")
+      .populate("user", "_id username"),
   ]);
 
-  return { total, active, recent };
+  return {
+    total,
+    active,
+    recent: recent.map((resume) => new ResumeResponseDto(resume)),
+  };
 }
 
 async function userstats() {
@@ -34,7 +41,11 @@ async function userstats() {
       .select("username email role createdAt"),
   ]);
 
-  return { total, active, recent };
+  return {
+    total,
+    active,
+    recent: recent.map((user) => new UserResponseDto(user)),
+  };
 }
 
 async function messageStats() {
@@ -48,5 +59,10 @@ async function messageStats() {
       .select("name email message isReplied createdAt"),
   ]);
 
-  return { total, replied, pending, recent };
+  return {
+    total,
+    replied,
+    pending,
+    recent: recent.map((sms) => new MessageResponseDto(sms)),
+  };
 }
