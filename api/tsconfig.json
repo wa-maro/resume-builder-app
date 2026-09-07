@@ -67,7 +67,13 @@
       "@faqs/controllers": ["./src/modules/faqs/controllers/index.ts"],
       "@faqs/routes": ["./src/modules/faqs/routes/index.ts"],
       "@faqs/services": ["./src/modules/faqs/services/index.ts"],
-      "@faqs/types": ["./src/modules/faqs/types/index.ts"]
+      "@faqs/types": ["./src/modules/faqs/types/index.ts"],
+
+      "@dashboard/controllers": [
+        "./src/modules/dashboard/controllers/index.ts"
+      ],
+      "@dashboard/routes": ["./src/modules/dashboard/routes/index.ts"],
+      "@dashboard/services": ["./src/modules/dashboard/services/index.ts"]
     },
 
     "skipLibCheck": true
