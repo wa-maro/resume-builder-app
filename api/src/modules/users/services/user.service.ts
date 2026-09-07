@@ -176,13 +176,17 @@ export async function updateUserByIdForAdmin(
 export async function deleteUserByIdForAdmin(
   id: string,
 ): Promise<UserResponseDto> {
-  const user = await deleteByIdForAdmin(id);
+  const user = await findUserByIdForAdmin(id);
 
-  if (!user) {
+  await checkCanDeleteUser(user.id);
+
+  const deletedUser = await deleteByIdForAdmin(id);
+
+  if (!deletedUser) {
     throw new NotFoundError("User not found");
   }
 
-  return new UserResponseDto(user);
+  return new UserResponseDto(deletedUser);
 }
 
 export async function toggleUserStatusById(id: string) {
@@ -202,5 +206,13 @@ async function checkCanChangeRoleToAdmin(userId: string) {
     throw new ConflictError(
       "Cannot change user role to admin while the user has a resume.",
     );
+  }
+}
+
+async function checkCanDeleteUser(userId: string): Promise<void> {
+  const hasResume = await hasResumeForUser(userId);
+
+  if (hasResume) {
+    throw new ConflictError("Cannot delete user while the user has a resume.");
   }
 }
