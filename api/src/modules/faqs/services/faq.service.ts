@@ -82,7 +82,24 @@ export async function findFAQById(id: string) {
 }
 
 export async function updateFAQById(id: string, data: UpdateFAQInput) {
-  const faq = await updateById(id, data);
+  const { question, answer, order } = data;
+  const updatedFAQ: UpdateFAQInput = {};
+
+  if (question !== undefined) {
+    await checkQuestionExist(question, id);
+
+    updatedFAQ.question = question;
+  }
+
+  if (answer !== undefined) {
+    updatedFAQ.answer = answer;
+  }
+
+  if (order !== undefined) {
+    updatedFAQ.order = order;
+  }
+
+  const faq = await updateById(id, updatedFAQ);
 
   if (!faq) {
     throw new NotFoundError("FAQ doesn't exist");
