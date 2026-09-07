@@ -13,10 +13,11 @@ import {
   findAllActive,
   findById,
   getCount,
+  questionExists,
   toggleStatusById,
   updateById,
 } from "../faq.repository.js";
-import { NotFoundError } from "@shared/errors";
+import { ConflictError, NotFoundError } from "@shared/errors";
 
 export async function createFAQForAdmin(data: CreateFAQInput) {
   const faq = await createForAdmin(data);
@@ -106,4 +107,12 @@ export async function removeFAQById(id: string) {
   }
 
   return new FAQMinimalResponseDto(faq);
+}
+
+async function checkQuestionExist(question: string, excludeUserId?: string) {
+  const exists = await questionExists(question, excludeUserId);
+
+  if (exists) {
+    throw new ConflictError("Question already exists");
+  }
 }

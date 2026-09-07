@@ -86,3 +86,10 @@ export async function toggleStatusById(id: string) {
 export async function deleteById(id: string) {
   return FAQModel.findByIdAndDelete(id).exec();
 }
+
+export async function questionExists(question: string, excludeUserId?: string) {
+  return FAQModel.exists({
+    question: { $regex: question, $options: "i" },
+    ...(excludeUserId && { _id: { $ne: excludeUserId } }),
+  }).exec();
+}
