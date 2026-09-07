@@ -4,6 +4,7 @@ import { resetPersonalInfo } from "./resets/personal-info.reset.js";
 import { resetResumes } from "./resets/resume.reset.js";
 import { resetUsers } from "./resets/user.reset.js";
 import { resetMessages } from "./resets/message.reset.js";
+import { resetFAQs } from "./resets/faq.reset.js";
 
 async function reset() {
   await connectDatabase();
@@ -14,6 +15,7 @@ async function reset() {
   await resetResumes();
   await resetUsers();
   await resetMessages();
+  await resetFAQs();
 
   infoLogger.info("Reset completed.");
 }

@@ -8,6 +8,7 @@ import { seedUsers } from "./seeders/user.seeder.js";
 import { seedResumes } from "./seeders/resume.seeder.js";
 import { seedPersonalInfos } from "./seeders/personal-info.seeder.js";
 import { resetMessages } from "./resets/message.reset.js";
+import { resetFAQs } from "./resets/faq.reset.js";
 import { seedFAQs } from "./seeders/faq.seeder.js";
 import { seedMessages } from "./seeders/message.seeder.js";
 
@@ -20,6 +21,7 @@ async function refresh() {
   await resetResumes();
   await resetUsers();
   await resetMessages();
+  await resetFAQs();
 
   await seedAdmins();
   await seedUsers();
