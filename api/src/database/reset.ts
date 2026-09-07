@@ -3,6 +3,7 @@ import { connectDatabase, disconnectDatabase } from "./connection.js";
 import { resetPersonalInfo } from "./resets/personal-info.reset.js";
 import { resetResumes } from "./resets/resume.reset.js";
 import { resetUsers } from "./resets/user.reset.js";
+import { resetMessages } from "./resets/message.reset.js";
 
 async function reset() {
   await connectDatabase();
@@ -12,6 +13,7 @@ async function reset() {
   await resetPersonalInfo();
   await resetResumes();
   await resetUsers();
+  await resetMessages();
 
   infoLogger.info("Reset completed.");
 }
