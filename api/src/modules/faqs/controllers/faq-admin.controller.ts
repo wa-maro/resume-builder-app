@@ -5,9 +5,9 @@ import {
   FAQSortField,
   UpdateFAQInput,
 } from "@faqs/types";
-import { createForAdmin } from "../faq.repository.js";
 import { SortOrderDto } from "@shared/types";
 import {
+  createFAQForAdmin,
   findFAQById,
   findFAQs,
   removeFAQById,
@@ -21,8 +21,8 @@ export async function createFAQAdmin(req: Request, res: Response) {
 
   return res.status(201).json({
     success: true,
-    message: "FAQ added successfully",
-    data: await createForAdmin(data),
+    message: "FAQ created successfully",
+    data: await createFAQForAdmin(data),
   });
 }
 

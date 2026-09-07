@@ -20,9 +20,11 @@ import {
 import { ConflictError, NotFoundError } from "@shared/errors";
 
 export async function createFAQForAdmin(data: CreateFAQInput) {
+  await checkQuestionExist(data.question);
+
   const faq = await createForAdmin(data);
 
-  return new FAQMinimalResponseDto(faq);
+  return new FAQResponseDto(faq);
 }
 
 export async function findActiveFAQs() {
