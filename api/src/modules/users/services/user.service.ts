@@ -197,6 +197,7 @@ export async function deleteUserByIdForAdmin(
   return new UserMinimalResponseDto(
     deletedUser._id.toString(),
     deletedUser.username,
+    user.isActive,
   );
 }
 
@@ -209,7 +210,11 @@ export async function toggleUserStatusById(
     throw new NotFoundError("User doesn't exist");
   }
 
-  return new UserMinimalResponseDto(user._id.toString(), user.username);
+  return new UserMinimalResponseDto(
+    user._id.toString(),
+    user.username,
+    user.isActive,
+  );
 }
 
 async function checkCanChangeRoleToAdmin(userId: string): Promise<void> {

@@ -26,7 +26,7 @@ export interface Resume extends BaseResume {
 
 export type ResumeUser =
   | Types.ObjectId
-  | { _id: Types.ObjectId; username: string }
+  | { _id: Types.ObjectId; username: string; isActive: boolean }
   | null;
 
 export type PopulatedResumeDocument = Omit<ResumeDocument, "user"> & {
@@ -85,6 +85,7 @@ export class ResumeResponseDto extends ResumeMinimalResponseDto {
       this.user = new UserMinimalResponseDto(
         resume.user._id.toString(),
         resume.user.username,
+        resume.user.isActive,
       );
     } else {
       this.user = null;
