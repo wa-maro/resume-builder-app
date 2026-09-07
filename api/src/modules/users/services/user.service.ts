@@ -21,6 +21,7 @@ import {
   UpdateUserAdminDto,
   UpdateUserDto,
   UpdateUserInputAdmin,
+  UserMinimalResponseDto,
   UserQueryDto,
   UserRepoQueryOptions,
   UserResponseDto,
@@ -69,7 +70,9 @@ export async function findUserById(id: string) {
   return findById(id);
 }
 
-export async function findUserByIdForAdmin(id: string) {
+export async function findUserByIdForAdmin(
+  id: string,
+): Promise<UserResponseDto> {
   const user = await findById(id);
 
   if (!user) {
@@ -94,7 +97,10 @@ export async function checkUsernameExist(
   }
 }
 
-export async function checkEmailExist(email: string, excludeUserId?: string) {
+export async function checkEmailExist(
+  email: string,
+  excludeUserId?: string,
+): Promise<void> {
   const exists = await emailExists(email, excludeUserId);
 
   if (exists) {
@@ -106,7 +112,9 @@ export async function createUser(data: CreateUserDto) {
   return create(data);
 }
 
-export async function createUserForAdmin(data: CreateUserInputAdmin) {
+export async function createUserForAdmin(
+  data: CreateUserInputAdmin,
+): Promise<UserResponseDto> {
   const { username, email, password, role } = data;
 
   await Promise.all([checkUsernameExist(username), checkEmailExist(email)]);
@@ -175,7 +183,7 @@ export async function updateUserByIdForAdmin(
 
 export async function deleteUserByIdForAdmin(
   id: string,
-): Promise<UserResponseDto> {
+): Promise<UserMinimalResponseDto> {
   const user = await findUserByIdForAdmin(id);
 
   await checkCanDeleteUser(user.id);
@@ -186,20 +194,25 @@ export async function deleteUserByIdForAdmin(
     throw new NotFoundError("User not found");
   }
 
-  return new UserResponseDto(deletedUser);
+  return new UserMinimalResponseDto(
+    deletedUser._id.toString(),
+    deletedUser.username,
+  );
 }
 
-export async function toggleUserStatusById(id: string) {
+export async function toggleUserStatusById(
+  id: string,
+): Promise<UserMinimalResponseDto> {
   const user = await toggleStatusById(id);
 
   if (!user) {
     throw new NotFoundError("User doesn't exist");
   }
 
-  return new UserResponseDto(user);
+  return new UserMinimalResponseDto(user._id.toString(), user.username);
 }
 
-async function checkCanChangeRoleToAdmin(userId: string) {
+async function checkCanChangeRoleToAdmin(userId: string): Promise<void> {
   const hasResume = await hasResumeForUser(userId);
 
   if (hasResume) {
