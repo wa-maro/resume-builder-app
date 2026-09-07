@@ -7,6 +7,8 @@ import { seedAdmins } from "./seeders/admin.seeder.js";
 import { seedUsers } from "./seeders/user.seeder.js";
 import { seedResumes } from "./seeders/resume.seeder.js";
 import { seedPersonalInfos } from "./seeders/personal-info.seeder.js";
+import { seedFAQs } from "./seeders/faq.seeder.js";
+import { seedMessages } from "./seeders/message.seeder.js";
 
 async function refresh() {
   await connectDatabase();
@@ -21,6 +23,8 @@ async function refresh() {
   await seedUsers();
   await seedResumes();
   await seedPersonalInfos();
+  await seedFAQs();
+  await seedMessages();
 
   infoLogger.info("Database refresh completed.");
 }
