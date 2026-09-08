@@ -1,11 +1,7 @@
 import { tryCatch } from "@shared/utils";
 import { Router } from "express";
 import { validate } from "@http/middlewares";
-import {
-  addFAQSchema,
-  editFAQSchema,
-  faqQuerySchema,
-} from "../faq.validation.js";
+import { addFAQSchema, editFAQSchema, faqQuerySchema } from "@faqs/validators";
 import {
   createFAQAdmin,
   deleteFAQForAdmin,
