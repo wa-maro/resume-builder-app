@@ -14,7 +14,7 @@ import {
   createUserAdminBodySchema,
   editUserAdminBodySchema,
   userQuerySchema,
-} from "../user.validation.js";
+} from "@users/validators";
 
 const usersAdminRouter = Router();
 
