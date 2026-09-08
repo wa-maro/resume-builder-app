@@ -1,10 +1,10 @@
 import Joi from "joi";
 import {
-  emailSchema,
   passwordSchema,
   usernameSchema,
   userRoleSchema,
 } from "./user-fields.schema.js";
+import { emailSchema } from "@shared/validators";
 
 export const editUserAdminBodySchema = Joi.object({
   username: usernameSchema.optional(),

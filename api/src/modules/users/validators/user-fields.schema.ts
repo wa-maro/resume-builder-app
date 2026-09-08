@@ -8,12 +8,6 @@ export const usernameSchema = Joi.string().trim().min(3).max(30).messages({
   "string.empty": "Username cannot be empty.",
 });
 
-export const emailSchema = Joi.string().trim().lowercase().email().messages({
-  "string.base": "Email must be a text.",
-  "string.email": "Please provide a valid email address.",
-  "string.empty": "Email cannot be empty.",
-});
-
 export const userRoleSchema = Joi.string()
   .valid(...Object.values(UserRole))
   .messages({
