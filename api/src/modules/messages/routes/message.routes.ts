@@ -2,7 +2,7 @@ import { validate } from "@http/middlewares";
 import { createMessage } from "@messages/controllers";
 import { tryCatch } from "@shared/utils";
 import { Router } from "express";
-import { createMessageSchema } from "../message.validation.js";
+import { createMessageSchema } from "@messages/validators";
 
 const messageRouter = Router();
 

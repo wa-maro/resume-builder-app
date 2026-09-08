@@ -8,10 +8,7 @@ import {
 import { tryCatch } from "@shared/utils";
 import { paramsWithIDsSchema } from "@shared/validators";
 import { Router } from "express";
-import {
-  messageQuerySchema,
-  replyMessageSchema,
-} from "../message.validation.js";
+import { messageQuerySchema, replyMessageSchema } from "@messages/validators";
 
 const messageAdminRouter = Router();
 
