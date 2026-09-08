@@ -2,20 +2,23 @@ import Joi from "joi";
 import {
   disabilitiesSchema,
   genderSchema,
+  maritalStatusSchema,
+  nationalitySchema,
   phoneSchema,
   physicalAddressSchema,
+  placeOfDomicileSchema,
 } from "./personal-info-fields.schema.js";
-import { emailSchema, nameSchema } from "@shared/validators";
+import { dateSchema, emailSchema, nameSchema } from "@shared/validators";
 
 export const editPersonalInfoBodySchema = Joi.object({
   fullName: nameSchema.optional(),
   gender: genderSchema.optional(),
-  dateOfBirth: Joi.date().optional(),
-  nationality: Joi.string().optional(),
-  placeOfDomicile: Joi.string().optional(),
-  maritalStatus: Joi.string().optional(),
+  dateOfBirth: dateSchema.optional(),
+  nationality: nationalitySchema.optional(),
+  placeOfDomicile: placeOfDomicileSchema.optional(),
+  maritalStatus: maritalStatusSchema.optional(),
   disabilities: disabilitiesSchema.optional(),
-  email: emailSchema.email().optional(),
+  email: emailSchema.optional(),
   phone: phoneSchema.optional(),
   physicalAddress: physicalAddressSchema.optional(),
 })

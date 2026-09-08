@@ -1,7 +1,6 @@
 import { Disability } from "@personal-info/types";
 import Joi from "joi";
 import {
-  dateOfBirthSchema,
   disabilitiesSchema,
   genderSchema,
   maritalStatusSchema,
@@ -10,7 +9,7 @@ import {
   physicalAddressSchema,
   placeOfDomicileSchema,
 } from "./personal-info-fields.schema.js";
-import { emailSchema, nameSchema } from "@shared/validators";
+import { dateSchema, emailSchema, nameSchema } from "@shared/validators";
 
 export const addPersonalInfoBodySchema = Joi.object({
   fullName: nameSchema.required().messages({
@@ -21,13 +20,11 @@ export const addPersonalInfoBodySchema = Joi.object({
     "any.required": "Gender is required.",
   }),
 
-  dateOfBirth: dateOfBirthSchema.required().messages({
+  dateOfBirth: dateSchema.required().messages({
     "any.required": "Date of birth is required.",
   }),
 
-  nationality: nationalitySchema.optional().trim().messages({
-    "any.required": "Disability is required.",
-  }),
+  nationality: nationalitySchema.optional(),
 
   placeOfDomicile: placeOfDomicileSchema.optional(),
 

@@ -12,3 +12,8 @@ export const nameSchema = Joi.string().trim().min(2).max(100).messages({
   "string.min": "Name must be at least 2 characters long",
   "string.max": "Name cannot exceed 100 characters",
 });
+
+export const dateSchema = Joi.date().messages({
+  "date.base": "Date must be a valid date.",
+  "string.empty": "Date cannot be empty.",
+});

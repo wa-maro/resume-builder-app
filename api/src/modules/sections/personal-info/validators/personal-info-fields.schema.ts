@@ -9,11 +9,6 @@ export const genderSchema = Joi.string()
     "string.empty": "Gender cannot be empty.",
   });
 
-export const dateOfBirthSchema = Joi.date().messages({
-  "date.base": "Date of birth must be a valid date.",
-  "string.empty": "Date of birth cannot be empty.",
-});
-
 export const nationalitySchema = Joi.string().trim().messages({
   "string.base": "Nationality must be a text.",
   "string.empty": "Nationality cannot be empty.",
