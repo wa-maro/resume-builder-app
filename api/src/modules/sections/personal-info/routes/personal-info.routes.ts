@@ -10,7 +10,7 @@ import {
 import {
   addPersonalInfoBodySchema,
   editPersonalInfoBodySchema,
-} from "@personal-info";
+} from "@personal-info/validators";
 
 const personalInfoRouter = Router({ mergeParams: true });
 

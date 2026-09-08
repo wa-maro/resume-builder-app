@@ -11,7 +11,7 @@ import {
 import {
   editPersonalInfoBodySchema,
   personalInfoQuerySchema,
-} from "@personal-info";
+} from "@personal-info/validators";
 
 const personalInfoAdminRouter = Router();
 
