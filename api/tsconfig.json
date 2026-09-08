@@ -57,6 +57,9 @@
       "@personal-info/routes": [
         "./src/modules/sections/personal-info/routes/index.ts"
       ],
+      "@personal-info/validators": [
+        "./src/modules/sections/personal-info/validators/index.ts"
+      ],
 
       "@messages": ["./src/modules/messages/index.ts"],
       "@messages/controllers": ["./src/modules/messages/controllers/index.ts"],
