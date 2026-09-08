@@ -2,7 +2,10 @@ import { Router } from "express";
 import { requireFile, validate } from "@http/middlewares";
 import { tryCatch } from "@shared/utils";
 import { paramsWithIDsSchema } from "@shared/validators";
-import { createResumeBodySchema, editResumeBodySchema } from "@resumes";
+import {
+  createResumeBodySchema,
+  editResumeBodySchema,
+} from "@resumes/validators";
 import {
   changeMyResumeAvatar,
   createMyResume,

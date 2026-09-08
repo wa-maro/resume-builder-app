@@ -9,7 +9,7 @@ import {
   deleteResume,
   toggleResumeStatus,
 } from "@resumes/controllers";
-import { editResumeBodySchema, resumeQuerySchema } from "@resumes";
+import { editResumeBodySchema, resumeQuerySchema } from "@resumes/validators";
 
 const resumesAdminRouter = Router();
 
