@@ -3,7 +3,6 @@ import Joi from "joi";
 import {
   dateOfBirthSchema,
   disabilitiesSchema,
-  fullNameSchema,
   genderSchema,
   maritalStatusSchema,
   nationalitySchema,
@@ -11,10 +10,10 @@ import {
   physicalAddressSchema,
   placeOfDomicileSchema,
 } from "./personal-info-fields.schema.js";
-import { emailSchema } from "@shared/validators";
+import { emailSchema, nameSchema } from "@shared/validators";
 
 export const addPersonalInfoBodySchema = Joi.object({
-  fullName: fullNameSchema.required().messages({
+  fullName: nameSchema.required().messages({
     "any.required": "Full name is required.",
   }),
 

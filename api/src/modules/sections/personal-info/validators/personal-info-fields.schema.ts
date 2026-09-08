@@ -1,11 +1,6 @@
 import { Disability, Gender, MaritalStatus } from "@personal-info/types";
 import Joi from "joi";
 
-export const fullNameSchema = Joi.string().trim().messages({
-  "string.base": "Full name must be a text.",
-  "string.empty": "Full name cannot be empty.",
-});
-
 export const genderSchema = Joi.string()
   .valid(...Object.values(Gender))
   .messages({
