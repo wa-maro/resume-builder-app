@@ -3,7 +3,7 @@ import {
   MessageFilter,
   MessageRepoQueryOptions,
 } from "@messages/types";
-import { MessageModel } from "./message.model.js";
+import { MessageModel } from "@messages";
 
 export async function createForUser(data: CreateMessageInput) {
   return MessageModel.create(data);

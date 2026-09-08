@@ -13,7 +13,7 @@ import {
   findById,
   getCount,
   replyById,
-} from "../message.repository.js";
+} from "@messages";
 import { sendEmail } from "@shared/utils";
 
 export async function createMessageForUser(data: CreateMessageInput) {

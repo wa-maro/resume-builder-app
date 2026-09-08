@@ -66,6 +66,7 @@
       "@messages/routes": ["./src/modules/messages/routes/index.ts"],
       "@messages/services": ["./src/modules/messages/services/index.ts"],
       "@messages/types": ["./src/modules/messages/types/index.ts"],
+      "@messages/validators": ["./src/modules/messages/validators/index.ts"],
 
       "@faqs": ["./src/modules/faqs/index.ts"],
       "@faqs/controllers": ["./src/modules/faqs/controllers/index.ts"],
