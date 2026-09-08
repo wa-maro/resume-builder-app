@@ -9,14 +9,14 @@ import {
   deleteResume,
   toggleResumeStatus,
 } from "@resumes/controllers";
-import { editResumeBodySchema, ResumesQuerySchema } from "@resumes";
+import { editResumeBodySchema, resumeQuerySchema } from "@resumes";
 
 const resumesAdminRouter = Router();
 
 resumesAdminRouter
   .get(
     "/",
-    validate({ query: ResumesQuerySchema }),
+    validate({ query: resumeQuerySchema }),
     tryCatch(getResumes, "getResumes"),
   )
   .get(

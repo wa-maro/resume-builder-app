@@ -73,6 +73,7 @@ function buildMessageMongoFilter(filter: MessageFilter) {
     ...rest,
     $or: [
       { name: { $regex: search, $options: "i" } },
+      { email: { $regex: search, $options: "i" } },
       { message: { $regex: search, $options: "i" } },
       { reply: { $regex: search, $options: "i" } },
     ],

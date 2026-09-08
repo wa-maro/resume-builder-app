@@ -4,7 +4,7 @@ import { validate } from "@http/middlewares";
 import {
   addFAQSchema,
   editFAQSchema,
-  faqsQuerySchema,
+  faqQuerySchema,
 } from "../faq.validation.js";
 import {
   createFAQAdmin,
@@ -26,7 +26,7 @@ faqsAdminRouter
   )
   .get(
     "/",
-    validate({ query: faqsQuerySchema }),
+    validate({ query: faqQuerySchema }),
     tryCatch(getFAQsAdmin, "getFAQsAdmin"),
   )
   .get(

@@ -9,7 +9,7 @@ import { tryCatch } from "@shared/utils";
 import { paramsWithIDsSchema } from "@shared/validators";
 import { Router } from "express";
 import {
-  messagesQuerySchema,
+  messageQuerySchema,
   replyMessageSchema,
 } from "../message.validation.js";
 
@@ -18,7 +18,7 @@ const messageAdminRouter = Router();
 messageAdminRouter
   .get(
     "/",
-    validate({ query: messagesQuerySchema }),
+    validate({ query: messageQuerySchema }),
     tryCatch(getMessages, "getMessages"),
   )
   .get(

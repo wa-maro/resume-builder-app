@@ -13,7 +13,7 @@ import {
 import {
   createUserAdminBodySchema,
   editUserAdminBodySchema,
-  UserQuerySchema,
+  userQuerySchema,
 } from "../user.validation.js";
 
 const usersAdminRouter = Router();
@@ -26,7 +26,7 @@ usersAdminRouter
   )
   .get(
     "/",
-    validate({ query: UserQuerySchema }),
+    validate({ query: userQuerySchema }),
     tryCatch(getUsers, "getUsers"),
   )
   .get(
