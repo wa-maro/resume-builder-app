@@ -43,6 +43,7 @@
       "@resumes/routes": ["./src/modules/resumes/routes/index.ts"],
       "@resumes/services": ["./src/modules/resumes/services/index.ts"],
       "@resumes/types": ["./src/modules/resumes/types/index.ts"],
+      "@resumes/validators": ["./src/modules/resumes/validators/index.ts"],
 
       "@personal-info": ["./src/modules/sections/personal-info/index.ts"],
       "@personal-info/controllers": [
