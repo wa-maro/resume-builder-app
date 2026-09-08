@@ -72,6 +72,7 @@
       "@faqs/routes": ["./src/modules/faqs/routes/index.ts"],
       "@faqs/services": ["./src/modules/faqs/services/index.ts"],
       "@faqs/types": ["./src/modules/faqs/types/index.ts"],
+      "@faqs/validators": ["./src/modules/faqs/validators/index.ts"],
 
       "@dashboard/controllers": [
         "./src/modules/dashboard/controllers/index.ts"

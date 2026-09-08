@@ -16,7 +16,7 @@ import {
   questionExists,
   toggleStatusById,
   updateById,
-} from "../faq.repository.js";
+} from "@faqs";
 import { ConflictError, NotFoundError } from "@shared/errors";
 
 export async function createFAQForAdmin(data: CreateFAQInput) {

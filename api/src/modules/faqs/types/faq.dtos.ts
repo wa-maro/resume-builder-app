@@ -1,5 +1,5 @@
 import { QueryOptions } from "@shared/types";
-import { FAQDocument } from "../faq.model.js";
+import { FAQDocument } from "@faqs";
 import { FAQ, FAQFilter, FAQSortFields } from "./faq.types.js";
 
 export type CreateFAQInput = Pick<FAQ, "question" | "answer" | "order">;
