@@ -1,12 +1,6 @@
-import { QueryOptions, RepositoryQueryOptions } from "@shared/types";
-import { UserDocument } from "@users";
+import { RepositoryQueryOptions } from "@shared/types";
 import { ResumeDocument } from "@resumes";
-import { ResumeMinimalResponseDto } from "@resumes/types";
-
-export enum UserRole {
-  ADMIN = "admin",
-  USER = "user",
-}
+import { UserRole } from "./user.enums.js";
 
 interface BaseUser {
   username: string;
@@ -40,63 +34,9 @@ export type UserSortFields = Pick<
 
 export type UserSortField = keyof UserSortFields;
 
-export type UserQueryDto = QueryOptions<UserFilter, UserSortFields>;
-
 export type UserRepoQueryOptions = RepositoryQueryOptions<
   UserFilter,
   UserSortFields
->;
-
-export class UserMinimalResponseDto {
-  readonly id: string;
-  readonly username?: string;
-  readonly isActive?: boolean;
-
-  constructor(id: string, username?: string, isActive?: boolean) {
-    this.id = id;
-    this.username = username;
-    this.isActive = isActive;
-  }
-}
-
-export class UserResponseDto extends UserMinimalResponseDto {
-  override username: string;
-  readonly role: UserRole;
-  readonly email: string;
-  readonly createdAt: Date;
-  readonly updatedAt: Date;
-
-  readonly resume?: ResumeMinimalResponseDto;
-
-  constructor(user: UserDocument) {
-    super(user._id.toString(), user.username, user.isActive);
-
-    this.username = user.username;
-    this.role = user.role;
-    this.email = user.email;
-
-    this.createdAt = user.createdAt;
-    this.updatedAt = user.updatedAt;
-
-    this.resume = user.resume
-      ? new ResumeMinimalResponseDto(
-          user.resume._id.toString(),
-          user.resume.title,
-        )
-      : undefined;
-  }
-}
-
-export interface CreateUserDto extends Pick<
-  UserWithCredential,
-  "username" | "email" | "passwordHash"
-> {}
-
-export interface UpdateUserDto extends Partial<CreateUserDto> {}
-
-export type CreateUserAdminDto = Pick<
-  UserWithCredential,
-  "username" | "email" | "passwordHash" | "role"
 >;
 
 export type CreateUserInputAdmin = Pick<
@@ -107,5 +47,3 @@ export type CreateUserInputAdmin = Pick<
 };
 
 export type UpdateUserInputAdmin = Partial<CreateUserInputAdmin>;
-
-export type UpdateUserAdminDto = Partial<CreateUserAdminDto>;
