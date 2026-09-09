@@ -5,7 +5,7 @@ import {
   loginBodySchema,
   registerBodySchema,
   editProfileBodySchema,
-} from "./auth.validation.js";
+} from "@auth/validators";
 import { authController } from "./auth.controller.js";
 
 const authRouter = Router();
