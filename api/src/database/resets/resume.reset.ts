@@ -4,7 +4,7 @@ import { ResumeModel } from "@resumes";
 export async function resetResumes() {
   const result = await ResumeModel.deleteMany({});
 
-  infoLogger.info(
+  infoLogger.warn(
     `Resume reset completed. Deleted ${result.deletedCount} resumes.`,
   );
 }

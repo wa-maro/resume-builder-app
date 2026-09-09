@@ -4,7 +4,7 @@ import { UserModel } from "@users";
 export async function resetUsers() {
   const result = await UserModel.deleteMany({});
 
-  infoLogger.info(
+  infoLogger.warn(
     `User reset completed. Deleted ${result.deletedCount} users.`,
   );
 }
