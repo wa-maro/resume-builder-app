@@ -1,5 +1,5 @@
 import { Router } from "express";
 
-const experiencesRouter = Router();
+const experiencesRouter = Router({ mergeParams: true });
 
 export { experiencesRouter };
