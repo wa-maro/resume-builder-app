@@ -6,23 +6,16 @@ import {
   MessageRepoQueryOptions,
   MessageResponseDto,
 } from "@messages/types";
-import {
-  createForUser,
-  deactivateById,
-  findAll,
-  findById,
-  getCount,
-  replyById,
-} from "@messages";
+import { messageRepository } from "@messages";
 import { sendEmail } from "@shared/utils";
 
-export async function createMessageForUser(data: CreateMessageInput) {
-  const message = await createForUser(data);
+async function createMessage(data: CreateMessageInput) {
+  const message = await messageRepository.create(data);
 
   return new MessageMinimalResponseDto(message._id.toString(), message.name);
 }
 
-export const findMessages = async (query: MessageQueryDto) => {
+const findMessages = async (query: MessageQueryDto) => {
   const {
     filter = {},
     page = 1,
@@ -43,8 +36,8 @@ export const findMessages = async (query: MessageQueryDto) => {
   };
 
   const [messages, total] = await Promise.all([
-    findAll(repoQuery),
-    getCount(filter),
+    messageRepository.findAll(repoQuery),
+    messageRepository.getCount(filter),
   ]);
 
   return {
@@ -60,8 +53,8 @@ export const findMessages = async (query: MessageQueryDto) => {
   };
 };
 
-export async function findMessageById(id: string) {
-  const message = await findById(id);
+async function findMessageById(id: string) {
+  const message = await messageRepository.findById(id);
 
   if (!message) {
     throw new NotFoundError("message not found");
@@ -70,8 +63,8 @@ export async function findMessageById(id: string) {
   return new MessageResponseDto(message);
 }
 
-export async function replyMessageForAdmin(id: string, reply: string) {
-  const message = await replyById(id, reply);
+async function replyMessage(id: string, reply: string) {
+  const message = await messageRepository.replyById(id, reply);
 
   if (!message) {
     throw new NotFoundError("Message not found");
@@ -87,8 +80,8 @@ export async function replyMessageForAdmin(id: string, reply: string) {
   return new MessageResponseDto(message);
 }
 
-export async function deactivateMessageById(id: string) {
-  const message = await deactivateById(id);
+async function deactivateMessageById(id: string) {
+  const message = await messageRepository.deactivateById(id);
 
   if (!message) {
     throw new NotFoundError("Message not found");
@@ -96,3 +89,12 @@ export async function deactivateMessageById(id: string) {
 
   return new MessageMinimalResponseDto(message._id.toString(), message.name);
 }
+
+export const messageService = { createMessage };
+
+export const messageAdminService = {
+  findMessages,
+  findMessageById,
+  replyMessage,
+  deactivateMessageById,
+};

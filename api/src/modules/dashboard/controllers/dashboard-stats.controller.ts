@@ -1,10 +1,14 @@
-import { adminDashboardStats } from "@dashboard/services";
+import { adminDashboardService } from "@dashboard/services";
 import type { Request, Response } from "express";
 
-export async function getDashboardStats(_req: Request, res: Response) {
+async function getAdminDashboardStats(_req: Request, res: Response) {
   return res.status(200).json({
     success: true,
     message: "Dashboard stats retrieved successfully",
-    data: await adminDashboardStats(),
+    data: await adminDashboardService.adminDashboardStats(),
   });
 }
+
+export const adminDashboardController = {
+  getDashboardStats: getAdminDashboardStats,
+};

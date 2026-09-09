@@ -7,29 +7,16 @@ import {
   ResumeResponseDto,
   UpdateResumeDto,
 } from "@resumes/types";
-import {
-  createForUser,
-  deleteById,
-  deleteForUser,
-  existsByUserId,
-  findAll,
-  findById,
-  findByUserId,
-  findForUser,
-  getCount,
-  toggleStatusById,
-  updatebyId,
-  updateForUser,
-} from "@resumes";
+import { resumeRepository } from "@resumes";
 
-export async function createResume(userId: string, data: CreateResumeDto) {
-  const existingResume = await findByUserId(userId);
+async function createResume(userId: string, data: CreateResumeDto) {
+  const existingResume = await resumeRepository.findByUserId(userId);
 
   if (existingResume) {
     throw new ConflictError("Resume already exists");
   }
 
-  const resume = await createForUser(userId, data);
+  const resume = await resumeRepository.createForUser(userId, data);
 
   if (!resume) {
     throw new NotFoundError("Failed to create resume");
@@ -38,7 +25,7 @@ export async function createResume(userId: string, data: CreateResumeDto) {
   return new ResumeResponseDto(resume);
 }
 
-export async function findResumes(query: ResumeQueryDto) {
+async function findResumes(query: ResumeQueryDto) {
   const {
     filter = {},
     page = 1,
@@ -59,8 +46,8 @@ export async function findResumes(query: ResumeQueryDto) {
   };
 
   const [resumes, total] = await Promise.all([
-    findAll(repoQuery),
-    getCount(filter),
+    resumeRepository.findAll(repoQuery),
+    resumeRepository.getCount(filter),
   ]);
 
   return {
@@ -76,8 +63,8 @@ export async function findResumes(query: ResumeQueryDto) {
   };
 }
 
-export async function findResumeById(id: string) {
-  const resume = await findById(id);
+async function findResumeById(id: string) {
+  const resume = await resumeRepository.findById(id);
 
   if (!resume) {
     throw new NotFoundError("Resume doesn't exist");
@@ -86,8 +73,8 @@ export async function findResumeById(id: string) {
   return new ResumeResponseDto(resume);
 }
 
-export async function findResumeByUserId(userId: string) {
-  const resume = await findByUserId(userId);
+async function findResumeByUserId(userId: string) {
+  const resume = await resumeRepository.findByUserId(userId);
 
   if (!resume) {
     throw new NotFoundError("Resume doesn't exist");
@@ -96,8 +83,8 @@ export async function findResumeByUserId(userId: string) {
   return new ResumeResponseDto(resume);
 }
 
-export async function editResumeById(id: string, data: UpdateResumeDto) {
-  const resume = await updatebyId(id, data);
+async function editResumeById(id: string, data: UpdateResumeDto) {
+  const resume = await resumeRepository.updatebyId(id, data);
 
   if (!resume) {
     throw new NotFoundError("Resume doesn't exist");
@@ -106,18 +93,18 @@ export async function editResumeById(id: string, data: UpdateResumeDto) {
   return new ResumeResponseDto(resume);
 }
 
-export async function editResumeForUser(
+async function editResumeByUserId(
   userId: string,
   resumeId: string,
   data: UpdateResumeDto,
 ) {
-  const existingResume = await findForUser(userId, resumeId);
+  const existingResume = await resumeRepository.findForUser(userId, resumeId);
 
   if (!existingResume) {
     throw new NotFoundError("Resume doesn't exist");
   }
 
-  const resume = await updateForUser(userId, resumeId, data);
+  const resume = await resumeRepository.updateForUser(userId, resumeId, data);
 
   if (!resume) {
     throw new NotFoundError("Resume doesn't exist");
@@ -126,8 +113,8 @@ export async function editResumeForUser(
   return new ResumeResponseDto(resume);
 }
 
-export async function removeResumeById(id: string) {
-  const resume = await deleteById(id);
+async function removeResumeById(id: string) {
+  const resume = await resumeRepository.deleteById(id);
 
   if (!resume) {
     throw new NotFoundError("Resume doesn't exist");
@@ -136,8 +123,8 @@ export async function removeResumeById(id: string) {
   return new ResumeResponseDto(resume);
 }
 
-export async function removeResumeForUser(userId: string, resumeId: string) {
-  const resume = await deleteForUser(userId, resumeId);
+async function removeResumeByUserId(userId: string, resumeId: string) {
+  const resume = await resumeRepository.deleteForUser(userId, resumeId);
 
   if (!resume) {
     throw new NotFoundError("Resume doesn't exist");
@@ -146,8 +133,8 @@ export async function removeResumeForUser(userId: string, resumeId: string) {
   return new ResumeResponseDto(resume);
 }
 
-export async function toggleResumeStatusById(resumeId: string) {
-  const resume = await toggleStatusById(resumeId);
+async function toggleResumeStatusById(resumeId: string) {
+  const resume = await resumeRepository.toggleStatusById(resumeId);
 
   if (!resume) {
     throw new NotFoundError("Resume doesn't exist");
@@ -156,15 +143,12 @@ export async function toggleResumeStatusById(resumeId: string) {
   return new ResumeResponseDto(resume);
 }
 
-export async function hasResumeForUser(userId: string): Promise<boolean> {
-  return Boolean(await existsByUserId(userId));
+async function hasResumeForUser(userId: string): Promise<boolean> {
+  return Boolean(await resumeRepository.existsByUserId(userId));
 }
 
-export async function findResumeAvatarForUser(
-  userId: string,
-  resumeId: string,
-) {
-  const resume = await findForUser(userId, resumeId);
+async function findResumeAvatarByUserId(userId: string, resumeId: string) {
+  const resume = await resumeRepository.findForUser(userId, resumeId);
 
   if (!resume) {
     throw new NotFoundError("Resume doesn't exist");
@@ -177,12 +161,12 @@ export async function findResumeAvatarForUser(
   return resume.avatar;
 }
 
-export async function changeResumeAvatarForUser(
+async function changeResumeAvatarByUserId(
   userId: string,
   resumeId: string,
   filename: string,
 ) {
-  const existingResume = await findForUser(userId, resumeId);
+  const existingResume = await resumeRepository.findForUser(userId, resumeId);
 
   if (!existingResume) {
     throw new NotFoundError("Resume doesn't exist");
@@ -190,7 +174,7 @@ export async function changeResumeAvatarForUser(
 
   const oldAvatar = existingResume.avatar;
 
-  const resume = await updateForUser(userId, resumeId, {
+  const resume = await resumeRepository.updateForUser(userId, resumeId, {
     avatar: filename,
   });
 
@@ -204,3 +188,22 @@ export async function changeResumeAvatarForUser(
 
   return new ResumeResponseDto(resume);
 }
+
+export const resumeService = {
+  createResume,
+  editResumeByUserId,
+  findResumeById,
+  findResumeByUserId,
+  findResumeAvatarByUserId,
+  hasResumeForUser,
+  removeResumeByUserId,
+  changeResumeAvatarByUserId,
+};
+
+export const resumeAdminService = {
+  editResumeById,
+  findResumeById,
+  findResumes,
+  removeResumeById,
+  toggleResumeStatusById,
+};

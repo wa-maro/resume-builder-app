@@ -5,7 +5,7 @@ import { ResumeResponseDto } from "@resumes/types";
 import { UserModel } from "@users";
 import { UserResponseDto } from "@users/types";
 
-export async function adminDashboardStats() {
+async function adminDashboardStats() {
   return {
     resumes: await resumeStats(),
     users: await userstats(),
@@ -66,3 +66,7 @@ async function messageStats() {
     recent: recent.map((sms) => new MessageResponseDto(sms)),
   };
 }
+
+export const adminDashboardService = {
+  adminDashboardStats,
+};

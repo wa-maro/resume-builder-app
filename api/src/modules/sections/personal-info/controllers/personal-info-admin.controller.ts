@@ -1,12 +1,7 @@
 import { Request, Response } from "express";
 import { BadRequestError } from "@shared/errors";
 import { SortOrderDto } from "@shared/types";
-import {
-  editPersonalInfoById,
-  getPersonalInfoForAdmin,
-  getPersonalInfosForAdmin,
-  removePersonalInfo,
-} from "@personal-info/services";
+import { personalInfoAdminService } from "@personal-info/services";
 import {
   Disability,
   EditPersonalInfoInput,
@@ -16,7 +11,7 @@ import {
   PersonalInfoSortField,
 } from "@personal-info/types";
 
-export async function getPersonalInfosAdmin(req: Request, res: Response) {
+async function getPersonalInfos(req: Request, res: Response) {
   const {
     page,
     limit,
@@ -52,11 +47,11 @@ export async function getPersonalInfosAdmin(req: Request, res: Response) {
   return res.status(200).json({
     success: true,
     message: "Personal informations retrieved successfully",
-    ...(await getPersonalInfosForAdmin(query)),
+    ...(await personalInfoAdminService.findPersonalInfos(query)),
   });
 }
 
-export async function getPersonalInfoAdmin(req: Request, res: Response) {
+async function getPersonalInfo(req: Request, res: Response) {
   const { id } = req.params;
 
   if (typeof id !== "string") {
@@ -66,11 +61,11 @@ export async function getPersonalInfoAdmin(req: Request, res: Response) {
   return res.status(200).json({
     success: true,
     message: "Personal information retrieved successfully",
-    data: await getPersonalInfoForAdmin(id),
+    data: await personalInfoAdminService.findPersonalInfoById(id),
   });
 }
 
-export async function updatePersonalInfoAdmin(req: Request, res: Response) {
+async function updatePersonalInfo(req: Request, res: Response) {
   const { id } = req.params;
   const data: EditPersonalInfoInput = req.body;
 
@@ -81,18 +76,18 @@ export async function updatePersonalInfoAdmin(req: Request, res: Response) {
   return res.status(200).json({
     success: true,
     message: "Personal information updated successfully",
-    data: await editPersonalInfoById(id, data),
+    data: await personalInfoAdminService.editPersonalInfoById(id, data),
   });
 }
 
-export async function deletePersonalInfoAdmin(req: Request, res: Response) {
+async function deletePersonalInfoAdmin(req: Request, res: Response) {
   const { id } = req.params;
 
   if (typeof id !== "string") {
     throw new BadRequestError();
   }
 
-  await removePersonalInfo(id);
+  await personalInfoAdminService.removePersonalInfo(id);
 
   return res.status(200).json({
     success: true,
@@ -100,3 +95,10 @@ export async function deletePersonalInfoAdmin(req: Request, res: Response) {
     data: null,
   });
 }
+
+export const personalInfoAdminController = {
+  getPersonalInfos,
+  getPersonalInfo,
+  updatePersonalInfo,
+  deletePersonalInfoAdmin,
+};

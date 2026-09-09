@@ -1,17 +1,7 @@
 import { Types } from "mongoose";
 import { AppError, ConflictError, NotFoundError } from "@shared/errors";
-import { findResumeById } from "@resumes/services";
-import {
-  createForResume,
-  deleteById,
-  findAll,
-  findById,
-  findByResumeAndId,
-  findByResumeId,
-  getCount,
-  updateById,
-  updateByResumeAndId,
-} from "@personal-info";
+import { resumeService } from "@resumes/services";
+import { personalInfoRepository } from "@personal-info";
 import {
   AddPersonalInfoInput,
   EditPersonalInfoInput,
@@ -20,24 +10,24 @@ import {
   PersonalInfoResponseDto,
 } from "@personal-info/types";
 
-export async function addPersonalInfo(
-  resumeId: string,
-  data: AddPersonalInfoInput,
-) {
-  const resume = await findResumeById(resumeId);
+async function addPersonalInfo(resumeId: string, data: AddPersonalInfoInput) {
+  const resume = await resumeService.findResumeById(resumeId);
 
-  const existingInfo = await findByResumeId(resume.id);
+  const existingInfo = await personalInfoRepository.findByResumeId(resume.id);
 
   if (existingInfo) {
     throw new ConflictError("Personal information already exists");
   }
 
-  const personalInfo = await createForResume(resumeId, data);
+  const personalInfo = await personalInfoRepository.createForResume(
+    resumeId,
+    data,
+  );
 
   return new PersonalInfoResponseDto(personalInfo);
 }
 
-export async function getPersonalInfosForAdmin(query: PersonalInfoQueryDto) {
+async function findPersonalInfos(query: PersonalInfoQueryDto) {
   const {
     filter = {},
     page = 1,
@@ -58,8 +48,8 @@ export async function getPersonalInfosForAdmin(query: PersonalInfoQueryDto) {
   };
 
   const [personalInfos, total] = await Promise.all([
-    findAll(repoQuery),
-    getCount(filter),
+    personalInfoRepository.findAll(repoQuery),
+    personalInfoRepository.getCount(filter),
   ]);
 
   return {
@@ -77,20 +67,22 @@ export async function getPersonalInfosForAdmin(query: PersonalInfoQueryDto) {
   };
 }
 
-export const getPersonalInfobyResume = async (resumeId: string) => {
-  const resume = await findResumeById(resumeId);
+async function findPersonalInfoByResumeId(resumeId: string) {
+  const resume = await resumeService.findResumeById(resumeId);
 
-  const personalInfo = await findByResumeAndId(resume.id);
+  const personalInfo = await personalInfoRepository.findByResumeAndId(
+    resume.id,
+  );
 
   if (!personalInfo) {
     throw new NotFoundError("Personal information doesn't exists");
   }
 
   return new PersonalInfoResponseDto(personalInfo);
-};
+}
 
-export const getPersonalInfoForAdmin = async (id: string) => {
-  const personalInfo = await findById(id);
+async function findPersonalInfoById(id: string) {
+  const personalInfo = await personalInfoRepository.findById(id);
 
   if (!personalInfo) {
     throw new NotFoundError("Personal information doesn't exists");
@@ -114,29 +106,20 @@ export const getPersonalInfoForAdmin = async (id: string) => {
       },
     },
   };
-};
+}
 
-export async function editPersonalInfoByResume(
+async function editPersonalInfoByResumeId(
   resumeId: string,
   id: string,
   data: EditPersonalInfoInput,
 ) {
-  const resume = await findResumeById(resumeId);
+  const resume = await resumeService.findResumeById(resumeId);
 
-  const personalInfo = await updateByResumeAndId(resume.id, id, data);
-
-  if (!personalInfo) {
-    throw new NotFoundError("Personal information doesn't exists");
-  }
-
-  return new PersonalInfoResponseDto(personalInfo);
-}
-
-export async function editPersonalInfoById(
-  id: string,
-  data: EditPersonalInfoInput,
-) {
-  const personalInfo = await updateById(id, data);
+  const personalInfo = await personalInfoRepository.updateByResumeAndId(
+    resume.id,
+    id,
+    data,
+  );
 
   if (!personalInfo) {
     throw new NotFoundError("Personal information doesn't exists");
@@ -145,12 +128,35 @@ export async function editPersonalInfoById(
   return new PersonalInfoResponseDto(personalInfo);
 }
 
-export const removePersonalInfo = async (id: string) => {
-  const personalInfo = await deleteById(id);
+async function editPersonalInfoById(id: string, data: EditPersonalInfoInput) {
+  const personalInfo = await personalInfoRepository.updateById(id, data);
 
   if (!personalInfo) {
     throw new NotFoundError("Personal information doesn't exists");
   }
 
   return new PersonalInfoResponseDto(personalInfo);
+}
+
+async function removePersonalInfoById(id: string) {
+  const personalInfo = await personalInfoRepository.deleteById(id);
+
+  if (!personalInfo) {
+    throw new NotFoundError("Personal information doesn't exists");
+  }
+
+  return new PersonalInfoResponseDto(personalInfo);
+}
+
+export const personalInfoService = {
+  addPersonalInfo,
+  editPersonalInfoByResumeId,
+  findPersonalInfoByResumeId,
+};
+
+export const personalInfoAdminService = {
+  editPersonalInfoById,
+  findPersonalInfoById,
+  findPersonalInfos,
+  removePersonalInfo: removePersonalInfoById,
 };

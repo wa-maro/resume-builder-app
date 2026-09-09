@@ -10,14 +10,11 @@ import {
   PersonalInfoRepoQueryOptions,
 } from "@personal-info/types";
 
-export async function createForResume(
-  resumeId: string,
-  data: AddPersonalInfoInput,
-) {
+async function createForResume(resumeId: string, data: AddPersonalInfoInput) {
   return PersonalInfoModel.create({ resume: resumeId, ...data });
 }
 
-export async function findAll(query: PersonalInfoRepoQueryOptions) {
+async function findAll(query: PersonalInfoRepoQueryOptions) {
   const {
     filter = {},
     skip = 0,
@@ -39,12 +36,12 @@ export async function findAll(query: PersonalInfoRepoQueryOptions) {
     .exec();
 }
 
-export async function getCount(filter: PersonalInfoFilter) {
+async function getCount(filter: PersonalInfoFilter) {
   const mongoFilter = buildPersonalInfoMongoFilter(filter);
   return PersonalInfoModel.countDocuments(mongoFilter).exec();
 }
 
-export async function findById(id: string) {
+async function findById(id: string) {
   return PersonalInfoModel.findById(id)
     .populate<{
       resume: PopulatedResumeDocument;
@@ -56,17 +53,17 @@ export async function findById(id: string) {
     .exec();
 }
 
-export async function findByResumeId(resumeId: string) {
+async function findByResumeId(resumeId: string) {
   return PersonalInfoModel.findOne({ resume: resumeId }).exec();
 }
 
-export async function findByResumeAndId(resumeId: string) {
+async function findByResumeAndId(resumeId: string) {
   return PersonalInfoModel.findOne({
     resume: resumeId,
   }).exec();
 }
 
-export async function updateById(id: string, data: EditPersonalInfoInput) {
+async function updateById(id: string, data: EditPersonalInfoInput) {
   return PersonalInfoModel.findByIdAndUpdate(
     id,
     { $set: data },
@@ -77,7 +74,7 @@ export async function updateById(id: string, data: EditPersonalInfoInput) {
   ).exec();
 }
 
-export async function updateByResumeAndId(
+async function updateByResumeAndId(
   resumeId: string,
   id: string,
   data: EditPersonalInfoInput,
@@ -92,7 +89,7 @@ export async function updateByResumeAndId(
   ).exec();
 }
 
-export async function deleteById(id: string) {
+async function deleteById(id: string) {
   return PersonalInfoModel.findByIdAndDelete(id).exec();
 }
 
@@ -130,3 +127,15 @@ function buildPersonalInfoMongoFilter(filter: PersonalInfoFilter) {
 
   return mongoFilter;
 }
+
+export const personalInfoRepository = {
+  createForResume,
+  deleteById,
+  findAll,
+  findById,
+  findByResumeAndId,
+  findByResumeId,
+  getCount,
+  updateById,
+  updateByResumeAndId,
+};

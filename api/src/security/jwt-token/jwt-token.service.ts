@@ -7,7 +7,7 @@ import { UnauthorizedError } from "@shared/errors";
 const JWT_SECRET = envConfig.jwtSecret;
 const JWT_EXPIRATION = envConfig.jwtExpiration;
 
-export const generateToken = (user: AuthUser) => {
+const generateToken = (user: AuthUser) => {
   const payload: JwtPayload = {
     id: user.id,
     username: user.username,
@@ -20,7 +20,7 @@ export const generateToken = (user: AuthUser) => {
   });
 };
 
-export const verifyToken = (token: string): JwtPayload => {
+const verifyToken = (token: string): JwtPayload => {
   try {
     return jwt.verify(token, JWT_SECRET) as JwtPayload;
   } catch (error) {
@@ -34,4 +34,9 @@ export const verifyToken = (token: string): JwtPayload => {
 
     throw error;
   }
+};
+
+export const jwtTokenService = {
+  generateToken,
+  verifyToken,
 };

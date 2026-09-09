@@ -1,10 +1,5 @@
 import { validate } from "@http/middlewares";
-import {
-  deactivateMessage,
-  getMessage,
-  getMessages,
-  replyMessage,
-} from "@messages/controllers";
+import { messageAdminController } from "@messages/controllers";
 import { tryCatch } from "@shared/utils";
 import { paramsWithIDsSchema } from "@shared/validators";
 import { Router } from "express";
@@ -16,14 +11,14 @@ messageAdminRouter
   .get(
     "/",
     validate({ query: messageQuerySchema }),
-    tryCatch(getMessages, "getMessages"),
+    tryCatch(messageAdminController.getMessages, "getMessages"),
   )
   .get(
     "/:id",
     validate({
       params: paramsWithIDsSchema,
     }),
-    tryCatch(getMessage, "getMessage"),
+    tryCatch(messageAdminController.getMessage, "getMessage"),
   )
   .patch(
     "/:id/reply",
@@ -31,14 +26,14 @@ messageAdminRouter
       params: paramsWithIDsSchema,
       body: replyMessageSchema,
     }),
-    tryCatch(replyMessage, "replyMessage"),
+    tryCatch(messageAdminController.replyMessage, "replyMessage"),
   )
   .delete(
     "/:id",
     validate({
       params: paramsWithIDsSchema,
     }),
-    tryCatch(deactivateMessage, "deactivateMessage"),
+    tryCatch(messageAdminController.deactivateMessage, "deactivateMessage"),
   );
 
 export { messageAdminRouter };

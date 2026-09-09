@@ -2,12 +2,7 @@ import { Router } from "express";
 import { validate } from "@http/middlewares";
 import { tryCatch } from "@shared/utils";
 import { paramsWithIDsSchema } from "@shared/validators";
-import {
-  deletePersonalInfoAdmin,
-  getPersonalInfoAdmin,
-  getPersonalInfosAdmin,
-  updatePersonalInfoAdmin,
-} from "@personal-info/controllers";
+import { personalInfoAdminController } from "@personal-info/controllers";
 import {
   editPersonalInfoBodySchema,
   personalInfoQuerySchema,
@@ -22,12 +17,12 @@ personalInfoAdminRouter
       query: personalInfoQuerySchema,
       body: editPersonalInfoBodySchema,
     }),
-    tryCatch(getPersonalInfosAdmin, "getPersonalInfos"),
+    tryCatch(personalInfoAdminController.getPersonalInfos, "getPersonalInfos"),
   )
   .get(
     "/:id",
     validate({ params: paramsWithIDsSchema }),
-    tryCatch(getPersonalInfoAdmin, "getPersonalInfo"),
+    tryCatch(personalInfoAdminController.getPersonalInfo, "getPersonalInfo"),
   )
   .patch(
     "/:id",
@@ -35,12 +30,18 @@ personalInfoAdminRouter
       params: paramsWithIDsSchema,
       body: editPersonalInfoBodySchema,
     }),
-    tryCatch(updatePersonalInfoAdmin, "updatePersonalInfo"),
+    tryCatch(
+      personalInfoAdminController.updatePersonalInfo,
+      "updatePersonalInfo",
+    ),
   )
   .delete(
     "/:id",
     validate({ params: paramsWithIDsSchema }),
-    tryCatch(deletePersonalInfoAdmin, "deletePersonalInfo"),
+    tryCatch(
+      personalInfoAdminController.deletePersonalInfoAdmin,
+      "deletePersonalInfo",
+    ),
   );
 
 export { personalInfoAdminRouter };

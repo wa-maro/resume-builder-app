@@ -8,7 +8,7 @@ import {
 } from "@users/types";
 import { UserModel } from "@users";
 
-export async function findAll(query: UserRepoQueryOptions) {
+async function findAll(query: UserRepoQueryOptions) {
   const {
     filter = {},
     skip = 0,
@@ -30,16 +30,16 @@ export async function findAll(query: UserRepoQueryOptions) {
     .exec();
 }
 
-export async function getCount(filter: UserFilter) {
+async function getCount(filter: UserFilter) {
   const mongoFilter = buildUserMongoFilter(filter);
   return UserModel.countDocuments(mongoFilter).exec();
 }
 
-export async function findById(id: string) {
+async function findById(id: string) {
   return UserModel.findById(id).populate("resume", "_id title").exec();
 }
 
-export async function findByUsernameOrEmail(usernameOrEmail: string) {
+async function findByUsernameOrEmail(usernameOrEmail: string) {
   return UserModel.findOne({
     $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
     isActive: true,
@@ -48,47 +48,47 @@ export async function findByUsernameOrEmail(usernameOrEmail: string) {
     .exec();
 }
 
-export async function usernameExists(username: string, excludeUserId?: string) {
+async function usernameExists(username: string, excludeUserId?: string) {
   return UserModel.exists({
     username,
     ...(excludeUserId && { _id: { $ne: excludeUserId } }),
   });
 }
 
-export async function emailExists(email: string, excludeUserId?: string) {
+async function emailExists(email: string, excludeUserId?: string) {
   return UserModel.exists({
     email,
     ...(excludeUserId && { _id: { $ne: excludeUserId } }),
   });
 }
 
-export async function create(data: CreateUserDto) {
+async function create(data: CreateUserDto) {
   return UserModel.create(data);
 }
 
-export async function createForAdmin(data: CreateUserAdminDto) {
+async function createForAdmin(data: CreateUserAdminDto) {
   return UserModel.create(data);
 }
 
-export async function updateByIdForUser(id: string, data: UpdateUserDto) {
+async function updateByIdForUser(id: string, data: UpdateUserDto) {
   return UserModel.findByIdAndUpdate(id, data, {
     returnDocument: "after",
     runValidators: true,
   }).exec();
 }
 
-export async function updateByIdForAdmin(id: string, data: UpdateUserAdminDto) {
+async function updateByIdForAdmin(id: string, data: UpdateUserAdminDto) {
   return UserModel.findByIdAndUpdate(id, data, {
     returnDocument: "after",
     runValidators: true,
   }).exec();
 }
 
-export async function deleteByIdForAdmin(id: string) {
+async function deleteByIdForAdmin(id: string) {
   return UserModel.findByIdAndDelete(id).exec();
 }
 
-export async function toggleStatusById(id: string) {
+async function toggleStatusById(id: string) {
   return await UserModel.findByIdAndUpdate(
     id,
     [{ $set: { isActive: { $not: ["$isActive"] } } }],
@@ -114,3 +114,18 @@ function buildUserMongoFilter(filter: UserFilter) {
     ],
   };
 }
+
+export const userRepository = {
+  findAll,
+  getCount,
+  findById,
+  findByUsernameOrEmail,
+  usernameExists,
+  emailExists,
+  create,
+  createForAdmin,
+  updateByIdForUser,
+  updateByIdForAdmin,
+  deleteByIdForAdmin,
+  toggleStatusById,
+};

@@ -6,15 +6,15 @@ import {
 } from "@faqs/types";
 import { FAQModel } from "./faq.model.js";
 
-export async function createForAdmin(data: CreateFAQInput) {
+async function createForAdmin(data: CreateFAQInput) {
   return FAQModel.create(data);
 }
 
-export async function findAllActive() {
+async function findAllActive() {
   return FAQModel.find({ isActive: true }).sort({ order: -1 }).exec();
 }
 
-export async function findAll(query: FAQRepoQueryOptions) {
+async function findAll(query: FAQRepoQueryOptions) {
   const {
     filter = {},
     skip = 0,
@@ -35,13 +35,13 @@ export async function findAll(query: FAQRepoQueryOptions) {
     .exec();
 }
 
-export async function getCount(filter: FAQFilter) {
+async function getCount(filter: FAQFilter) {
   const mongoFilter = buildFAQMongoFilter(filter);
 
   return FAQModel.countDocuments(mongoFilter).exec();
 }
 
-export async function findById(id: string) {
+async function findById(id: string) {
   return FAQModel.findById(id).exec();
 }
 
@@ -61,7 +61,7 @@ function buildFAQMongoFilter(filter: FAQFilter) {
   };
 }
 
-export async function updateById(id: string, data: UpdateFAQInput) {
+async function updateById(id: string, data: UpdateFAQInput) {
   return FAQModel.findByIdAndUpdate(
     id,
     { $set: data },
@@ -72,7 +72,7 @@ export async function updateById(id: string, data: UpdateFAQInput) {
   ).exec();
 }
 
-export async function toggleStatusById(id: string) {
+async function toggleStatusById(id: string) {
   return await FAQModel.findByIdAndUpdate(
     id,
     [{ $set: { isActive: { $not: ["$isActive"] } } }],
@@ -83,13 +83,25 @@ export async function toggleStatusById(id: string) {
   ).exec();
 }
 
-export async function deleteById(id: string) {
+async function deleteById(id: string) {
   return FAQModel.findByIdAndDelete(id).exec();
 }
 
-export async function questionExists(question: string, excludeUserId?: string) {
+async function questionExists(question: string, excludeUserId?: string) {
   return FAQModel.exists({
     question: { $regex: question, $options: "i" },
     ...(excludeUserId && { _id: { $ne: excludeUserId } }),
   }).exec();
 }
+
+export const faqRepository = {
+  createForAdmin,
+  findAllActive,
+  findAll,
+  getCount,
+  findById,
+  updateById,
+  toggleStatusById,
+  deleteById,
+  questionExists,
+};

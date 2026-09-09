@@ -1,10 +1,5 @@
 import type { Request, Response } from "express";
-import {
-  deactivateMessageById,
-  findMessageById,
-  findMessages,
-  replyMessageForAdmin,
-} from "@messages/services";
+import { messageAdminService } from "@messages/services";
 import { BadRequestError } from "@shared/errors";
 import {
   MessageQueryDto,
@@ -13,7 +8,7 @@ import {
 } from "@messages/types";
 import { SortOrderDto } from "@shared/types";
 
-export async function getMessages(req: Request, res: Response) {
+async function getMessages(req: Request, res: Response) {
   const { page, limit, sort, sortOrder, search, isActive, isReplied } =
     req.query;
 
@@ -38,11 +33,11 @@ export async function getMessages(req: Request, res: Response) {
   return res.status(200).json({
     success: true,
     message: "Messages retrieved successfully",
-    ...(await findMessages(query)),
+    ...(await messageAdminService.findMessages(query)),
   });
 }
 
-export async function getMessage(req: Request, res: Response) {
+async function getMessage(req: Request, res: Response) {
   const { id } = req.params;
 
   if (typeof id !== "string") {
@@ -52,11 +47,11 @@ export async function getMessage(req: Request, res: Response) {
   return res.status(200).json({
     success: true,
     message: "Message retrieved successfully",
-    data: await findMessageById(id),
+    data: await messageAdminService.findMessageById(id),
   });
 }
 
-export async function replyMessage(req: Request, res: Response) {
+async function replyMessage(req: Request, res: Response) {
   const { id } = req.params;
   const data: ReplyMessageInput = req.body;
 
@@ -67,11 +62,11 @@ export async function replyMessage(req: Request, res: Response) {
   res.status(200).json({
     success: true,
     message: "Reply sent successfully",
-    data: await replyMessageForAdmin(id, data.reply),
+    data: await messageAdminService.replyMessage(id, data.reply),
   });
 }
 
-export async function deactivateMessage(req: Request, res: Response) {
+async function deactivateMessage(req: Request, res: Response) {
   const { id } = req.params;
 
   if (typeof id !== "string") {
@@ -81,6 +76,13 @@ export async function deactivateMessage(req: Request, res: Response) {
   return res.status(200).json({
     success: true,
     message: "Message deactivated successfully",
-    data: await deactivateMessageById(id),
+    data: await messageAdminService.deactivateMessageById(id),
   });
 }
+
+export const messageAdminController = {
+  getMessages,
+  getMessage,
+  replyMessage,
+  deactivateMessage,
+};

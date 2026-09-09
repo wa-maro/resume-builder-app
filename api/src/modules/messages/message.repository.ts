@@ -5,11 +5,11 @@ import {
 } from "@messages/types";
 import { MessageModel } from "@messages";
 
-export async function createForUser(data: CreateMessageInput) {
+async function create(data: CreateMessageInput) {
   return MessageModel.create(data);
 }
 
-export async function findAll(query: MessageRepoQueryOptions) {
+async function findAll(query: MessageRepoQueryOptions) {
   const {
     filter = {},
     skip = 0,
@@ -30,17 +30,17 @@ export async function findAll(query: MessageRepoQueryOptions) {
     .exec();
 }
 
-export async function getCount(filter: MessageFilter) {
+async function getCount(filter: MessageFilter) {
   const mongoFilter = buildMessageMongoFilter(filter);
 
   return MessageModel.countDocuments(mongoFilter).exec();
 }
 
-export async function findById(id: string) {
+async function findById(id: string) {
   return MessageModel.findById(id);
 }
 
-export async function replyById(id: string, reply: string) {
+async function replyById(id: string, reply: string) {
   return MessageModel.findByIdAndUpdate(
     { _id: id, isActive: true },
     { reply, isReplied: true },
@@ -51,7 +51,7 @@ export async function replyById(id: string, reply: string) {
   );
 }
 
-export async function deactivateById(id: string) {
+async function deactivateById(id: string) {
   return MessageModel.findByIdAndUpdate(
     id,
     { isActive: false },
@@ -79,3 +79,12 @@ function buildMessageMongoFilter(filter: MessageFilter) {
     ],
   };
 }
+
+export const messageRepository = {
+  create,
+  findAll,
+  getCount,
+  findById,
+  replyById,
+  deactivateById,
+};

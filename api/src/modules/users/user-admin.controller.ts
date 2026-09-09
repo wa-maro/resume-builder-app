@@ -1,14 +1,7 @@
 import type { Request, Response } from "express";
 import { SortOrderDto } from "@shared/types";
 import { BadRequestError } from "@shared/errors";
-import {
-  createUserForAdmin,
-  deleteUserByIdForAdmin,
-  findUserByIdForAdmin,
-  findUsers,
-  toggleUserStatusById,
-  updateUserByIdForAdmin,
-} from "@users/services";
+import { userAdminService } from "@users/services";
 import {
   CreateUserInputAdmin,
   UpdateUserInputAdmin,
@@ -17,17 +10,17 @@ import {
   UserSortField,
 } from "@users/types";
 
-export async function createUser(req: Request, res: Response) {
+async function createUser(req: Request, res: Response) {
   const data: CreateUserInputAdmin = req.body;
 
   return res.status(200).json({
     success: true,
     message: "User created successfully",
-    data: await createUserForAdmin(data),
+    data: await userAdminService.createUserForAdmin(data),
   });
 }
 
-export async function getUsers(req: Request, res: Response) {
+async function getUsers(req: Request, res: Response) {
   const { page, limit, sort, sortOrder, search, role, isActive } = req.query;
 
   const query: UserQueryDto = {
@@ -51,11 +44,11 @@ export async function getUsers(req: Request, res: Response) {
   return res.status(200).json({
     success: true,
     message: "Users retrieved successfully",
-    ...(await findUsers(query)),
+    ...(await userAdminService.findUsers(query)),
   });
 }
 
-export async function getUser(req: Request, res: Response) {
+async function getUser(req: Request, res: Response) {
   const { id } = req.params;
 
   if (typeof id !== "string") {
@@ -65,11 +58,11 @@ export async function getUser(req: Request, res: Response) {
   return res.status(200).json({
     success: true,
     message: "User retrieved successfully",
-    data: await findUserByIdForAdmin(id),
+    data: await userAdminService.findUserByIdForAdmin(id),
   });
 }
 
-export async function editUser(req: Request, res: Response) {
+async function editUser(req: Request, res: Response) {
   const { id } = req.params;
   const data: UpdateUserInputAdmin = req.body;
 
@@ -80,18 +73,18 @@ export async function editUser(req: Request, res: Response) {
   return res.status(200).json({
     success: true,
     message: "User retrieved successfully",
-    data: await updateUserByIdForAdmin(id, data),
+    data: await userAdminService.updateUserByIdForAdmin(id, data),
   });
 }
 
-export async function deleteUser(req: Request, res: Response) {
+async function deleteUser(req: Request, res: Response) {
   const { id } = req.params;
 
   if (typeof id !== "string") {
     throw new BadRequestError();
   }
 
-  await deleteUserByIdForAdmin(id);
+  await userAdminService.deleteUserByIdForAdmin(id);
 
   return res.status(200).json({
     success: true,
@@ -100,14 +93,14 @@ export async function deleteUser(req: Request, res: Response) {
   });
 }
 
-export async function toggleUserStatus(req: Request, res: Response) {
+async function toggleUserStatus(req: Request, res: Response) {
   const { id } = req.params;
 
   if (typeof id !== "string") {
     throw new BadRequestError();
   }
 
-  const user = await toggleUserStatusById(id);
+  const user = await userAdminService.toggleUserStatusById(id);
 
   const status = user.isActive ? "activated" : "deactivated";
 
@@ -117,3 +110,12 @@ export async function toggleUserStatus(req: Request, res: Response) {
     data: user,
   });
 }
+
+export const userAdminController = {
+  createUser,
+  getUsers,
+  getUser,
+  editUser,
+  deleteUser,
+  toggleUserStatus,
+};

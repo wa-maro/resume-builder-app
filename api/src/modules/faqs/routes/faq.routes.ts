@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { tryCatch } from "@shared/utils";
-import { getFaqs } from "@faqs/controllers";
+import { faqController } from "@faqs/controllers";
 
 const faqsRouter = Router();
 
-faqsRouter.get("/", tryCatch(getFaqs, "getFaqs"));
+faqsRouter.get("/", tryCatch(faqController.getFaqs, "getFaqs"));
 
 export { faqsRouter };

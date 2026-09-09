@@ -6,27 +6,20 @@ import {
   UpdateFAQInput,
 } from "@faqs/types";
 import { SortOrderDto } from "@shared/types";
-import {
-  createFAQForAdmin,
-  findFAQById,
-  findFAQs,
-  removeFAQById,
-  toggleFAQStatusById,
-  updateFAQById,
-} from "@faqs/services";
+import { faqAdminService } from "@faqs/services";
 import { BadRequestError } from "@shared/errors";
 
-export async function createFAQAdmin(req: Request, res: Response) {
+async function createFAQ(req: Request, res: Response) {
   const data: CreateFAQInput = req.body;
 
   return res.status(201).json({
     success: true,
     message: "FAQ created successfully",
-    data: await createFAQForAdmin(data),
+    data: await faqAdminService.createFAQForAdmin(data),
   });
 }
 
-export async function getFAQsAdmin(req: Request, res: Response) {
+async function getFAQs(req: Request, res: Response) {
   const { page, limit, sort, sortOrder, search, isActive } = req.query;
 
   const query: FAQQueryDto = {
@@ -48,11 +41,11 @@ export async function getFAQsAdmin(req: Request, res: Response) {
   return res.status(200).json({
     success: true,
     message: "FAQs retrieved successfully",
-    ...(await findFAQs(query)),
+    ...(await faqAdminService.findFAQs(query)),
   });
 }
 
-export async function getFAQAdmin(req: Request, res: Response) {
+async function getFAQ(req: Request, res: Response) {
   const { id } = req.params;
 
   if (typeof id !== "string") {
@@ -62,11 +55,11 @@ export async function getFAQAdmin(req: Request, res: Response) {
   return res.status(200).json({
     success: true,
     message: "FAQ retrieved successfully",
-    data: await findFAQById(id),
+    data: await faqAdminService.findFAQById(id),
   });
 }
 
-export async function updateFAQForAdmin(req: Request, res: Response) {
+async function updateFAQ(req: Request, res: Response) {
   const { id } = req.params;
   const data: UpdateFAQInput = req.body;
 
@@ -77,11 +70,11 @@ export async function updateFAQForAdmin(req: Request, res: Response) {
   return res.status(200).json({
     success: true,
     message: "FAQ updated successfully",
-    data: await updateFAQById(id, data),
+    data: await faqAdminService.updateFAQById(id, data),
   });
 }
 
-export async function deleteFAQForAdmin(req: Request, res: Response) {
+async function deleteFAQ(req: Request, res: Response) {
   const { id } = req.params;
 
   if (typeof id !== "string") {
@@ -91,18 +84,18 @@ export async function deleteFAQForAdmin(req: Request, res: Response) {
   return res.status(200).json({
     success: true,
     message: "FAQ deleted successfully",
-    data: await removeFAQById(id),
+    data: await faqAdminService.removeFAQById(id),
   });
 }
 
-export async function toggleFAQStatusForAdmin(req: Request, res: Response) {
+async function toggleFAQStatus(req: Request, res: Response) {
   const { id } = req.params;
 
   if (typeof id !== "string") {
     throw new BadRequestError();
   }
 
-  const faq = await toggleFAQStatusById(id);
+  const faq = await faqAdminService.toggleFAQStatusById(id);
 
   const status = faq.isActive ? "activated" : "deactivated";
 
@@ -112,3 +105,12 @@ export async function toggleFAQStatusForAdmin(req: Request, res: Response) {
     data: faq,
   });
 }
+
+export const faqAdminController = {
+  createFAQ,
+  getFAQs,
+  getFAQ,
+  updateFAQ,
+  deleteFAQ,
+  toggleFAQStatus,
+};

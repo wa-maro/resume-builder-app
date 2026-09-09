@@ -2,14 +2,7 @@ import { tryCatch } from "@shared/utils";
 import { Router } from "express";
 import { validate } from "@http/middlewares";
 import { addFAQSchema, editFAQSchema, faqQuerySchema } from "@faqs/validators";
-import {
-  createFAQAdmin,
-  deleteFAQForAdmin,
-  getFAQAdmin,
-  getFAQsAdmin,
-  toggleFAQStatusForAdmin,
-  updateFAQForAdmin,
-} from "@faqs/controllers";
+import { faqAdminController } from "@faqs/controllers";
 import { paramsWithIDsSchema } from "@shared/validators";
 
 const faqsAdminRouter = Router();
@@ -18,17 +11,17 @@ faqsAdminRouter
   .post(
     "/",
     validate({ body: addFAQSchema }),
-    tryCatch(createFAQAdmin, "createFAQAdmin"),
+    tryCatch(faqAdminController.createFAQ, "createFAQ"),
   )
   .get(
     "/",
     validate({ query: faqQuerySchema }),
-    tryCatch(getFAQsAdmin, "getFAQsAdmin"),
+    tryCatch(faqAdminController.getFAQs, "getFAQs"),
   )
   .get(
     "/:id",
     validate({ params: paramsWithIDsSchema }),
-    tryCatch(getFAQAdmin, "getFAQAdmin"),
+    tryCatch(faqAdminController.getFAQ, "getFAQ"),
   )
   .patch(
     "/:id",
@@ -36,17 +29,17 @@ faqsAdminRouter
       params: paramsWithIDsSchema,
       body: editFAQSchema,
     }),
-    tryCatch(updateFAQForAdmin, "updateFAQForAdmin"),
+    tryCatch(faqAdminController.updateFAQ, "updateFAQ"),
   )
   .delete(
     "/:id",
     validate({ params: paramsWithIDsSchema }),
-    tryCatch(deleteFAQForAdmin, "deleteFAQForAdmin"),
+    tryCatch(faqAdminController.deleteFAQ, "deleteFAQ"),
   )
   .patch(
     "/:id/status",
     validate({ params: paramsWithIDsSchema }),
-    tryCatch(toggleFAQStatusForAdmin, "toggleFAQStatusForAdmin"),
+    tryCatch(faqAdminController.toggleFAQStatus, "toggleFAQStatus"),
   );
 
 export { faqsAdminRouter };

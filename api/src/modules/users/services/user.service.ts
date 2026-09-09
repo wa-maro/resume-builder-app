@@ -1,20 +1,7 @@
 import { ConflictError, NotFoundError } from "@shared/errors";
-import { doHash } from "@security/password";
-import { hasResumeForUser } from "@resumes/services";
-import {
-  create,
-  findAll,
-  emailExists,
-  findById,
-  usernameExists,
-  findByUsernameOrEmail,
-  getCount,
-  updateByIdForUser,
-  updateByIdForAdmin,
-  createForAdmin,
-  deleteByIdForAdmin,
-  toggleStatusById,
-} from "@users";
+import { passwordService } from "@security/password";
+import { resumeService } from "@resumes/services";
+import { userRepository } from "@users";
 import {
   CreateUserDto,
   CreateUserInputAdmin,
@@ -28,7 +15,7 @@ import {
   UserRole,
 } from "@users/types";
 
-export async function findUsers(query: UserQueryDto) {
+async function findUsers(query: UserQueryDto) {
   const {
     filter = {},
     page = 1,
@@ -49,8 +36,8 @@ export async function findUsers(query: UserQueryDto) {
   };
 
   const [users, total] = await Promise.all([
-    findAll(repoQuery),
-    getCount(filter),
+    userRepository.findAll(repoQuery),
+    userRepository.getCount(filter),
   ]);
 
   return {
@@ -66,14 +53,12 @@ export async function findUsers(query: UserQueryDto) {
   };
 }
 
-export async function findUserById(id: string) {
-  return findById(id);
+async function findUserById(id: string) {
+  return userRepository.findById(id);
 }
 
-export async function findUserByIdForAdmin(
-  id: string,
-): Promise<UserResponseDto> {
-  const user = await findById(id);
+async function findUserByIdForAdmin(id: string): Promise<UserResponseDto> {
+  const user = await userRepository.findById(id);
 
   if (!user) {
     throw new NotFoundError("User not found");
@@ -82,46 +67,43 @@ export async function findUserByIdForAdmin(
   return new UserResponseDto(user);
 }
 
-export async function findUserByUsernameOrEmail(usernameOrEmail: string) {
-  return findByUsernameOrEmail(usernameOrEmail);
+async function findUserByUsernameOrEmail(usernameOrEmail: string) {
+  return userRepository.findByUsernameOrEmail(usernameOrEmail);
 }
 
-export async function checkUsernameExist(
-  username: string,
-  excludeUserId?: string,
-) {
-  const exists = await usernameExists(username, excludeUserId);
+async function checkUsernameExist(username: string, excludeUserId?: string) {
+  const exists = await userRepository.usernameExists(username, excludeUserId);
 
   if (exists) {
     throw new ConflictError("Username already taken");
   }
 }
 
-export async function checkEmailExist(
+async function checkEmailExist(
   email: string,
   excludeUserId?: string,
 ): Promise<void> {
-  const exists = await emailExists(email, excludeUserId);
+  const exists = await userRepository.emailExists(email, excludeUserId);
 
   if (exists) {
     throw new ConflictError("Email already taken");
   }
 }
 
-export async function createUser(data: CreateUserDto) {
-  return create(data);
+async function createUser(data: CreateUserDto) {
+  return userRepository.create(data);
 }
 
-export async function createUserForAdmin(
+async function createUserForAdmin(
   data: CreateUserInputAdmin,
 ): Promise<UserResponseDto> {
   const { username, email, password, role } = data;
 
   await Promise.all([checkUsernameExist(username), checkEmailExist(email)]);
 
-  const passwordHash = await doHash(password);
+  const passwordHash = await passwordService.doHash(password);
 
-  const user = await createForAdmin({
+  const user = await userRepository.createForAdmin({
     username,
     email,
     passwordHash,
@@ -131,11 +113,11 @@ export async function createUserForAdmin(
   return new UserResponseDto(user);
 }
 
-export async function updateUserProfileById(
+async function updateUserProfileById(
   id: string,
   data: UpdateUserDto,
 ): Promise<UserResponseDto> {
-  const user = await updateByIdForUser(id, data);
+  const user = await userRepository.updateByIdForUser(id, data);
 
   if (!user) {
     throw new NotFoundError("User not found");
@@ -144,7 +126,7 @@ export async function updateUserProfileById(
   return new UserResponseDto(user);
 }
 
-export async function updateUserByIdForAdmin(
+async function updateUserByIdForAdmin(
   id: string,
   data: UpdateUserInputAdmin,
 ): Promise<UserResponseDto> {
@@ -173,22 +155,22 @@ export async function updateUserByIdForAdmin(
   }
 
   if (data.password !== undefined) {
-    updateData.passwordHash = await doHash(data.password);
+    updateData.passwordHash = await passwordService.doHash(data.password);
   }
 
-  const updatedUser = await updateByIdForAdmin(id, updateData);
+  const updatedUser = await userRepository.updateByIdForAdmin(id, updateData);
 
   return new UserResponseDto(updatedUser!);
 }
 
-export async function deleteUserByIdForAdmin(
+async function deleteUserByIdForAdmin(
   id: string,
 ): Promise<UserMinimalResponseDto> {
   const user = await findUserByIdForAdmin(id);
 
   await checkCanDeleteUser(user.id);
 
-  const deletedUser = await deleteByIdForAdmin(id);
+  const deletedUser = await userRepository.deleteByIdForAdmin(id);
 
   if (!deletedUser) {
     throw new NotFoundError("User not found");
@@ -201,10 +183,10 @@ export async function deleteUserByIdForAdmin(
   );
 }
 
-export async function toggleUserStatusById(
+async function toggleUserStatusById(
   id: string,
 ): Promise<UserMinimalResponseDto> {
-  const user = await toggleStatusById(id);
+  const user = await userRepository.toggleStatusById(id);
 
   if (!user) {
     throw new NotFoundError("User doesn't exist");
@@ -218,7 +200,7 @@ export async function toggleUserStatusById(
 }
 
 async function checkCanChangeRoleToAdmin(userId: string): Promise<void> {
-  const hasResume = await hasResumeForUser(userId);
+  const hasResume = await resumeService.hasResumeForUser(userId);
 
   if (hasResume) {
     throw new ConflictError(
@@ -228,9 +210,27 @@ async function checkCanChangeRoleToAdmin(userId: string): Promise<void> {
 }
 
 async function checkCanDeleteUser(userId: string): Promise<void> {
-  const hasResume = await hasResumeForUser(userId);
+  const hasResume = await resumeService.hasResumeForUser(userId);
 
   if (hasResume) {
     throw new ConflictError("Cannot delete user while the user has a resume.");
   }
 }
+
+export const userService = {
+  createUser,
+  checkEmailExist,
+  findUserById,
+  checkUsernameExist,
+  findUserByUsernameOrEmail,
+  updateUserProfileById,
+};
+
+export const userAdminService = {
+  createUserForAdmin,
+  deleteUserByIdForAdmin,
+  findUserByIdForAdmin,
+  findUsers,
+  toggleUserStatusById,
+  updateUserByIdForAdmin,
+};

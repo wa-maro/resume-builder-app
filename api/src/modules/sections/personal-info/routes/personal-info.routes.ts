@@ -2,11 +2,7 @@ import { Router } from "express";
 import { validate } from "@http/middlewares";
 import { tryCatch } from "@shared/utils";
 import { paramsWithIDsSchema } from "@shared/validators";
-import {
-  createPersonalInfo,
-  getPersonalInfo,
-  updatePersonalInfo,
-} from "@personal-info/controllers";
+import { personalInfoController } from "@personal-info/controllers";
 import {
   addPersonalInfoBodySchema,
   editPersonalInfoBodySchema,
@@ -21,16 +17,16 @@ personalInfoRouter
       params: paramsWithIDsSchema,
       body: addPersonalInfoBodySchema,
     }),
-    tryCatch(createPersonalInfo, "createPersonalInfo"),
+    tryCatch(personalInfoController.createPersonalInfo, "createPersonalInfo"),
   )
-  .get("/", tryCatch(getPersonalInfo, "getPersonalInfo"))
+  .get("/", tryCatch(personalInfoController.getPersonalInfo, "getPersonalInfo"))
   .patch(
     "/:id",
     validate({
       params: paramsWithIDsSchema,
       body: editPersonalInfoBodySchema,
     }),
-    tryCatch(updatePersonalInfo, "updatePersonalInfo"),
+    tryCatch(personalInfoController.updatePersonalInfo, "updatePersonalInfo"),
   );
 
 export { personalInfoRouter };

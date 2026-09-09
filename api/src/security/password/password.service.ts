@@ -6,7 +6,7 @@ import { envConfig } from "@config";
  * @param password string
  * @returns romise string
  */
-export const doHash = async (password: string): Promise<string> => {
+const doHash = async (password: string): Promise<string> => {
   return await bcrypt.hash(password, envConfig.bcryptRounds);
 };
 
@@ -16,9 +16,14 @@ export const doHash = async (password: string): Promise<string> => {
  * @param hashedPassword string
  * @returns Promise boolean
  */
-export const compareHash = async (
+const compareHash = async (
   password: string,
   hashedPassword: string,
 ): Promise<boolean> => {
   return await bcrypt.compare(password, hashedPassword);
+};
+
+export const passwordService = {
+  doHash,
+  compareHash,
 };

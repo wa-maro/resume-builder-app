@@ -2,14 +2,7 @@ import { Router } from "express";
 import { validate } from "@http/middlewares";
 import { tryCatch } from "@shared/utils";
 import { paramsWithIDsSchema } from "@shared/validators";
-import {
-  createUser,
-  deleteUser,
-  editUser,
-  getUser,
-  getUsers,
-  toggleUserStatus,
-} from "../user-admin.controller.js";
+import { userAdminController } from "../user-admin.controller.js";
 import {
   createUserAdminBodySchema,
   editUserAdminBodySchema,
@@ -22,32 +15,32 @@ usersAdminRouter
   .post(
     "/",
     validate({ body: createUserAdminBodySchema }),
-    tryCatch(createUser, "createUser"),
+    tryCatch(userAdminController.createUser, "createUser"),
   )
   .get(
     "/",
     validate({ query: userQuerySchema }),
-    tryCatch(getUsers, "getUsers"),
+    tryCatch(userAdminController.getUsers, "getUsers"),
   )
   .get(
     "/:id",
     validate({ params: paramsWithIDsSchema }),
-    tryCatch(getUser, "getUser"),
+    tryCatch(userAdminController.getUser, "getUser"),
   )
   .patch(
     "/:id",
     validate({ params: paramsWithIDsSchema, body: editUserAdminBodySchema }),
-    tryCatch(editUser, "editUser"),
+    tryCatch(userAdminController.editUser, "editUser"),
   )
   .delete(
     "/:id",
     validate({ params: paramsWithIDsSchema }),
-    tryCatch(deleteUser, "deleteUser"),
+    tryCatch(userAdminController.deleteUser, "deleteUser"),
   )
   .patch(
     "/:id/status",
     validate({ params: paramsWithIDsSchema }),
-    tryCatch(toggleUserStatus, "toggleUserStatus"),
+    tryCatch(userAdminController.toggleUserStatus, "toggleUserStatus"),
   );
 
 export { usersAdminRouter };

@@ -1,4 +1,4 @@
-import { getDashboardStats } from "@dashboard/controllers";
+import { adminDashboardController } from "@dashboard/controllers";
 import { tryCatch } from "@shared/utils";
 import { Router } from "express";
 
@@ -6,7 +6,7 @@ const dashboardAdminRouter = Router();
 
 dashboardAdminRouter.get(
   "/stats",
-  tryCatch(getDashboardStats, "getDashboardStats"),
+  tryCatch(adminDashboardController.getDashboardStats, "getDashboardStats"),
 );
 
 export { dashboardAdminRouter };

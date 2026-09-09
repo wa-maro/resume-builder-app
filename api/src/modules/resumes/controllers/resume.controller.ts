@@ -2,38 +2,31 @@ import path from "node:path";
 import type { Request, Response } from "express";
 import { BadRequestError } from "@shared/errors";
 import { UploadFolder, uploadsDir } from "@shared/utils";
-import {
-  createResume,
-  editResumeForUser,
-  findResumeByUserId,
-  findResumeAvatarForUser,
-  removeResumeForUser,
-  changeResumeAvatarForUser,
-} from "@resumes/services";
+import { resumeService } from "@resumes/services";
 import { CreateResumeDto, UpdateResumeDto } from "@resumes/types";
 
-export async function createMyResume(req: Request, res: Response) {
+async function createMyResume(req: Request, res: Response) {
   const { id } = req.user;
   const data: CreateResumeDto = req.body;
 
   return res.status(201).json({
     success: true,
     message: "Resume created successfully",
-    data: await createResume(id, data),
+    data: await resumeService.createResume(id, data),
   });
 }
 
-export async function getMyResume(req: Request, res: Response) {
+async function getMyResume(req: Request, res: Response) {
   const { id } = req.user;
 
   return res.status(200).json({
     success: true,
     message: "Resume retrieved successfully",
-    data: await findResumeByUserId(id),
+    data: await resumeService.findResumeByUserId(id),
   });
 }
 
-export async function editMyResume(req: Request, res: Response) {
+async function editMyResume(req: Request, res: Response) {
   const { id: userId } = req.user;
   const { resumeId } = req.params;
   const data: UpdateResumeDto = req.body;
@@ -45,11 +38,11 @@ export async function editMyResume(req: Request, res: Response) {
   return res.status(200).json({
     success: true,
     message: "Resume retrieved successfully",
-    data: await editResumeForUser(userId, resumeId, data),
+    data: await resumeService.editResumeByUserId(userId, resumeId, data),
   });
 }
 
-export async function deleteMyResume(req: Request, res: Response) {
+async function deleteMyResume(req: Request, res: Response) {
   const { id: userId } = req.user;
   const { resumeId } = req.params;
 
@@ -57,7 +50,7 @@ export async function deleteMyResume(req: Request, res: Response) {
     throw new BadRequestError();
   }
 
-  await removeResumeForUser(userId, resumeId);
+  await resumeService.removeResumeByUserId(userId, resumeId);
 
   return res.status(200).json({
     success: true,
@@ -66,7 +59,7 @@ export async function deleteMyResume(req: Request, res: Response) {
   });
 }
 
-export async function getMyResumeAvatar(req: Request, res: Response) {
+async function getMyResumeAvatar(req: Request, res: Response) {
   const { id: userId } = req.user;
   const { resumeId } = req.params;
 
@@ -74,14 +67,14 @@ export async function getMyResumeAvatar(req: Request, res: Response) {
     throw new BadRequestError();
   }
 
-  const avatar = await findResumeAvatarForUser(userId, resumeId);
+  const avatar = await resumeService.findResumeAvatarByUserId(userId, resumeId);
 
   const filePath = path.join(uploadsDir, UploadFolder.RESUMES, avatar);
 
   return res.sendFile(filePath);
 }
 
-export async function changeMyResumeAvatar(req: Request, res: Response) {
+async function changeMyResumeAvatar(req: Request, res: Response) {
   const { id: userId } = req.user;
   const { resumeId } = req.params;
 
@@ -89,7 +82,7 @@ export async function changeMyResumeAvatar(req: Request, res: Response) {
     throw new BadRequestError();
   }
 
-  const resume = await changeResumeAvatarForUser(
+  const resume = await resumeService.changeResumeAvatarByUserId(
     userId,
     resumeId,
     req.file!.filename,
@@ -101,3 +94,12 @@ export async function changeMyResumeAvatar(req: Request, res: Response) {
     data: resume,
   });
 }
+
+export const resumeController = {
+  changeMyResumeAvatar,
+  createMyResume,
+  deleteMyResume,
+  editMyResume,
+  getMyResume,
+  getMyResumeAvatar,
+};

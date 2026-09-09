@@ -6,14 +6,7 @@ import {
   createResumeBodySchema,
   editResumeBodySchema,
 } from "@resumes/validators";
-import {
-  changeMyResumeAvatar,
-  createMyResume,
-  deleteMyResume,
-  editMyResume,
-  getMyResume,
-  getMyResumeAvatar,
-} from "@resumes/controllers";
+import { resumeController } from "@resumes/controllers";
 import { resumeUpload } from "@resumes";
 
 const resumeRouter = Router();
@@ -22,30 +15,30 @@ resumeRouter
   .post(
     "/",
     validate({ body: createResumeBodySchema }),
-    tryCatch(createMyResume, "createMyResume"),
+    tryCatch(resumeController.createMyResume, "createMyResume"),
   )
-  .get("/", tryCatch(getMyResume, "getMyResume"))
+  .get("/", tryCatch(resumeController.getMyResume, "getMyResume"))
   .patch(
     "/:resumeId",
     validate({ params: paramsWithIDsSchema, body: editResumeBodySchema }),
-    tryCatch(editMyResume, "editMyResume"),
+    tryCatch(resumeController.editMyResume, "editMyResume"),
   )
   .delete(
     "/:resumeId",
     validate({ params: paramsWithIDsSchema }),
-    tryCatch(deleteMyResume, "deleteMyResume"),
+    tryCatch(resumeController.deleteMyResume, "deleteMyResume"),
   )
   .get(
     "/:resumeId/avatar",
     validate({ params: paramsWithIDsSchema }),
-    tryCatch(getMyResumeAvatar, "getMyResumeAvatar"),
+    tryCatch(resumeController.getMyResumeAvatar, "getMyResumeAvatar"),
   )
   .patch(
     "/:resumeId/avatar",
     resumeUpload.single("avatar"),
     requireFile("avatar"),
     validate({ params: paramsWithIDsSchema }),
-    tryCatch(changeMyResumeAvatar, "changeMyResumeAvatar"),
+    tryCatch(resumeController.changeMyResumeAvatar, "changeMyResumeAvatar"),
   );
 
 export { resumeRouter };

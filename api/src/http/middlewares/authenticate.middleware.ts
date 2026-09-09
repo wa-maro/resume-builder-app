@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import { UnauthorizedError } from "@shared/errors";
-import { verifyToken } from "@security/jwt-token";
-import { findUserById } from "@users/services";
+import { jwtTokenService } from "@security/jwt-token";
+import { userService } from "@users/services";
 
 export const authenticate = async (
   req: Request,
@@ -21,10 +21,10 @@ export const authenticate = async (
   }
 
   try {
-    const payload = verifyToken(token);
+    const payload = jwtTokenService.verifyToken(token);
     if (!payload) return;
 
-    const user = await findUserById(payload.id);
+    const user = await userService.findUserById(payload.id);
 
     if (!user) {
       return next(new UnauthorizedError());

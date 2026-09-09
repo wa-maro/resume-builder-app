@@ -6,34 +6,24 @@ import {
   FAQResponseDto,
   UpdateFAQInput,
 } from "@faqs/types";
-import {
-  createForAdmin,
-  deleteById,
-  findAll,
-  findAllActive,
-  findById,
-  getCount,
-  questionExists,
-  toggleStatusById,
-  updateById,
-} from "@faqs";
+import { faqRepository } from "@faqs";
 import { ConflictError, NotFoundError } from "@shared/errors";
 
-export async function createFAQForAdmin(data: CreateFAQInput) {
+async function createFAQForAdmin(data: CreateFAQInput) {
   await checkQuestionExist(data.question);
 
-  const faq = await createForAdmin(data);
+  const faq = await faqRepository.createForAdmin(data);
 
   return new FAQResponseDto(faq);
 }
 
-export async function findActiveFAQs() {
-  const faqs = await findAllActive();
+async function findActiveFAQs() {
+  const faqs = await faqRepository.findAllActive();
 
   return faqs.map((faq) => new FAQResponseDto(faq));
 }
 
-export async function findFAQs(query: FAQQueryDto) {
+async function findFAQs(query: FAQQueryDto) {
   const {
     filter = {},
     page = 1,
@@ -54,8 +44,8 @@ export async function findFAQs(query: FAQQueryDto) {
   };
 
   const [faqs, total] = await Promise.all([
-    findAll(repoQuery),
-    getCount(filter),
+    faqRepository.findAll(repoQuery),
+    faqRepository.getCount(filter),
   ]);
 
   return {
@@ -71,8 +61,8 @@ export async function findFAQs(query: FAQQueryDto) {
   };
 }
 
-export async function findFAQById(id: string) {
-  const faq = await findById(id);
+async function findFAQById(id: string) {
+  const faq = await faqRepository.findById(id);
 
   if (!faq) {
     throw new NotFoundError("FAQ doesn't exist");
@@ -81,7 +71,7 @@ export async function findFAQById(id: string) {
   return new FAQResponseDto(faq);
 }
 
-export async function updateFAQById(id: string, data: UpdateFAQInput) {
+async function updateFAQById(id: string, data: UpdateFAQInput) {
   const { question, answer, order } = data;
   const updatedFAQ: UpdateFAQInput = {};
 
@@ -99,7 +89,7 @@ export async function updateFAQById(id: string, data: UpdateFAQInput) {
     updatedFAQ.order = order;
   }
 
-  const faq = await updateById(id, updatedFAQ);
+  const faq = await faqRepository.updateById(id, updatedFAQ);
 
   if (!faq) {
     throw new NotFoundError("FAQ doesn't exist");
@@ -108,8 +98,8 @@ export async function updateFAQById(id: string, data: UpdateFAQInput) {
   return new FAQResponseDto(faq);
 }
 
-export async function toggleFAQStatusById(id: string) {
-  const faq = await toggleStatusById(id);
+async function toggleFAQStatusById(id: string) {
+  const faq = await faqRepository.toggleStatusById(id);
 
   if (!faq) {
     throw new NotFoundError("FAQ doesn't exist");
@@ -118,8 +108,8 @@ export async function toggleFAQStatusById(id: string) {
   return new FAQMinimalResponseDto(faq);
 }
 
-export async function removeFAQById(id: string) {
-  const faq = await deleteById(id);
+async function removeFAQById(id: string) {
+  const faq = await faqRepository.deleteById(id);
 
   if (!faq) {
     throw new NotFoundError("FAQ doesn't exist");
@@ -129,9 +119,22 @@ export async function removeFAQById(id: string) {
 }
 
 async function checkQuestionExist(question: string, excludeUserId?: string) {
-  const exists = await questionExists(question, excludeUserId);
+  const exists = await faqRepository.questionExists(question, excludeUserId);
 
   if (exists) {
     throw new ConflictError("Question already exists");
   }
 }
+
+export const faqAdminService = {
+  createFAQForAdmin,
+  findFAQById,
+  findFAQs,
+  removeFAQById,
+  toggleFAQStatusById,
+  updateFAQById,
+};
+
+export const faqService = {
+  findActiveFAQs,
+};

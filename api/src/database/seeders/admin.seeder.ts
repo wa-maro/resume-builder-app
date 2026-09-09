@@ -1,5 +1,5 @@
 import { errorLogger, infoLogger } from "@shared/utils";
-import { doHash } from "@security/password";
+import { passwordService } from "@security/password";
 import { UserModel } from "@users";
 import { UserRole } from "@users/types";
 import { admins } from "./data/users.js";
@@ -17,7 +17,7 @@ export async function seedAdmins() {
     return;
   }
 
-  const passwordHash = await doHash(password);
+  const passwordHash = await passwordService.doHash(password);
 
   const operations = admins.map((admin) => ({
     updateOne: {
