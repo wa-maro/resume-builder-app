@@ -1,1 +1,1 @@
-export * from "./dashboard-stats.controller.js";
+export * from "./dashboard-admin.controller.js";

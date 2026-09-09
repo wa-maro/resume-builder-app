@@ -5,7 +5,7 @@ import { ResumeResponseDto } from "@resumes/types";
 import { UserModel } from "@users";
 import { UserResponseDto } from "@users/types";
 
-async function adminDashboardStats() {
+async function aggregateStats() {
   return {
     resumes: await resumeStats(),
     users: await userstats(),
@@ -67,6 +67,6 @@ async function messageStats() {
   };
 }
 
-export const adminDashboardService = {
-  adminDashboardStats,
+export const dashboardAdminService = {
+  aggregateStats,
 };
