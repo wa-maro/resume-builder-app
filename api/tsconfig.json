@@ -80,6 +80,17 @@
         "./src/modules/sections/work-experiences/validators/index.ts"
       ],
 
+      "@skills": ["./src/modules/sections/skills/index.ts"],
+      "@skills/controllers": [
+        "./src/modules/sections/skills/controllers/index.ts"
+      ],
+      "@skills/routes": ["./src/modules/sections/skills/routes/index.ts"],
+      "@skills/services": ["./src/modules/sections/skills/services/index.ts"],
+      "@skills/types": ["./src/modules/sections/skills/types/index.ts"],
+      "@skills/validators": [
+        "./src/modules/sections/skills/validators/index.ts"
+      ],
+
       "@messages": ["./src/modules/messages/index.ts"],
       "@messages/controllers": ["./src/modules/messages/controllers/index.ts"],
       "@messages/routes": ["./src/modules/messages/routes/index.ts"],
