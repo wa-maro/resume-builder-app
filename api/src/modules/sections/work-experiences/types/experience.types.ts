@@ -1,3 +1,5 @@
+import { PopulateResume } from "@resumes/types";
+import { WorkExperienceDocument } from "@work-experiences";
 import { Types } from "mongoose";
 
 export interface Company {
@@ -12,7 +14,14 @@ export interface WorkExperience {
   responsibilities: string;
   startDate: string;
   endDate?: string;
-  currentlyWorking?: boolean;
+  currentlyWorking: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
+
+export type WorkExperienceWithResume = Omit<
+  WorkExperienceDocument,
+  "resume"
+> & {
+  resume: Types.ObjectId | PopulateResume;
+};
