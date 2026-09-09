@@ -72,4 +72,10 @@ ResumeSchema.virtual("personalInfo", {
   justOne: true,
 });
 
+ResumeSchema.virtual("workExperiences", {
+  ref: "WorkExperience",
+  localField: "_id",
+  foreignField: "resume",
+});
+
 export const ResumeModel = model<BaseResume>("Resume", ResumeSchema);
