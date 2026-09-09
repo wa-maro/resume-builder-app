@@ -1,4 +1,4 @@
-import { errorLogger, infoLogger } from "@shared/utils";
+import { infoLogger } from "@shared/utils";
 import { UserModel } from "@users";
 import { UserRole } from "@users/types";
 import { ResumeModel } from "@resumes";
@@ -12,12 +12,12 @@ export async function seedResumes() {
     .lean();
 
   if (users.length === 0) {
-    errorLogger.error("No users found. Resume seeding skipped.");
+    infoLogger.warn("No users found. Resume seeding skipped.");
     return;
   }
 
   if (resumes.length === 0) {
-    errorLogger.error("No resumes found. Resume seeding skipped.");
+    infoLogger.warn("No resumes found. Resume seeding skipped.");
     return;
   }
 

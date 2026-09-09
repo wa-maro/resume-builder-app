@@ -6,7 +6,7 @@ import { admins } from "./data/users.js";
 
 export async function seedAdmins() {
   if (admins.length === 0) {
-    errorLogger.error("No admins found. Admin seeding skipped.");
+    infoLogger.warn("No admins found. Admin seeding skipped.");
     return;
   }
 

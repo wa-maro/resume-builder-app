@@ -1,11 +1,11 @@
 import { FAQModel } from "@faqs";
-import { errorLogger, infoLogger } from "@shared/utils";
+import { infoLogger } from "@shared/utils";
 
 import faqs from "./data/faqs.js";
 
 export async function seedFAQs() {
   if (faqs.length === 0) {
-    errorLogger.error("No FAQs found. FAQ seeding skipped.");
+    infoLogger.warn("No FAQs found. FAQ seeding skipped.");
     return;
   }
 

@@ -1,10 +1,10 @@
 import { MessageModel } from "@messages";
-import { errorLogger, infoLogger } from "@shared/utils";
+import { infoLogger } from "@shared/utils";
 import messages from "./data/messages.js";
 
 export async function seedMessages() {
   if (messages.length === 0) {
-    errorLogger.error("No messages found. Message seeding skipped.");
+    infoLogger.warn("No messages found. Message seeding skipped.");
     return;
   }
 

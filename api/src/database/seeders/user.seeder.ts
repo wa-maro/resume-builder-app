@@ -6,7 +6,7 @@ import { users } from "./data/users.js";
 
 export async function seedUsers() {
   if (users.length === 0) {
-    errorLogger.error("No users found. User seeding skipped.");
+    infoLogger.warn("No users found. User seeding skipped.");
     return;
   }
 

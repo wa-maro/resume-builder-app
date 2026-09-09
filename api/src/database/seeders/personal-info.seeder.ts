@@ -1,4 +1,4 @@
-import { errorLogger, infoLogger } from "@shared/utils";
+import { infoLogger } from "@shared/utils";
 import { ResumeModel } from "@resumes";
 import { PersonalInfoModel } from "@personal-info";
 import personalInfos from "./data/personal-infos.js";
@@ -7,12 +7,12 @@ export async function seedPersonalInfos() {
   const resumes = await ResumeModel.find().select("_id").lean();
 
   if (resumes.length === 0) {
-    errorLogger.error("No resumes found. Personal info seeding skipped.");
+    infoLogger.warn("No resumes found. Personal info seeding skipped.");
     return;
   }
 
   if (personalInfos.length === 0) {
-    errorLogger.error("No personal info found. Personal info seeding skipped.");
+    infoLogger.warn("No personal info found. Personal info seeding skipped.");
     return;
   }
 
