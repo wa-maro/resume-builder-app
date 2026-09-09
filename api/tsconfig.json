@@ -31,6 +31,7 @@
       "@http/routes": ["./src/http/routes/index.ts"],
 
       "@auth": ["./src/modules/auth/index.ts"],
+      "@auth/validators": ["./src/modules/auth/validators/index.ts"],
 
       "@users": ["./src/modules/users/index.ts"],
       "@users/routes": ["./src/modules/users/routes/index.ts"],
