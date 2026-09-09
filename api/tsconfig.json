@@ -91,6 +91,19 @@
         "./src/modules/sections/skills/validators/index.ts"
       ],
 
+      "@referees": ["./src/modules/sections/referees/index.ts"],
+      "@referees/controllers": [
+        "./src/modules/sections/referees/controllers/index.ts"
+      ],
+      "@referees/routes": ["./src/modules/sections/referees/routes/index.ts"],
+      "@referees/services": [
+        "./src/modules/sections/referees/services/index.ts"
+      ],
+      "@referees/types": ["./src/modules/sections/referees/types/index.ts"],
+      "@referees/validators": [
+        "./src/modules/sections/referees/validators/index.ts"
+      ],
+
       "@messages": ["./src/modules/messages/index.ts"],
       "@messages/controllers": ["./src/modules/messages/controllers/index.ts"],
       "@messages/routes": ["./src/modules/messages/routes/index.ts"],

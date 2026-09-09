@@ -1,5 +1,5 @@
 import { Router } from "express";
 
-const skillsRouter = Router();
+const skillsRouter = Router({ mergeParams: true });
 
 export { skillsRouter };
