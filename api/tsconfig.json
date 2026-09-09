@@ -63,6 +63,23 @@
         "./src/modules/sections/personal-info/validators/index.ts"
       ],
 
+      "@work-experiences": ["./src/modules/sections/work-experiences/index.ts"],
+      "@work-experiences/controllers": [
+        "./src/modules/sections/work-experiences/controllers/index.ts"
+      ],
+      "@work-experiences/routes": [
+        "./src/modules/sections/work-experiences/routes/index.ts"
+      ],
+      "@work-experiences/services": [
+        "./src/modules/sections/work-experiences/services/index.ts"
+      ],
+      "@work-experiences/types": [
+        "./src/modules/sections/work-experiences/types/index.ts"
+      ],
+      "@work-experiences/validators": [
+        "./src/modules/sections/work-experiences/validators/index.ts"
+      ],
+
       "@messages": ["./src/modules/messages/index.ts"],
       "@messages/controllers": ["./src/modules/messages/controllers/index.ts"],
       "@messages/routes": ["./src/modules/messages/routes/index.ts"],

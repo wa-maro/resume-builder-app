@@ -5,6 +5,7 @@ import { personalInfoAdminRouter } from "@personal-info/routes";
 import { messageAdminRouter } from "@messages/routes";
 import { faqsAdminRouter } from "@faqs/routes";
 import { dashboardAdminRouter } from "@dashboard/routes";
+import { experiencesAdminRouter } from "@work-experiences/routes";
 
 const adminRouter = Router();
 
@@ -13,6 +14,7 @@ adminRouter
   .use("/users", usersAdminRouter)
   .use("/resumes", resumesAdminRouter)
   .use("/personal-informations", personalInfoAdminRouter)
+  .use("/work-experiences", experiencesAdminRouter)
   .use("/messages", messageAdminRouter)
   .use("/faqs", faqsAdminRouter);
 
