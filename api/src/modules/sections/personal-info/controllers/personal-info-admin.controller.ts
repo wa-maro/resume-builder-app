@@ -87,7 +87,7 @@ async function deletePersonalInfoAdmin(req: Request, res: Response) {
     throw new BadRequestError();
   }
 
-  await personalInfoAdminService.removePersonalInfo(id);
+  await personalInfoAdminService.removePersonalInfoById(id);
 
   return res.status(200).json({
     success: true,
