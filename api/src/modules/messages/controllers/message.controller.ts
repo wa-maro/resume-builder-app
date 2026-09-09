@@ -1,6 +1,6 @@
+import { messageService } from "@messages/services";
 import { CreateMessageInput } from "@messages/types";
 import { Request, Response } from "express";
-import { messageService } from "../services/message.service.js";
 
 async function createMessage(req: Request, res: Response) {
   const data: CreateMessageInput = req.body;
