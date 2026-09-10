@@ -1,4 +1,5 @@
 import { PopulateResume } from "@resumes/types";
+import { RepositoryQueryOptions } from "@shared/types";
 import { WorkExperienceDocument } from "@work-experiences";
 import { Types } from "mongoose";
 
@@ -25,3 +26,20 @@ export type WorkExperienceWithResume = Omit<
 > & {
   resume: Types.ObjectId | PopulateResume;
 };
+
+export interface WorkExperienceFilter {
+  search?: string;
+  currentlyWorking?: boolean;
+}
+
+export type WorkExperienceSortFields = Pick<
+  WorkExperience,
+  "createdAt" | "updatedAt" | "position" | "company" | "startDate" | "endDate"
+>;
+
+export type WorkExperienceSortField = keyof WorkExperienceSortFields;
+
+export type WorkExperienceRepoQueryOptions = RepositoryQueryOptions<
+  WorkExperienceFilter,
+  WorkExperienceSortFields
+>;
