@@ -60,6 +60,17 @@ async function findByResumeId(resumeId: string) {
   return WorkExperienceModel.findOne({ resume: resumeId }).exec();
 }
 
+async function deleteById(id: string) {
+  return WorkExperienceModel.findByIdAndDelete(id).exec();
+}
+
+async function deleteByResumeAndId(resumeId: string, id: string) {
+  return WorkExperienceModel.findOneAndDelete({
+    _id: id,
+    resume: resumeId,
+  }).exec();
+}
+
 function buildWorkExperienceMongoFilter(filter: WorkExperienceFilter) {
   const { search, ...rest } = filter;
 
@@ -85,4 +96,6 @@ export const workExperiencesRepository = {
   findAllByResume,
   findByResumeId,
   findById,
+  deleteById,
+  deleteByResumeAndId,
 };
