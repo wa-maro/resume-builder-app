@@ -1,9 +1,14 @@
 import {
+  AddWorkExperienceInput,
   WorkExperienceFilter,
   WorkExperienceRepoQueryOptions,
 } from "@work-experiences/types";
 import { WorkExperienceModel } from "@work-experiences";
 import { PopulateResume } from "@resumes/types";
+
+async function createForResume(resumeId: string, data: AddWorkExperienceInput) {
+  return WorkExperienceModel.create({ resume: resumeId, ...data });
+}
 
 async function findAll(query: WorkExperienceRepoQueryOptions) {
   const {
@@ -58,6 +63,7 @@ function buildWorkExperienceMongoFilter(filter: WorkExperienceFilter) {
 }
 
 export const workExperiencesRepository = {
+  createForResume,
   findAll,
   getCount,
   findAllByResume,
