@@ -6,7 +6,7 @@ import {
   WorkExperienceResponseDto,
 } from "@work-experiences/types";
 
-async function findWorkExperiences(query: WorkExperienceQueryDto) {
+async function findAll(query: WorkExperienceQueryDto) {
   const {
     filter = {},
     page = 1,
@@ -47,5 +47,5 @@ async function findWorkExperiences(query: WorkExperienceQueryDto) {
 }
 
 export const workExperiencesAdminService = {
-  findWorkExperiences,
+  findAll,
 };

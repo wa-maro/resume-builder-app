@@ -29,7 +29,7 @@ async function getWorkExperiences(req: Request, res: Response) {
   return res.status(200).json({
     success: true,
     message: "Work experiences retrieved successfully",
-    ...(await workExperiencesAdminService.findWorkExperiences(query)),
+    ...(await workExperiencesAdminService.findAll(query)),
   });
 }
 
