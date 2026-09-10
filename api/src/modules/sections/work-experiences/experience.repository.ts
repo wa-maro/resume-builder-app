@@ -33,6 +33,12 @@ async function getCount(filter: WorkExperienceFilter) {
   return WorkExperienceModel.countDocuments(mongoFilter).exec();
 }
 
+async function findAllByResume(resumeId: string) {
+  return await WorkExperienceModel.find({
+    resume: resumeId,
+  }).exec();
+}
+
 function buildWorkExperienceMongoFilter(filter: WorkExperienceFilter) {
   const { search, ...rest } = filter;
 
@@ -54,4 +60,5 @@ function buildWorkExperienceMongoFilter(filter: WorkExperienceFilter) {
 export const workExperiencesRepository = {
   findAll,
   getCount,
+  findAllByResume,
 };
