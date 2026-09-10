@@ -1,6 +1,30 @@
 import { Types } from "mongoose";
-import { Company, WorkExperienceWithResume } from "./experience.types.js";
+import {
+  Company,
+  WorkExperience,
+  WorkExperienceFilter,
+  WorkExperienceSortFields,
+  WorkExperienceWithResume,
+} from "./experience.types.js";
 import { ResumeMinimalResponseDto } from "@resumes/types";
+import { QueryOptions } from "@shared/types";
+
+export type AddWorkExperienceInput = Pick<
+  WorkExperience,
+  | "position"
+  | "company"
+  | "responsibilities"
+  | "startDate"
+  | "endDate"
+  | "currentlyWorking"
+>;
+
+export type EditWorkExperienceInput = Partial<AddWorkExperienceInput>;
+
+export type WorkExperienceQueryDto = QueryOptions<
+  WorkExperienceFilter,
+  WorkExperienceSortFields
+>;
 
 export class WorkExperienceResponseDto {
   readonly id: string;
