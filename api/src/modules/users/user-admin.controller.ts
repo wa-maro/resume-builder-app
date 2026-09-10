@@ -72,7 +72,7 @@ async function editUser(req: Request, res: Response) {
 
   return res.status(200).json({
     success: true,
-    message: "User retrieved successfully",
+    message: "User updated successfully",
     data: await userAdminService.updateUserByIdForAdmin(id, data),
   });
 }

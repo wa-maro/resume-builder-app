@@ -61,7 +61,7 @@ async function replyMessage(req: Request, res: Response) {
 
   res.status(200).json({
     success: true,
-    message: "Reply sent successfully",
+    message: "Message replied successfully",
     data: await messageAdminService.replyMessage(id, data.reply),
   });
 }
