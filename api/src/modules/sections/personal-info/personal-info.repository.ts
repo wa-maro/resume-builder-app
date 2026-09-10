@@ -1,4 +1,4 @@
-import { PopulatedResumeDocument } from "@resumes/types";
+import { PopulatedResumeDocument, PopulateResume } from "@resumes/types";
 import { PersonalInfoModel } from "@personal-info";
 import {
   AddPersonalInfoInput,
@@ -26,7 +26,7 @@ async function findAll(query: PersonalInfoRepoQueryOptions) {
   const mongoFilter = buildPersonalInfoMongoFilter(filter);
 
   return PersonalInfoModel.find(mongoFilter)
-    .populate("resume", "_id title")
+    .populate<PopulateResume>("resume", "_id title")
     .sort({
       [sort]: order,
       _id: -1,
@@ -57,8 +57,9 @@ async function findByResumeId(resumeId: string) {
   return PersonalInfoModel.findOne({ resume: resumeId }).exec();
 }
 
-async function findByResumeAndId(resumeId: string) {
+async function findByResumeAndId(resumeId: string, id: string) {
   return PersonalInfoModel.findOne({
+    _id: id,
     resume: resumeId,
   }).exec();
 }

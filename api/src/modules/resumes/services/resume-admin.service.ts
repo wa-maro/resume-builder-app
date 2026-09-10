@@ -6,6 +6,7 @@ import {
 } from "@resumes/types";
 import { NotFoundError } from "@shared/errors";
 import { resumeRepository } from "@resumes";
+import { SortOrderRepo } from "@shared/types";
 
 async function findResumes(query: ResumeQueryDto) {
   const {
@@ -17,7 +18,7 @@ async function findResumes(query: ResumeQueryDto) {
   } = query;
 
   const skip = (page - 1) * limit;
-  const order = sortOrder === "asc" ? 1 : -1;
+  const order: SortOrderRepo = sortOrder === "asc" ? 1 : -1;
 
   const repoQuery: ResumeRepoQueryOptions = {
     filter,

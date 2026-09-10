@@ -27,9 +27,7 @@ async function addPersonalInfo(resumeId: string, data: AddPersonalInfoInput) {
 async function findPersonalInfoByResumeId(resumeId: string) {
   const resume = await resumeService.findResumeById(resumeId);
 
-  const personalInfo = await personalInfoRepository.findByResumeAndId(
-    resume.id,
-  );
+  const personalInfo = await personalInfoRepository.findByResumeId(resume.id);
 
   if (!personalInfo) {
     throw new NotFoundError("Personal information doesn't exists");

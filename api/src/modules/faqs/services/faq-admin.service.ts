@@ -8,6 +8,7 @@ import {
 } from "@faqs/types";
 import { faqRepository } from "@faqs";
 import { ConflictError, NotFoundError } from "@shared/errors";
+import { SortOrderRepo } from "@shared/types";
 
 async function createFAQForAdmin(data: CreateFAQInput) {
   await checkQuestionExist(data.question);
@@ -27,7 +28,7 @@ async function findFAQs(query: FAQQueryDto) {
   } = query;
 
   const skip = (page - 1) * limit;
-  const order = sortOrder === "asc" ? 1 : -1;
+  const order: SortOrderRepo = sortOrder === "asc" ? 1 : -1;
 
   const repoQuery: FAQRepoQueryOptions = {
     filter,

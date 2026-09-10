@@ -7,6 +7,7 @@ import {
 import { personalInfoRepository } from "@personal-info";
 import { AppError, NotFoundError } from "@shared/errors";
 import { Types } from "mongoose";
+import { SortOrderRepo } from "@shared/types";
 
 async function findPersonalInfos(query: PersonalInfoQueryDto) {
   const {
@@ -18,7 +19,7 @@ async function findPersonalInfos(query: PersonalInfoQueryDto) {
   } = query;
 
   const skip = (page - 1) * limit;
-  const order = sortOrder === "asc" ? 1 : -1;
+  const order: SortOrderRepo = sortOrder === "asc" ? 1 : -1;
 
   const repoQuery: PersonalInfoRepoQueryOptions = {
     filter,

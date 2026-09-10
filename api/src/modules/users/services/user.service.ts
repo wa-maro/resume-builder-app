@@ -14,6 +14,7 @@ import {
   UserResponseDto,
   UserRole,
 } from "@users/types";
+import { SortOrderRepo } from "@shared/types";
 
 async function findUsers(query: UserQueryDto) {
   const {
@@ -25,7 +26,7 @@ async function findUsers(query: UserQueryDto) {
   } = query;
 
   const skip = (page - 1) * limit;
-  const order = sortOrder === "asc" ? 1 : -1;
+  const order: SortOrderRepo = sortOrder === "asc" ? 1 : -1;
 
   const repoQuery: UserRepoQueryOptions = {
     filter,

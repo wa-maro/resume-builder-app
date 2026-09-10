@@ -7,6 +7,7 @@ import {
 import { sendEmail } from "@shared/utils";
 import { messageRepository } from "@messages";
 import { NotFoundError } from "@shared/errors";
+import { SortOrderRepo } from "@shared/types";
 
 const findMessages = async (query: MessageQueryDto) => {
   const {
@@ -18,7 +19,7 @@ const findMessages = async (query: MessageQueryDto) => {
   } = query;
 
   const skip = (page - 1) * limit;
-  const order = sortOrder === "asc" ? 1 : -1;
+  const order: SortOrderRepo = sortOrder === "asc" ? 1 : -1;
 
   const repoQuery: MessageRepoQueryOptions = {
     filter,
