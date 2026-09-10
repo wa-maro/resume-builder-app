@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { resumeRouter } from "@resumes/routes";
 import { personalInfoRouter } from "@personal-info/routes";
-import { experiencesRouter } from "@work-experiences/routes";
+import { workExperiencesRouter } from "@work-experiences/routes";
 import { skillsRouter } from "@skills/routes";
 import { refereesRouter } from "@referees/routes";
 import { projectsRouter } from "@projects/routes";
@@ -12,7 +12,7 @@ userRouter.use("/resume", resumeRouter);
 
 resumeRouter
   .use("/:resumeId/personal-information", personalInfoRouter)
-  .use("/:resumeId/work-experiences", experiencesRouter)
+  .use("/:resumeId/work-experiences", workExperiencesRouter)
   .use("/:resumeId/projects", projectsRouter)
   .use("/:resumeId/skills", skillsRouter)
   .use("/:resumeId/referees", refereesRouter);
