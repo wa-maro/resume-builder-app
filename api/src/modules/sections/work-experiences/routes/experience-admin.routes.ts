@@ -1,5 +1,18 @@
+import { validate } from "@http/middlewares";
+import { tryCatch } from "@shared/utils";
+import { workExperiencesAdminController } from "@work-experiences/controllers";
+import { workExperienceQuerySchema } from "@work-experiences/validators";
 import { Router } from "express";
 
-const experiencesAdminRouter = Router();
+const workExperiencesAdminRouter = Router();
 
-export { experiencesAdminRouter };
+workExperiencesAdminRouter.get(
+  "/",
+  validate({ query: workExperienceQuerySchema }),
+  tryCatch(
+    workExperiencesAdminController.getWorkExperiences,
+    "getWorkExperiences",
+  ),
+);
+
+export { workExperiencesAdminRouter };
