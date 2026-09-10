@@ -1,6 +1,29 @@
 import { resumeService } from "@resumes/services";
 import { workExperiencesRepository } from "../experience.repository.js";
-import { WorkExperienceResponseDto } from "@work-experiences/types";
+import {
+  AddWorkExperienceInput,
+  WorkExperienceResponseDto,
+} from "@work-experiences/types";
+import { ConflictError } from "@shared/errors";
+
+async function createForResume(resumeId: string, data: AddWorkExperienceInput) {
+  const resume = await resumeService.findResumeById(resumeId);
+
+  const existingExperience = await workExperiencesRepository.findByResumeId(
+    resume.id,
+  );
+
+  if (existingExperience) {
+    throw new ConflictError("Personal information already exists");
+  }
+
+  const experience = await workExperiencesRepository.createForResume(
+    resumeId,
+    data,
+  );
+
+  return new WorkExperienceResponseDto(experience);
+}
 
 async function findAllByResume(resumeId: string) {
   const resume = await resumeService.findResumeById(resumeId);
@@ -14,4 +37,5 @@ async function findAllByResume(resumeId: string) {
 
 export const workExperiencesService = {
   findAllByResume,
+  createForResume,
 };
