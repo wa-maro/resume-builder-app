@@ -1,3 +1,4 @@
+import { BadRequestError } from "@shared/errors";
 import { SortOrderDto } from "@shared/types";
 import { workExperiencesAdminService } from "@work-experiences/services";
 import {
@@ -33,6 +34,21 @@ async function getWorkExperiences(req: Request, res: Response) {
   });
 }
 
+async function getWorkExperience(req: Request, res: Response) {
+  const { id } = req.params;
+
+  if (typeof id !== "string") {
+    throw new BadRequestError();
+  }
+
+  return res.status(200).json({
+    success: true,
+    message: "Work experience retrieved successfully",
+    data: await workExperiencesAdminService.findById(id),
+  });
+}
+
 export const workExperiencesAdminController = {
   getWorkExperiences,
+  getWorkExperience,
 };
