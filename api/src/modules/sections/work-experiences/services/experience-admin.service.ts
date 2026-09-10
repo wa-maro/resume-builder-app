@@ -1,3 +1,4 @@
+import { AppError, NotFoundError } from "@shared/errors";
 import { SortOrderRepo } from "@shared/types";
 import { workExperiencesRepository } from "@work-experiences";
 import {
@@ -5,6 +6,7 @@ import {
   WorkExperienceRepoQueryOptions,
   WorkExperienceResponseDto,
 } from "@work-experiences/types";
+import { Types } from "mongoose";
 
 async function findAll(query: WorkExperienceQueryDto) {
   const {
@@ -46,6 +48,34 @@ async function findAll(query: WorkExperienceQueryDto) {
   };
 }
 
+async function findById(id: string) {
+  const personalInfo = await workExperiencesRepository.findById(id);
+
+  if (!personalInfo) {
+    throw new NotFoundError("Personal information doesn't exists");
+  }
+
+  const user = personalInfo.resume.user;
+
+  if (!(user && !(user instanceof Types.ObjectId))) {
+    throw new AppError("Expected resume.user to be populated", 500);
+  }
+
+  const info = new WorkExperienceResponseDto(personalInfo);
+
+  return {
+    ...info,
+    resume: {
+      ...info.resume,
+      user: {
+        id: user._id.toString(),
+        username: user.username,
+      },
+    },
+  };
+}
+
 export const workExperiencesAdminService = {
   findAll,
+  findById,
 };
