@@ -4,7 +4,7 @@ import {
   WorkExperienceRepoQueryOptions,
 } from "@work-experiences/types";
 import { WorkExperienceModel } from "@work-experiences";
-import { PopulateResume } from "@resumes/types";
+import { PopulatedResumeDocument, PopulateResume } from "@resumes/types";
 
 async function createForResume(resumeId: string, data: AddWorkExperienceInput) {
   return WorkExperienceModel.create({ resume: resumeId, ...data });
@@ -44,6 +44,22 @@ async function findAllByResume(resumeId: string) {
   }).exec();
 }
 
+async function findById(id: string) {
+  return await WorkExperienceModel.findById(id)
+    .populate<{
+      resume: PopulatedResumeDocument;
+    }>({
+      path: "resume",
+      select: "_id title user",
+      populate: { path: "user", select: "_id username" },
+    })
+    .exec();
+}
+
+async function findByResumeId(resumeId: string) {
+  return WorkExperienceModel.findOne({ resume: resumeId }).exec();
+}
+
 function buildWorkExperienceMongoFilter(filter: WorkExperienceFilter) {
   const { search, ...rest } = filter;
 
@@ -67,4 +83,6 @@ export const workExperiencesRepository = {
   findAll,
   getCount,
   findAllByResume,
+  findByResumeId,
+  findById,
 };
