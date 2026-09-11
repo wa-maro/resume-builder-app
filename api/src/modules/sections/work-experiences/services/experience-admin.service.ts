@@ -2,6 +2,7 @@ import { AppError, NotFoundError } from "@shared/errors";
 import { SortOrderRepo } from "@shared/types";
 import { workExperiencesRepository } from "@work-experiences";
 import {
+  WorkExperienceMinimalResponseDto,
   WorkExperienceQueryDto,
   WorkExperienceRepoQueryOptions,
   WorkExperienceResponseDto,
@@ -75,7 +76,18 @@ async function findById(id: string) {
   };
 }
 
+async function deleteById(id: string) {
+  const experience = await workExperiencesRepository.deleteById(id);
+
+  if (!experience) {
+    throw new NotFoundError("Work experience doesn't exists");
+  }
+
+  return new WorkExperienceMinimalResponseDto(experience);
+}
+
 export const workExperiencesAdminService = {
   findAll,
   findById,
+  deleteById,
 };

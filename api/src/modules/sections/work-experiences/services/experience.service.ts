@@ -1,8 +1,9 @@
 import { resumeService } from "@resumes/services";
-import { ConflictError } from "@shared/errors";
+import { ConflictError, NotFoundError } from "@shared/errors";
 import { workExperiencesRepository } from "@work-experiences";
 import {
   AddWorkExperienceInput,
+  WorkExperienceMinimalResponseDto,
   WorkExperienceResponseDto,
 } from "@work-experiences/types";
 
@@ -35,7 +36,23 @@ async function findAllByResume(resumeId: string) {
   return experiences.map((exp) => new WorkExperienceResponseDto(exp));
 }
 
+async function deleteByResumeAndId(resumeId: string, id: string) {
+  const resume = await resumeService.findResumeById(resumeId);
+
+  const experience = await workExperiencesRepository.deleteByResumeAndId(
+    resume.id,
+    id,
+  );
+
+  if (!experience) {
+    throw new NotFoundError("Work experience doesn't exist");
+  }
+
+  return new WorkExperienceMinimalResponseDto(experience);
+}
+
 export const workExperiencesService = {
-  findAllByResume,
   createForResume,
+  findAllByResume,
+  deleteByResumeAndId,
 };
