@@ -16,6 +16,27 @@ async function getWorkExperiences(req: Request, res: Response) {
   });
 }
 
+async function deleteWorkExperience(req: Request, res: Response) {
+  const { resumeId, id } = req.params;
+
+  if (typeof resumeId !== "string") {
+    throw new BadRequestError();
+  }
+
+  if (typeof id !== "string") {
+    throw new BadRequestError();
+  }
+
+  await workExperiencesService.deleteByResumeAndId(resumeId, id);
+
+  return res.status(200).json({
+    success: true,
+    message: "Work experience deleted successfully",
+    data: null,
+  });
+}
+
 export const workExperiencesController = {
   getWorkExperiences,
+  deleteWorkExperience,
 };

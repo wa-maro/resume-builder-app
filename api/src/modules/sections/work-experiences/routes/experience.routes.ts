@@ -6,12 +6,23 @@ import { Router } from "express";
 
 const workExperiencesRouter = Router({ mergeParams: true });
 
-workExperiencesRouter.get(
-  "/",
-  validate({
-    params: paramsWithIDsSchema,
-  }),
-  tryCatch(workExperiencesController.getWorkExperiences, "getWorkExperiences"),
-);
+workExperiencesRouter
+  .get(
+    "/",
+    validate({
+      params: paramsWithIDsSchema,
+    }),
+    tryCatch(
+      workExperiencesController.getWorkExperiences,
+      "getWorkExperiences",
+    ),
+  )
+  .delete(
+    "/:id",
+    validate({
+      params: paramsWithIDsSchema,
+    }),
+    tryCatch(workExperiencesController.deleteWorkExperience, ""),
+  );
 
 export { workExperiencesRouter };
