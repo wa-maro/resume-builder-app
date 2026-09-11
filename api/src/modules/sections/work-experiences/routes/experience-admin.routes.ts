@@ -27,6 +27,16 @@ workExperiencesAdminRouter
       workExperiencesAdminController.getWorkExperience,
       "getWorkExperience",
     ),
+  )
+  .delete(
+    "/:id",
+    validate({
+      params: paramsWithIDsSchema,
+    }),
+    tryCatch(
+      workExperiencesAdminController.deleteWorkExperience,
+      "deleteWorkExperience",
+    ),
   );
 
 export { workExperiencesAdminRouter };
