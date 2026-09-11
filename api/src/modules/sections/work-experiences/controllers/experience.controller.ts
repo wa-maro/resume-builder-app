@@ -2,6 +2,21 @@ import { BadRequestError } from "@shared/errors";
 import { workExperiencesService } from "@work-experiences/services";
 import type { Request, Response } from "express";
 
+async function addWorkExperience(req: Request, res: Response) {
+  const { resumeId } = req.params;
+  const data = req.body;
+
+  if (typeof resumeId !== "string") {
+    throw new BadRequestError();
+  }
+
+  return res.status(201).json({
+    success: true,
+    message: "Work experience added successfully",
+    data: await workExperiencesService.createForResume(resumeId, data),
+  });
+}
+
 async function getWorkExperiences(req: Request, res: Response) {
   const { resumeId } = req.params;
 
@@ -37,6 +52,7 @@ async function deleteWorkExperience(req: Request, res: Response) {
 }
 
 export const workExperiencesController = {
+  addWorkExperience,
   getWorkExperiences,
   deleteWorkExperience,
 };
