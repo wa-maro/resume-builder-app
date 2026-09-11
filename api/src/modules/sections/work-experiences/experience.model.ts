@@ -1,4 +1,4 @@
-import { isMonthYearBeforeOrEqual, isValidMonthYear } from "@shared/utils";
+import { isMonthYearAfter, isValidMonthYear } from "@shared/utils";
 import { Company, WorkExperience } from "@work-experiences/types";
 import { HydratedDocument, model, Schema, Types } from "mongoose";
 
@@ -93,10 +93,10 @@ WorkExperienceSchema.pre("validate", function () {
     return;
   }
 
-  if (!isMonthYearBeforeOrEqual(this.startDate, this.endDate)) {
+  if (!isMonthYearAfter(this.startDate, this.endDate)) {
     this.invalidate(
       "endDate",
-      "End date must be after or equal to start date.",
+      "End date must be after or equal to the start date.",
     );
   }
 });

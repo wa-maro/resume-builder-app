@@ -30,9 +30,6 @@ export function monthYearToNumber(value: string): number {
   return Number(year) * 12 + monthIndex;
 }
 
-export function isMonthYearBeforeOrEqual(
-  startDate: string,
-  endDate: string,
-): boolean {
-  return monthYearToNumber(startDate) <= monthYearToNumber(endDate);
+export function isMonthYearAfter(startDate: string, endDate: string): boolean {
+  return monthYearToNumber(startDate) < monthYearToNumber(endDate);
 }

@@ -8,7 +8,7 @@ import {
   responsibilitiesSchema,
   startDateSchema,
 } from "./experience-fields.schema.js";
-import { isMonthYearBeforeOrEqual } from "@shared/utils";
+import { isMonthYearAfter } from "@shared/utils";
 
 const addCompanySchema = Joi.object({
   name: companyNameSchema.required().messages({
@@ -54,7 +54,7 @@ export const addWorkExperienceSchema = Joi.object({
 
     // Compare dates when both are present
     if (obj.startDate && obj.endDate) {
-      if (isMonthYearBeforeOrEqual(obj.startDate, obj.endDate)) {
+      if (!isMonthYearAfter(obj.startDate, obj.endDate)) {
         return helpers.error("workExperience.date.order");
       }
     }
@@ -69,5 +69,5 @@ export const addWorkExperienceSchema = Joi.object({
       "End date is required when not currently working.",
 
     "workExperience.date.order":
-      "Start date must be before or equal to end date.",
+      "End date must be after or equal to the start date.",
   });
