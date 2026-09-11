@@ -73,7 +73,9 @@ async function findUserByUsernameOrEmail(usernameOrEmail: string) {
 }
 
 async function checkUsernameExist(username: string, excludeUserId?: string) {
-  const exists = await userRepository.usernameExists(username, excludeUserId);
+  const exists = Boolean(
+    await userRepository.usernameExists(username, excludeUserId),
+  );
 
   if (exists) {
     throw new ConflictError("Username already taken");
@@ -84,7 +86,9 @@ async function checkEmailExist(
   email: string,
   excludeUserId?: string,
 ): Promise<void> {
-  const exists = await userRepository.emailExists(email, excludeUserId);
+  const exists = Boolean(
+    await userRepository.emailExists(email, excludeUserId),
+  );
 
   if (exists) {
     throw new ConflictError("Email already taken");
