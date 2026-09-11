@@ -49,19 +49,19 @@ async function findAll(query: WorkExperienceQueryDto) {
 }
 
 async function findById(id: string) {
-  const personalInfo = await workExperiencesRepository.findById(id);
+  const experience = await workExperiencesRepository.findById(id);
 
-  if (!personalInfo) {
-    throw new NotFoundError("Personal information doesn't exists");
+  if (!experience) {
+    throw new NotFoundError("Work experience doesn't exists");
   }
 
-  const user = personalInfo.resume.user;
+  const user = experience.resume.user;
 
   if (!(user && !(user instanceof Types.ObjectId))) {
     throw new AppError("Expected resume.user to be populated", 500);
   }
 
-  const info = new WorkExperienceResponseDto(personalInfo);
+  const info = new WorkExperienceResponseDto(experience);
 
   return {
     ...info,
