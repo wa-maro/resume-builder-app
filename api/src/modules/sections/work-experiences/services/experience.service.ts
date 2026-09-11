@@ -11,7 +11,11 @@ async function createForResume(resumeId: string, data: AddWorkExperienceInput) {
   const resume = await resumeService.findResumeById(resumeId);
 
   const duplicateExperience = Boolean(
-    await workExperiencesRepository.experienceExists(resumeId, data),
+    await workExperiencesRepository.experienceExists(resumeId, {
+      position: data.position,
+      companyName: data.company.name,
+      startDate: data.startDate,
+    }),
   );
 
   if (duplicateExperience) {

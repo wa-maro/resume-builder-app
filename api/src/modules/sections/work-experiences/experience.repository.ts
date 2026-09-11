@@ -91,15 +91,15 @@ function buildWorkExperienceMongoFilter(filter: WorkExperienceFilter) {
 
 export async function experienceExists(
   resumeId: string,
-  data: AddWorkExperienceInput,
+  filter: { position: string; companyName: string; startDate: string },
   excludeId?: string,
 ) {
+  const { companyName, ...rest } = filter;
+
   return WorkExperienceModel.exists({
     resume: resumeId,
-    position: data.position,
-    "company.name": data.company.name,
-    startDate: data.startDate,
-
+    ...rest,
+    "company.name": companyName,
     ...(excludeId && { _id: { $ne: excludeId } }),
   }).exec();
 }
