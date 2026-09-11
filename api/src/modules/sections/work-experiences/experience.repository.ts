@@ -89,6 +89,21 @@ function buildWorkExperienceMongoFilter(filter: WorkExperienceFilter) {
   };
 }
 
+export async function experienceExists(
+  resumeId: string,
+  data: AddWorkExperienceInput,
+  excludeId?: string,
+) {
+  return WorkExperienceModel.exists({
+    resume: resumeId,
+    position: data.position,
+    "company.name": data.company.name,
+    startDate: data.startDate,
+
+    ...(excludeId && { _id: { $ne: excludeId } }),
+  }).exec();
+}
+
 export const workExperiencesRepository = {
   createForResume,
   findAll,
@@ -98,4 +113,5 @@ export const workExperiencesRepository = {
   findById,
   deleteById,
   deleteByResumeAndId,
+  experienceExists,
 };
