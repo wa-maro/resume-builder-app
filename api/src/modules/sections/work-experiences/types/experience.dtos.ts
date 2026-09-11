@@ -8,6 +8,7 @@ import {
 } from "./experience.types.js";
 import { ResumeMinimalResponseDto } from "@resumes/types";
 import { QueryOptions } from "@shared/types";
+import { WorkExperienceDocument } from "@work-experiences";
 
 export type AddWorkExperienceInput = Pick<
   WorkExperience,
@@ -25,6 +26,16 @@ export type WorkExperienceQueryDto = QueryOptions<
   WorkExperienceFilter,
   WorkExperienceSortFields
 >;
+
+export class WorkExperienceMinimalResponseDto {
+  readonly id: string;
+  readonly position: string;
+
+  constructor(experience: WorkExperienceDocument) {
+    this.id = experience._id.toString();
+    this.position = experience.position;
+  }
+}
 
 export class WorkExperienceResponseDto {
   readonly id: string;
