@@ -73,9 +73,15 @@ const WorkExperienceSchema = new Schema<WorkExperience>(
   { timestamps: true },
 );
 
-WorkExperienceSchema.pre("validate", async function () {
+WorkExperienceSchema.pre("validate", function () {
   if (this.currentlyWorking) {
-    this.endDate = undefined;
+    if (this.endDate !== undefined) {
+      this.invalidate(
+        "endDate",
+        "End date must not be provided when currently working is true.",
+      );
+    }
+
     return;
   }
 
