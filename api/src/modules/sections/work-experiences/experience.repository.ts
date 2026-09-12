@@ -1,5 +1,6 @@
 import {
   AddWorkExperienceInput,
+  UpdateWorkExperience,
   WorkExperienceFilter,
   WorkExperienceRepoQueryOptions,
 } from "@work-experiences/types";
@@ -60,6 +61,31 @@ async function findByResumeId(resumeId: string) {
   return WorkExperienceModel.findOne({ resume: resumeId }).exec();
 }
 
+async function updateById(id: string, data: UpdateWorkExperience) {
+  return WorkExperienceModel.findByIdAndUpdate(id, data, {
+    returnDocument: "after",
+    runValidators: true,
+  }).exec();
+}
+
+async function updateByResumeAndId(
+  resumeId: string,
+  id: string,
+  data: UpdateWorkExperience,
+) {
+  return WorkExperienceModel.findOneAndUpdate(
+    {
+      _id: id,
+      resume: resumeId,
+    },
+    data,
+    {
+      returnDocument: "after",
+      runValidators: true,
+    },
+  ).exec();
+}
+
 async function deleteById(id: string) {
   return WorkExperienceModel.findByIdAndDelete(id).exec();
 }
@@ -111,6 +137,8 @@ export const workExperiencesRepository = {
   findAllByResume,
   findByResumeId,
   findById,
+  updateById,
+  updateByResumeAndId,
   deleteById,
   deleteByResumeAndId,
   experienceExists,
