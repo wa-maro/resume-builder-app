@@ -85,19 +85,17 @@ WorkExperienceSchema.pre("validate", function () {
     return;
   }
 
-  if (!this.endDate) {
+  if (this.endDate === undefined) {
     this.invalidate(
       "endDate",
       "End date is required when currently working is false.",
     );
+
     return;
   }
 
   if (!isMonthYearAfter(this.startDate, this.endDate)) {
-    this.invalidate(
-      "endDate",
-      "End date must be after or equal to the start date.",
-    );
+    this.invalidate("endDate", "End date must be after the start date.");
   }
 });
 
