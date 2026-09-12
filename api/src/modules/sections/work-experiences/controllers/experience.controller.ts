@@ -1,10 +1,14 @@
 import { BadRequestError } from "@shared/errors";
 import { workExperiencesService } from "@work-experiences/services";
+import {
+  AddWorkExperienceInput,
+  EditWorkExperienceInput,
+} from "@work-experiences/types";
 import type { Request, Response } from "express";
 
 async function addWorkExperience(req: Request, res: Response) {
   const { resumeId } = req.params;
-  const data = req.body;
+  const data: AddWorkExperienceInput = req.body;
 
   if (typeof resumeId !== "string") {
     throw new BadRequestError();
@@ -12,7 +16,7 @@ async function addWorkExperience(req: Request, res: Response) {
 
   return res.status(201).json({
     success: true,
-    message: "Work experience added successfully",
+    message: "Work experience added successfully.",
     data: await workExperiencesService.createForResume(resumeId, data),
   });
 }
@@ -26,8 +30,27 @@ async function getWorkExperiences(req: Request, res: Response) {
 
   return res.status(200).json({
     success: true,
-    message: "Work experiences retrieved successfully",
+    message: "Work experiences retrieved successfully.",
     data: await workExperiencesService.findAllByResume(resumeId),
+  });
+}
+
+async function updateWorkExperience(req: Request, res: Response) {
+  const { resumeId, id } = req.params;
+  const data: EditWorkExperienceInput = req.body;
+
+  if (typeof resumeId !== "string") {
+    throw new BadRequestError();
+  }
+
+  if (typeof id !== "string") {
+    throw new BadRequestError();
+  }
+
+  return res.status(200).json({
+    success: true,
+    message: "Work experience updated successfully.",
+    data: await workExperiencesService.updateByResumeAndId(resumeId, id, data),
   });
 }
 
@@ -46,7 +69,7 @@ async function deleteWorkExperience(req: Request, res: Response) {
 
   return res.status(200).json({
     success: true,
-    message: "Work experience deleted successfully",
+    message: "Work experience deleted successfully.",
     data: null,
   });
 }
@@ -54,5 +77,6 @@ async function deleteWorkExperience(req: Request, res: Response) {
 export const workExperiencesController = {
   addWorkExperience,
   getWorkExperiences,
+  updateWorkExperience,
   deleteWorkExperience,
 };
