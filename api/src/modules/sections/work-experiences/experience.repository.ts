@@ -40,13 +40,13 @@ async function getCount(filter: WorkExperienceFilter) {
 }
 
 async function findAllByResume(resumeId: string) {
-  return await WorkExperienceModel.find({
+  return WorkExperienceModel.find({
     resume: resumeId,
   }).exec();
 }
 
 async function findById(id: string) {
-  return await WorkExperienceModel.findById(id)
+  return WorkExperienceModel.findById(id)
     .populate<{
       resume: PopulatedResumeDocument;
     }>({
@@ -55,6 +55,10 @@ async function findById(id: string) {
       populate: { path: "user", select: "_id username" },
     })
     .exec();
+}
+
+async function findByResumeAndId(resumeId: string, id: string) {
+  return WorkExperienceModel.findOne({ _id: id, resume: resumeId }).exec();
 }
 
 async function findByResumeId(resumeId: string) {
@@ -135,6 +139,7 @@ export const workExperiencesRepository = {
   findAll,
   getCount,
   findAllByResume,
+  findByResumeAndId,
   findByResumeId,
   findById,
   updateById,
