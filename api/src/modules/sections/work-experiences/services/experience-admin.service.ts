@@ -1,13 +1,15 @@
-import { AppError, NotFoundError } from "@shared/errors";
+import { AppError, ConflictError, NotFoundError } from "@shared/errors";
 import { SortOrderRepo } from "@shared/types";
 import { workExperiencesRepository } from "@work-experiences";
 import {
+  EditWorkExperienceInput,
   WorkExperienceMinimalResponseDto,
   WorkExperienceQueryDto,
   WorkExperienceRepoQueryOptions,
   WorkExperienceResponseDto,
 } from "@work-experiences/types";
 import { Types } from "mongoose";
+import { buildWorkExperienceUpdate } from "../experience.helper.js";
 
 async function findAll(query: WorkExperienceQueryDto) {
   const {
@@ -53,7 +55,7 @@ async function findById(id: string) {
   const experience = await workExperiencesRepository.findById(id);
 
   if (!experience) {
-    throw new NotFoundError("Work experience doesn't exists");
+    throw new NotFoundError("Work experience doesn't exists.");
   }
 
   const user = experience.resume.user;
@@ -76,11 +78,43 @@ async function findById(id: string) {
   };
 }
 
+async function updateById(id: string, data: EditWorkExperienceInput) {
+  const existingExperience = await workExperiencesRepository.findById(id);
+
+  if (!existingExperience) {
+    throw new NotFoundError("Work experience doesn't exist.");
+  }
+
+  const update = buildWorkExperienceUpdate(existingExperience, data);
+
+  const duplicateExperience = await workExperiencesRepository.experienceExists(
+    existingExperience.resume.toString(),
+    {
+      position: update.position,
+      companyName: update.company.name,
+      startDate: update.startDate,
+    },
+    id,
+  );
+
+  if (duplicateExperience) {
+    throw new ConflictError("Work experience already exists.");
+  }
+
+  const experience = await workExperiencesRepository.updateById(id, update);
+
+  if (!experience) {
+    throw new NotFoundError("Work experience doesn't exist.");
+  }
+
+  return new WorkExperienceMinimalResponseDto(experience);
+}
+
 async function deleteById(id: string) {
   const experience = await workExperiencesRepository.deleteById(id);
 
   if (!experience) {
-    throw new NotFoundError("Work experience doesn't exists");
+    throw new NotFoundError("Work experience doesn't exists.");
   }
 
   return new WorkExperienceMinimalResponseDto(experience);
@@ -89,5 +123,6 @@ async function deleteById(id: string) {
 export const workExperiencesAdminService = {
   findAll,
   findById,
+  updateById,
   deleteById,
 };
