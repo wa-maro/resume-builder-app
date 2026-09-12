@@ -82,7 +82,7 @@ async function updateByResumeAndId(
     throw new NotFoundError("Work experience doesn't exist.");
   }
 
-  return new WorkExperienceMinimalResponseDto(experience);
+  return new WorkExperienceResponseDto(experience);
 }
 
 async function deleteByResumeAndId(resumeId: string, id: string) {
