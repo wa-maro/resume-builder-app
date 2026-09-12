@@ -43,3 +43,16 @@ export type WorkExperienceRepoQueryOptions = RepositoryQueryOptions<
   WorkExperienceFilter,
   WorkExperienceSortFields
 >;
+
+export type UpdateWorkExperience = {
+  position: string;
+  company: Company;
+  responsibilities: string;
+  startDate: string;
+  endDate?: string;
+  currentlyWorking?: boolean;
+  $unset?: {
+    endDate?: 1;
+    currentlyWorking?: 1;
+  };
+};
