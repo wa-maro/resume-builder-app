@@ -2,6 +2,7 @@ import { BadRequestError } from "@shared/errors";
 import { SortOrderDto } from "@shared/types";
 import { workExperiencesAdminService } from "@work-experiences/services";
 import {
+  EditWorkExperienceInput,
   WorkExperienceQueryDto,
   WorkExperienceSortField,
 } from "@work-experiences/types";
@@ -29,7 +30,7 @@ async function getWorkExperiences(req: Request, res: Response) {
 
   return res.status(200).json({
     success: true,
-    message: "Work experiences retrieved successfully",
+    message: "Work experiences retrieved successfully.",
     ...(await workExperiencesAdminService.findAll(query)),
   });
 }
@@ -43,8 +44,23 @@ async function getWorkExperience(req: Request, res: Response) {
 
   return res.status(200).json({
     success: true,
-    message: "Work experience retrieved successfully",
+    message: "Work experience retrieved successfully.",
     data: await workExperiencesAdminService.findById(id),
+  });
+}
+
+async function updateWorkExperience(req: Request, res: Response) {
+  const { id } = req.params;
+  const data: EditWorkExperienceInput = req.body;
+
+  if (typeof id !== "string") {
+    throw new BadRequestError();
+  }
+
+  return res.status(200).json({
+    success: true,
+    message: "Work experience updated successfully.",
+    data: await workExperiencesAdminService.updateById(id, data),
   });
 }
 
@@ -59,7 +75,7 @@ async function deleteWorkExperience(req: Request, res: Response) {
 
   return res.status(200).json({
     success: true,
-    message: "Work experience deleted successfully",
+    message: "Work experience deleted successfully.",
     data: null,
   });
 }
@@ -67,5 +83,6 @@ async function deleteWorkExperience(req: Request, res: Response) {
 export const workExperiencesAdminController = {
   getWorkExperiences,
   getWorkExperience,
+  updateWorkExperience,
   deleteWorkExperience,
 };
