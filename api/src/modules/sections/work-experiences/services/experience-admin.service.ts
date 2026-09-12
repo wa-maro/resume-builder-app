@@ -88,7 +88,7 @@ async function updateById(id: string, data: EditWorkExperienceInput) {
   const update = buildWorkExperienceUpdate(existingExperience, data);
 
   const duplicateExperience = await workExperiencesRepository.experienceExists(
-    existingExperience.resume.toString(),
+    existingExperience.resume._id.toString(),
     {
       position: update.position,
       companyName: update.company.name,
